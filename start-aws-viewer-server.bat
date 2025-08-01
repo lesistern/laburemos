@@ -5,7 +5,7 @@ echo ============================================
 echo.
 
 REM Cambiar al directorio correcto
-cd /d D:\Laburar
+cd /d C:\laburemos
 
 REM Verificar Node.js
 node --version >nul 2>&1

@@ -4,7 +4,7 @@ echo   LABUREMOS - Local Development Starter
 echo ====================================
 echo.
 
-cd /d "D:\Laburar"
+cd /d "C:\laburemos"
 
 echo 🔍 Checking development environment...
 
@@ -84,14 +84,14 @@ echo.
 
 REM Start backend in new window
 echo 🚀 Starting backend server...
-start "LABUREMOS Backend" cmd /k "cd /d D:\Laburar\backend && npm run start:dev"
+start "LABUREMOS Backend" cmd /k "cd /d C:\laburemos\backend && npm run start:dev"
 
 REM Wait a moment for backend to start
 timeout /t 3 /nobreak >nul
 
 REM Start frontend in new window
 echo 🎨 Starting frontend server...
-start "LABUREMOS Frontend" cmd /k "cd /d D:\Laburar\frontend && npm run dev"
+start "LABUREMOS Frontend" cmd /k "cd /d C:\laburemos\frontend && npm run dev"
 
 REM Wait a moment for services to initialize
 timeout /t 5 /nobreak >nul

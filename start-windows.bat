@@ -61,12 +61,12 @@ if not exist "node_modules\tailwindcss-animate" (
 cd ..
 
 echo [INFO] Iniciando Frontend en nueva ventana...
-start "LaburAR Frontend" cmd /k "cd /d D:\Laburar\frontend && npm run dev"
+start "LaburAR Frontend" cmd /k "cd /d C:\laburemos\frontend && npm run dev"
 
 timeout /t 2 /nobreak >nul
 
 echo [INFO] Iniciando Backend en nueva ventana...
-start "LaburAR Backend" cmd /k "cd /d D:\Laburar\backend && npm run start:dev"
+start "LaburAR Backend" cmd /k "cd /d C:\laburemos\backend && npm run start:dev"
 
 echo.
 echo ¡LaburAR iniciado correctamente en Windows!

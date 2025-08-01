@@ -1,0 +1,250 @@
+{
+  "pgadmin4_servers_config": {
+    "description": "Configuración rápida de servidores PostgreSQL para PgAdmin 4 - Proyecto LABUREMOS",
+    "version": "1.0",
+    "created": "2025-08-01",
+    "servers": {
+      "local_postgresql": {
+        "name": "LABUREMOS Local PostgreSQL",
+        "server_group": "Servers",
+        "connection": {
+          "host": "localhost",
+          "port": 5432,
+          "maintenance_database": "postgres", 
+          "username": "postgres",
+          "save_password": true,
+          "ssl_mode": "prefer",
+          "connection_timeout": 10,
+          "db_restriction": "laburemos, postgres"
+        },
+        "appearance": {
+          "color": "#2E8B57",
+          "comments": "Servidor PostgreSQL local para desarrollo LABUREMOS"
+        },
+        "usage": "development",
+        "priority": "primary"
+      },
+      "aws_rds_postgresql": {
+        "name": "LABUREMOS AWS RDS Production", 
+        "server_group": "Servers",
+        "connection": {
+          "host": "laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com",
+          "port": 5432,
+          "maintenance_database": "postgres",
+          "username": "postgres", 
+          "save_password": true,
+          "ssl_mode": "require",
+          "connection_timeout": 30,
+          "db_restriction": "laburemos, postgres"
+        },
+        "appearance": {
+          "color": "#FF6347",
+          "comments": "Servidor PostgreSQL de producción en AWS RDS - Endpoint: laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com"
+        },
+        "usage": "production",
+        "priority": "secondary"
+      }
+    }
+  },
+  
+  "environment_variables": {
+    "description": "Variables de entorno necesarias para conexión",
+    "local_development": {
+      "DATABASE_URL": "postgresql://postgres:[LOCAL_PASSWORD]@localhost:5432/laburemos",
+      "POSTGRES_HOST": "localhost",
+      "POSTGRES_PORT": 5432,
+      "POSTGRES_USER": "postgres",
+      "POSTGRES_DB": "laburemos"
+    },
+    "aws_production": {
+      "DATABASE_URL": "postgresql://postgres:[AWS_PASSWORD]@laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com:5432/laburemos",
+      "POSTGRES_HOST": "laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com",
+      "POSTGRES_PORT": 5432,
+      "POSTGRES_USER": "postgres",
+      "POSTGRES_DB": "laburemos"
+    }
+  },
+  
+  "database_schema": {
+    "description": "Información del schema LABUREMOS Prisma",
+    "tables_count": 26,
+    "main_tables": [
+      "users",
+      "freelancer_profiles", 
+      "skills",
+      "freelancer_skills",
+      "projects",
+      "proposals",
+      "conversations",
+      "messages",
+      "reviews",
+      "transactions",
+      "payments",
+      "wallets",
+      "notifications",
+      "categories",
+      "services",
+      "portfolios",
+      "badges",
+      "user_badges",
+      "escrow_accounts",
+      "disputes",
+      "support_tickets",
+      "file_uploads",
+      "activity_logs",
+      "user_analytics",
+      "user_reputation",
+      "user_sessions"
+    ],
+    "key_features": [
+      "JWT Authentication",
+      "Skills System", 
+      "Project Management",
+      "Real-time Chat",
+      "Payment System",
+      "Reputation System",
+      "Badge System",
+      "File Management",
+      "Dispute Resolution",
+      "Analytics Tracking"
+    ]
+  },
+  
+  "verification_queries": {
+    "description": "Consultas SQL para verificar configuración",
+    "connection_test": {
+      "query": "SELECT current_database() as database, current_user as user_name, version() as postgresql_version, now() as connection_time;",
+      "description": "Test básico de conexión"
+    },
+    "schema_verification": {
+      "query": "SELECT schemaname, count(*) as table_count FROM pg_tables WHERE schemaname = 'public' GROUP BY schemaname;",
+      "description": "Verificar schema aplicado"
+    },
+    "extensions_check": {
+      "query": "SELECT extname, extversion FROM pg_extension ORDER BY extname;",
+      "description": "Verificar extensiones instaladas"
+    },
+    "ssl_verification": {
+      "query": "SHOW ssl;",
+      "description": "Verificar configuración SSL"
+    },
+    "table_list": {
+      "query": "SELECT tablename, tableowner, hasindexes FROM pg_tables WHERE schemaname = 'public' ORDER BY tablename;",
+      "description": "Listar todas las tablas"
+    }
+  },
+  
+  "backup_configuration": {
+    "description": "Configuración recomendada para backups en PgAdmin 4",
+    "format": "Custom",
+    "compression": 9,
+    "encoding": "UTF8",
+    "options": {
+      "pre_data": true,
+      "data": true,
+      "post_data": true,
+      "use_insert_commands": true,
+      "include_drop_database": true,
+      "single_transaction": true
+    },
+    "file_naming": {
+      "local": "laburemos_local_backup_YYYYMMDD_HHMMSS.backup",
+      "aws": "laburemos_aws_backup_YYYYMMDD_HHMMSS.backup"
+    }
+  },
+  
+  "troubleshooting": {
+    "common_issues": {
+      "connection_refused": {
+        "description": "Error: Connection refused",
+        "solutions": [
+          "Verificar PostgreSQL está ejecutándose",
+          "Verificar puerto 5432 está abierto",
+          "Revisar archivo pg_hba.conf"
+        ]
+      },
+      "authentication_failed": {
+        "description": "Error: Authentication failed",
+        "solutions": [
+          "Verificar contraseña es correcta",
+          "Resetear contraseña PostgreSQL",
+          "Verificar usuario tiene permisos"
+        ]
+      },
+      "ssl_connection_failed": {
+        "description": "Error: SSL connection failed (AWS RDS)",
+        "solutions": [
+          "Configurar SSL mode como 'require'",
+          "Descargar certificado SSL de AWS",
+          "Verificar Security Groups AWS"
+        ]
+      },
+      "relation_does_not_exist": {
+        "description": "Error: relation does not exist",
+        "solutions": [
+          "Aplicar schema Prisma: npx prisma db push",
+          "Verificar base de datos correcta",
+          "Ejecutar migraciones pendientes"
+        ]
+      }
+    }
+  },
+  
+  "scripts_reference": {
+    "setup_scripts": [
+      {
+        "name": "setup-pgadmin-local-config.sql",
+        "description": "Configuración inicial PostgreSQL local",
+        "usage": "psql -U postgres -f setup-pgadmin-local-config.sql"
+      },
+      {
+        "name": "aws-rds-connection-setup.sql", 
+        "description": "Verificación conexión AWS RDS",
+        "usage": "Ejecutar en PgAdmin 4 Query Tool"
+      },
+      {
+        "name": "database-migration-sync.sh",
+        "description": "Migración y sincronización de esquemas",
+        "usage": "./database-migration-sync.sh [local|aws|sync|all]"
+      },
+      {
+        "name": "backup-restore-procedures.sh",
+        "description": "Backup y restore automatizado",
+        "usage": "./backup-restore-procedures.sh [backup-local|backup-aws|restore-local|restore-aws]"
+      },
+      {
+        "name": "verify-pgadmin-setup.bat",
+        "description": "Verificación automática configuración Windows",
+        "usage": "verify-pgadmin-setup.bat"
+      }
+    ]
+  },
+  
+  "next_steps": {
+    "immediate": [
+      "1. Configurar servidores en PgAdmin 4 usando información anterior",
+      "2. Verificar conexiones con scripts de verificación",
+      "3. Aplicar schema Prisma: npx prisma db push",
+      "4. Ejecutar datos de prueba: npx prisma db seed"
+    ],
+    "development": [
+      "1. Configurar backups automáticos locales",
+      "2. Implementar seeds de datos para testing",
+      "3. Configurar logging y monitoreo",
+      "4. Establecer workflow de desarrollo con migraciones"
+    ],
+    "production": [
+      "1. Configurar backups automáticos AWS RDS",
+      "2. Implementar monitoring de performance",
+      "3. Configurar alertas de seguridad",
+      "4. Establecer procedimientos de emergencia"
+    ]
+  },
+  
+  "documentation_files": [
+    "GUIA-PGLADMIN-AWS-COMPLETA.md - Guía completa de configuración",
+    "scripts/pgadmin4-setup-guide.md - Guía paso a paso PgAdmin 4",
+    "backend/prisma/schema.prisma - Schema completo de base de datos",
+    "backend/.env.example - Template de variables de entorno"
+  ]
+}

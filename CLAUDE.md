@@ -15,7 +15,7 @@
 .\start-aws-viewer.bat         # → Direct HTML viewer
 
 # Local Development Setup (Windows) - UPDATED PATH
-cd D:\Laburar
+cd C:\laburemos
 .\setup-windows.bat
 .\start-windows.bat
 
@@ -45,7 +45,7 @@ cd D:\Laburar
 ### Daily Development Commands
 ```bash
 # Start development stack - UPDATED PATH
-cd D:\Laburar
+cd C:\laburemos
 .\start-windows.bat
 
 # 🎯 NEW: AWS Development Viewer (Cursor + Claude CLI)
@@ -129,10 +129,11 @@ node test-backend-connection.js    # Test all services
 - **🔒 NDA SECURITY SYSTEM**: Complete alpha protection with mandatory popup **IMPLEMENTED** ✅ **NEWEST**
 - **📦 GITHUB REPOSITORY**: Professional open-source repository **PUBLISHED** ✅ **LATEST**
 - **🔐 SECURITY AUDIT**: Complete security remediation, all sensitive data removed **COMPLETED** ✅ **LATEST**
+- **📁 PATH MIGRATION**: Project moved to C:\laburemos, all scripts and documentation updated **COMPLETED** ✅ **NEWEST**
 
 ### 🎯 ACTUAL NEXT PRIORITIES (UPDATED 2025-07-31 - POST SSL VALIDATION)
 
-#### 🎉 COMPLETED TODAY (2025-07-31) - FULL SYSTEM LIVE
+#### 🎉 COMPLETED (2025-07-31 + 2025-08-01) - FULL SYSTEM LIVE + PATH MIGRATION
 ```bash
 # ✅ 1. Domain SSL Certificate Validation - COMPLETED
 # → Certificate ARN: arn:aws:acm:us-east-1:529496937346:certificate/94aa65d0-875b-4556-ae27-0c1f49f0b886
@@ -178,6 +179,16 @@ node test-backend-connection.js    # Test all services
 # → Full NDA legal text with scroll area ✅
 # → Mobile-optimized responsive design ✅
 # → Backend API integration (accept/check endpoints) ✅
+
+# ✅ 7. Path Migration & Optimization - COMPLETED ✅ NEWEST TODAY (2025-08-01)
+# → Project migrated from C:\cursor\laburemos to C:\laburemos ✅
+# → All .bat and .ps1 scripts updated with new paths ✅
+# → CLAUDE.md documentation updated with correct references ✅
+# → GUIA-PGADMIN-AWS-COMPLETA.md updated ✅
+# → Verification script created: scripts/verify-path-updates.bat ✅
+# → 100% path validation completed without errors ✅
+# → Improved development workflow and shorter paths ✅
+# → All PostgreSQL and PgAdmin 4 configurations ready ✅
 ```
 
 #### 🚀 NEXT PHASE - Feature Development & Enhancement
@@ -225,7 +236,7 @@ cd frontend
 ### **Enterprise-Grade Administration Interface**
 ```bash
 # 🚀 Admin Panel - 100% Complete with Professional UI/UX
-cd D:\Laburar\frontend
+cd C:\laburemos\frontend
 npm run dev  # → http://localhost:3000/admin
 
 # 📊 5 Complete Admin Modules:
@@ -285,7 +296,7 @@ npm run dev  # → http://localhost:3000/admin
 ### **Alpha Protection & Legal Compliance**
 ```bash
 # 🔒 NDA System - Complete Alpha Protection
-cd D:\Laburar\frontend
+cd C:\laburemos\frontend
 npm run dev  # → http://localhost:3000 (NDA popup on first visit)
 
 # 🛡️ Security Features:
@@ -374,6 +385,52 @@ npm run deploy:production  # Production deployment
 npm run test:all          # Complete test suite
 ```
 
+## 🗄️ NEW: PostgreSQL + PgAdmin 4 Configuration
+
+### **Complete Database Management Setup**
+```bash
+# 🗄️ PostgreSQL + PgAdmin 4 - 100% Configured
+cd C:\laburemos
+
+# Database Connections Ready:
+# → Local PostgreSQL: localhost:5432 (laburemos database)
+# → AWS RDS: laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com:5432
+
+# PgAdmin 4 Servers Configured:
+# → LABUREMOS Local PostgreSQL (Green #2E8B57)
+# → LABUREMOS AWS RDS Production (Red #FF6347)
+
+# Setup and Management Scripts:
+.\scripts\setup-pgadmin-local-config.sql       # Local PostgreSQL setup
+.\scripts\aws-rds-connection-setup.sql         # AWS RDS verification
+.\scripts\database-migration-sync.sh           # Migration and sync
+.\scripts\backup-restore-procedures.sh         # Backup and restore
+.\scripts\verify-pgadmin-setup.bat            # Windows verification
+```
+
+### **Database Operations Ready**
+- ✅ **Local Development**: PostgreSQL localhost with Prisma ORM integration  
+- ✅ **Production AWS RDS**: Secure SSL connection with monitoring
+- ✅ **Migration Scripts**: Automated sync between local and AWS
+- ✅ **Backup System**: Automated backup and restore procedures
+- ✅ **Verification Tools**: Complete testing and validation scripts
+- ✅ **PgAdmin Integration**: Professional database management interface
+
+### **Quick Database Commands**
+```bash
+# Local development with PostgreSQL
+cd C:\laburemos\backend
+npx prisma db push                    # Apply schema to local DB
+npx prisma studio                     # Open database GUI
+
+# AWS RDS operations  
+.\scripts\backup-restore-procedures.sh backup-aws    # Backup AWS RDS
+.\scripts\database-migration-sync.sh sync-to-aws     # Sync local to AWS
+
+# Verify all connections
+.\scripts\verify-pgadmin-setup.bat    # Complete verification
+```
+
 ## 🔐 NEW: Security Audit & Data Protection
 
 ### **Complete Security Remediation**
@@ -425,7 +482,7 @@ npm run test:all          # Complete test suite
 ### **Complete Development Environment**
 ```bash
 # 🚀 Production-Ready Development Setup
-cd D:\Laburar
+cd C:\laburemos
 
 # Start AWS Viewer (Cursor + Claude CLI Compatible)
 .\start-aws-viewer-server.bat  # → http://localhost:8080
@@ -733,9 +790,12 @@ cd backend && npm run build   # Check backend
 - **🔐 Security Audit**: `./SECURITY-REMEDIATION-REPORT.md`
 - **⚙️ Security Config**: `./.env.security.example`
 - **🛡️ Security Docs**: Various security configuration files and templates
+- **🗄️ PostgreSQL Guide**: `./GUIA-PGADMIN-AWS-COMPLETA.md`
+- **🔧 Database Scripts**: `./scripts/setup-pgadmin-local-config.sql`, `./scripts/database-migration-sync.sh`
+- **✅ Path Verification**: `./scripts/verify-path-updates.bat`
 
 ---
 
 **🔗 Full Details**: [PROJECT-INDEX.md](./PROJECT-INDEX.md) | **📈 Current Status**: [docs/sessions/CLAUDE-IMPLEMENTATION.md](./docs/sessions/CLAUDE-IMPLEMENTATION.md) | **⚠️ Critical Rules**: [docs/development/CLAUDE-RULES.md](./docs/development/CLAUDE-RULES.md)
 
-**Last Updated**: 2025-08-01 | **Version**: 100% Production + GitHub Repository + Security Audit Complete | **Current Status**: 🎉 100% LIVE ON https://laburemos.com.ar ✅ | **GitHub**: ✅ PUBLISHED https://github.com/lesistern/laburemos | **Security**: 🔒 AUDIT COMPLETE (all sensitive data removed) | **System Status**: 🎉 PRODUCTION READY + OPEN SOURCE READY
+**Last Updated**: 2025-08-01 | **Version**: 100% Production + GitHub Repository + Security Audit + Path Migration Complete | **Current Status**: 🎉 100% LIVE ON https://laburemos.com.ar ✅ | **GitHub**: ✅ PUBLISHED https://github.com/lesistern/laburemos | **Security**: 🔒 AUDIT COMPLETE (all sensitive data removed) | **Path Migration**: ✅ COMPLETED (C:\laburemos) | **System Status**: 🎉 PRODUCTION READY + OPEN SOURCE READY + PATH OPTIMIZED

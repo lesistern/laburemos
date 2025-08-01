@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Proyectos - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/projects.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/Laburar/" class="brand-link">
+                    <span class="brand-flag">🇦🇷</span>
+                    <span class="brand-text">LaburAR</span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/Laburar/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/Laburar/projects.html" class="nav-link active">Mis Proyectos</a>
+                <a href="/Laburar/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/Laburar/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/Laburar/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="projects-container" id="projectsContainer">
+        <!-- Header -->
+        <header class="projects-header">
+            <h1>Gestión de Proyectos</h1>
+            <p class="subtitle">Administrá tus proyectos y colaboraciones en LaburAR</p>
+        </header>
+
+        <!-- Project Tabs -->
+        <div class="project-tabs">
+            <button class="project-tab active" data-tab="all">
+                Todos <span class="count">0</span>
+            </button>
+            <button class="project-tab" data-tab="active">
+                Activos <span class="count">0</span>
+            </button>
+            <button class="project-tab" data-tab="completed">
+                Completados <span class="count">0</span>
+            </button>
+            <button class="project-tab" data-tab="draft">
+                Borradores <span class="count">0</span>
+            </button>
+        </div>
+
+        <!-- Actions Bar -->
+        <div class="projects-actions">
+            <div class="search-filters">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="projectSearch"
+                    placeholder="Buscar proyectos..."
+                >
+                
+                <select class="filter-select" name="status" id="statusFilter">
+                    <option value="">Todos los estados</option>
+                    <option value="draft">Borrador</option>
+                    <option value="posted">Publicado</option>
+                    <option value="proposals_review">Revisando Propuestas</option>
+                    <option value="in_progress">En Progreso</option>
+                    <option value="review">En Revisión</option>
+                    <option value="completed">Completado</option>
+                    <option value="cancelled">Cancelado</option>
+                </select>
+                
+                <select class="filter-select" name="category" id="categoryFilter">
+                    <option value="">Todas las categorías</option>
+                    <option value="1">Desarrollo & Programación</option>
+                    <option value="2">Diseño & Creatividad</option>
+                    <option value="3">Marketing Digital</option>
+                    <option value="4">Redacción & Traducción</option>
+                    <option value="5">Video & Animación</option>
+                    <option value="6">Música & Audio</option>
+                    <option value="7">Negocios & Consultoría</option>
+                    <option value="8">Datos & Analytics</option>
+                </select>
+            </div>
+            
+            <div class="action-buttons">
+                <button class="btn-secondary" id="filterToggle">
+                    <i class="fas fa-filter"></i>
+                    Filtros
+                </button>
+                <button class="btn-primary" data-action="create">
+                    <i class="fas fa-plus"></i>
+                    Nuevo Proyecto
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+            Cargando proyectos...
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be loaded here -->
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="projectsPagination" style="display: none;">
+            <button class="btn-secondary" id="prevPage">Anterior</button>
+            <span class="page-info" id="pageInfo">Página 1 de 1</span>
+            <button class="btn-secondary" id="nextPage">Siguiente</button>
+        </div>
+    </main>
+
+    <!-- Project Detail Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalle del Proyecto</h3>
+                <button class="modal-close" onclick="projectManager.closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="projectModalContent">
+                <!-- Project detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Project Modal -->
+    <div class="modal" id="createProjectModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Crear Nuevo Proyecto</h3>
+                <button class="modal-close" onclick="projectManager.closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="createProjectForm" class="form">
+                    <div class="form-group">
+                        <label for="projectTitle" class="form-label">Título del Proyecto *</label>
+                        <input 
+                            type="text" 
+                            id="projectTitle" 
+                            name="title" 
+                            class="form-control"
+                            placeholder="Ej: Desarrollo de sitio web corporativo"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectCategory" class="form-label">Categoría *</label>
+                        <select id="projectCategory" name="category_id" class="form-control" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="1">Desarrollo & Programación</option>
+                            <option value="2">Diseño & Creatividad</option>
+                            <option value="3">Marketing Digital</option>
+                            <option value="4">Redacción & Traducción</option>
+                            <option value="5">Video & Animación</option>
+                            <option value="6">Música & Audio</option>
+                            <option value="7">Negocios & Consultoría</option>
+                            <option value="8">Datos & Analytics</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectDescription" class="form-label">Descripción *</label>
+                        <textarea 
+                            id="projectDescription" 
+                            name="description" 
+                            class="form-control"
+                            rows="4"
+                            placeholder="Describe detalladamente lo que necesitás..."
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budgetType" class="form-label">Tipo de Presupuesto *</label>
+                            <select id="budgetType" name="budget_type" class="form-control" required>
+                                <option value="fixed">Precio Fijo</option>
+                                <option value="hourly">Por Hora</option>
+                                <option value="milestone">Por Hitos</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="budgetAmount" class="form-label">Presupuesto (ARS) *</label>
+                            <input 
+                                type="number" 
+                                id="budgetAmount" 
+                                name="budget_amount" 
+                                class="form-control"
+                                min="1000"
+                                step="100"
+                                placeholder="15000"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="projectComplexity" class="form-label">Complejidad</label>
+                            <select id="projectComplexity" name="complexity" class="form-control">
+                                <option value="simple">Simple</option>
+                                <option value="medium" selected>Medio</option>
+                                <option value="complex">Complejo</option>
+                                <option value="enterprise">Empresarial</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="projectDeadline" class="form-label">Fecha de Entrega</label>
+                            <input 
+                                type="date" 
+                                id="projectDeadline" 
+                                name="deadline" 
+                                class="form-control"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="projectRequirements" class="form-label">Requerimientos Específicos</label>
+                        <textarea 
+                            id="projectRequirements" 
+                            name="requirements" 
+                            class="form-control"
+                            rows="3"
+                            placeholder="Detalles técnicos, tecnologías específicas, etc."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deliverables" class="form-label">Entregables</label>
+                        <textarea 
+                            id="deliverables" 
+                            name="deliverables_description" 
+                            class="form-control"
+                            rows="2"
+                            placeholder="Qué archivos o entregables esperás recibir..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="revisions" class="form-label">Revisiones Incluidas</label>
+                            <input 
+                                type="number" 
+                                id="revisions" 
+                                name="revisions_included" 
+                                class="form-control"
+                                min="0"
+                                max="10"
+                                value="2"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Opciones</label>
+                            <div class="form-checkboxes">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="source_files_required" value="1">
+                                    <span class="checkmark"></span>
+                                    Archivos fuente requeridos
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="projectManager.closeModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            Crear Proyecto
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Proposal Modal -->
+    <div class="modal" id="proposalModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Enviar Propuesta</h3>
+                <button class="modal-close" onclick="projectManager.closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="proposalForm" class="form">
+                    <input type="hidden" name="project_id" id="proposalProjectId">
+                    
+                    <div class="form-group">
+                        <label for="coverLetter" class="form-label">Carta de Presentación *</label>
+                        <textarea 
+                            id="coverLetter" 
+                            name="cover_letter" 
+                            class="form-control"
+                            rows="5"
+                            placeholder="Presentate al cliente, explicá tu experiencia y por qué sos el indicado para este proyecto..."
+                            required
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="proposedBudget" class="form-label">Tu Propuesta (ARS) *</label>
+                            <input 
+                                type="number" 
+                                id="proposedBudget" 
+                                name="proposed_budget" 
+                                class="form-control"
+                                min="1000"
+                                step="100"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="proposedTimeline" class="form-label">Tiempo de Entrega (días) *</label>
+                            <input 
+                                type="number" 
+                                id="proposedTimeline" 
+                                name="proposed_timeline" 
+                                class="form-control"
+                                min="1"
+                                max="365"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="similarWork" class="form-label">Trabajos Similares</label>
+                        <textarea 
+                            id="similarWork" 
+                            name="similar_work_examples" 
+                            class="form-control"
+                            rows="3"
+                            placeholder="Describe proyectos similares que hayas realizado..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="questions" class="form-label">Preguntas para el Cliente</label>
+                        <textarea 
+                            id="questions" 
+                            name="questions_for_client" 
+                            class="form-control"
+                            rows="3"
+                            placeholder="¿Hay algo que te gustaría aclarar sobre el proyecto?"
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="projectManager.closeModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            Enviar Propuesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications Container -->
+    <div id="notificationsContainer" class="notifications-container">
+        <!-- Notifications will be added here -->
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/projects.js"></script>
+    
+    <script>
+        // Additional page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Setup create project modal
+            document.querySelector('[data-action="create"]').addEventListener('click', function() {
+                const modal = document.getElementById('createProjectModal');
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            });
+            
+            // Setup user menu
+            setupUserMenu();
+            
+            // Setup navigation
+            setupNavigation();
+        });
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/Laburar/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Setup & DevOps Documentation
+
+Setup and DevOps-related documentation for LaburAR platform.
+
+## Files
+
+- `README-DEVOPS.md` - DevOps setup and deployment guidelines
+- `README-WINDOWS.md` - Windows-specific setup instructions
+
+## Overview
+
+This directory contains setup instructions, DevOps documentation, and platform-specific configuration guides.
+
+## Navigation
+
+← Back to [Documentation Root](../README.md)

@@ -1,0 +1,8 @@
+{
+  "/categories/page": "app/categories/page.js",
+  "/categories/[category]/page": "app/categories/[category]/page.js",
+  "/categories/[category]/[subcategory]/page": "app/categories/[category]/[subcategory]/page.js",
+  "/messages/page": "app/messages/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/page": "app/page.js"
+}

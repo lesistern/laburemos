@@ -1,0 +1,42 @@
+﻿=== Configuracion para pgAdmin4 - LABUREMOS AWS RDS ===
+
+1. INFORMACION DE CONEXION:
+   ------------------------
+   Name: LaburAR AWS Production
+   Host: laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com
+   Port: 5432
+   Database: laburemos
+   Username: postgres
+   Password: Laburemos2025!
+
+2. PASOS EN pgAdmin4:
+   -----------------
+   a) Abre pgAdmin4
+   b) Click derecho en "Servers" -> "Register" -> "Server..."
+   c) En la pestana "General":
+      - Name: LaburAR AWS Production
+   d) En la pestana "Connection":
+      - Host name/address: laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com
+      - Port: 5432
+      - Maintenance database: laburemos
+      - Username: postgres
+      - Password: Laburemos2025!
+      - Save password: SI (opcional)
+   e) Click en "Save"
+
+3. TU IP PARA AWS SECURITY GROUP:
+   ------------------------------
+   Tu IP actual: 186.182.67.72
+   
+   En AWS Console:
+   - Ve a EC2 -> Security Groups
+   - Busca el security group de RDS
+   - Edit inbound rules -> Add rule:
+     * Type: PostgreSQL
+     * Port: 5432
+     * Source: 186.182.67.72/32
+     * Description: pgAdmin desde mi PC
+
+4. COMANDO PARA PROBAR CONEXION:
+   -----------------------------
+   psql -h laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com -U postgres -d laburemos -p 5432

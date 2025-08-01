@@ -1,0 +1,18 @@
+# Features Documentation
+
+This directory contains documentation for specific LABUREMOS features.
+
+## Structure
+
+- `badges/` - Badge system implementation and design specifications
+- `payments/` - Payment processing, escrow system, and financial features
+- `authentication/` - User authentication and security features
+- `categories/` - Category system and data management
+
+## Navigation
+
+Each subdirectory contains comprehensive documentation for that feature area, including:
+- Implementation guides
+- Design specifications
+- API documentation
+- Testing procedures

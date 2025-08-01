@@ -1,0 +1,11 @@
+$myip = (Invoke-WebRequest -Uri "https://api.ipify.org").Content
+Write-Host "Tu IP actual es: $myip"
+Write-Host ""
+Write-Host "Para permitir tu IP en AWS Security Group:"
+Write-Host "1. Ve a https://console.aws.amazon.com/ec2/"
+Write-Host "2. Security Groups -^> Busca el de RDS"
+Write-Host "3. Edit inbound rules -^> Add rule:"
+Write-Host "   - Type: PostgreSQL"
+Write-Host "   - Port: 5432"
+Write-Host "   - Source: $myip/32"
+Write-Host "   - Description: pgAdmin desde mi PC"

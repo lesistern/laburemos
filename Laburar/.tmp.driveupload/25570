@@ -1,0 +1,200 @@
+# LaburAR - Development Quick Reference
+
+**Professional Freelance Platform** | Next.js 15.4.4 + NestJS | Production Ready
+
+## 🚀 Instant Setup
+
+```bash
+# Complete environment setup (Windows)
+cd C:\xampp\htdocs\Laburar
+.\setup-windows.bat
+.\start-windows.bat
+
+# Access services immediately
+# → http://localhost:3000 (Next.js - PRIMARY)
+# → http://localhost:3001/docs (NestJS API)
+```
+
+## 📋 Documentation Navigator
+
+| Need | File | Command |
+|------|------|--------|
+| **Project Overview** | [PROJECT-INDEX.md](./PROJECT-INDEX.md) | `cat PROJECT-INDEX.md` |
+| **Technology Stack** | [docs/development/CLAUDE-STACK.md](./docs/development/CLAUDE-STACK.md) | Quick reference |
+| **System Architecture** | [docs/development/CLAUDE-ARCHITECTURE.md](./docs/development/CLAUDE-ARCHITECTURE.md) | Before system changes |
+| **Coding Patterns** | [docs/development/CLAUDE-DEVELOPMENT.md](./docs/development/CLAUDE-DEVELOPMENT.md) | During development |
+| **Critical Rules** | [docs/development/CLAUDE-RULES.md](./docs/development/CLAUDE-RULES.md) | ALWAYS reference |
+| **Implementation Status** | [docs/sessions/CLAUDE-IMPLEMENTATION.md](./docs/sessions/CLAUDE-IMPLEMENTATION.md) | Current progress |
+| **Cross-References** | [DOCUMENTATION-MAP.md](./DOCUMENTATION-MAP.md) | Navigation help |
+
+## ⚡ Development Workflow
+
+### Daily Development Commands
+```bash
+# Start development stack
+cd C:\xampp\htdocs\Laburar
+.\start-windows.bat
+
+# Frontend development (Terminal 1)
+cd frontend
+npm run dev                # → http://localhost:3000
+npm run build              # Production build test
+npm run test               # Run component tests
+
+# Backend development (Terminal 2)
+cd backend  
+npm run start:dev          # → http://localhost:3001/docs
+npm run test               # Run service tests
+npm run db:migrate         # Apply database changes
+```
+
+## 🎯 Production Status Matrix
+
+| Component | Status | Details | URL |
+|-----------|--------|---------|-----|
+| **Next.js Frontend** | 🟢 Production | 47 files, 9 pages complete | http://localhost:3000 |
+| **NestJS Backend** | 🟢 Production | 5 microservices, JWT auth | http://localhost:3001/docs |
+| **PostgreSQL DB** | 🟢 Production | Prisma ORM, full schema | Backend integrated |
+| **Real-time Features** | 🟢 Production | WebSocket, notifications | Functional |
+| **Authentication** | 🟢 Production | JWT + refresh tokens | Secure |
+| **Legacy PHP** | 🟢 Operational | Preserved, fully functional | http://localhost/Laburar |
+
+## 📊 Current Priorities (UPDATED)
+
+### ✅ COMPLETED (Production Ready)
+- **Modern Stack**: Next.js 15.4.4 ↔ NestJS integration **FUNCTIONAL**
+- **Authentication**: JWT + refresh tokens **SECURE**
+- **Database**: PostgreSQL + Prisma **OPERATIONAL**
+- **Real-time**: WebSocket notifications **WORKING**
+- **UI/UX**: Enterprise dashboard, predictive search **COMPLETE**
+- **Categories**: Real services data, 4-column grid **OPTIMIZED**
+- **OpenMoji**: 4,284 emojis with API **INTEGRATED**
+
+### 🎯 ACTUAL NEXT PRIORITIES
+
+#### HIGH PRIORITY (Ready Now)
+```bash
+# 1. E2E Testing Suite - IMMEDIATE
+cd /mnt/c/xampp/htdocs/Laburar
+npm install --save-dev @playwright/test
+npx playwright install
+mkdir -p e2e/tests
+# → Implement complete user workflow tests
+
+# 2. File Management System - CRITICAL  
+cd backend
+npm install multer @types/multer aws-sdk
+# → /backend/src/upload/ service
+# → AWS S3 integration for files
+
+# 3. Payment Enhancement - BUSINESS CRITICAL
+# → Complete Stripe subscription flow
+# → /backend/src/payment/ webhook handlers
+```
+
+#### MEDIUM PRIORITY
+4. **Performance Optimization**: Database indexes, caching, bundle optimization
+5. **Production Deployment**: Docker, CI/CD, cloud deployment
+6. **Monitoring**: Sentry error tracking, analytics dashboard
+
+**IMPORTANT**: Tasks 1-3 from old list are **ALREADY COMPLETE**. See [Implementation Status](./docs/sessions/CLAUDE-IMPLEMENTATION.md) for evidence.
+
+## 🏗️ Architecture Quick Reference
+
+### Production Stack
+```
+Modern (PRIMARY)     Legacy (PRESERVED)
+┌─────────────────┐  ┌─────────────────┐
+│ Next.js 15.4.4  │  │ PHP 8.2 + MySQL │
+│ ↕ (HTTP/WS)     │  │ (Fully Functional)
+│ NestJS + 5 APIs │  │ Original Platform│
+│ ↕               │  └─────────────────┘
+│ PostgreSQL+Redis│
+└─────────────────┘
+```
+
+### 🌐 Service Matrix
+| Service | URL | Status | Use Case |
+|---------|-----|--------|----------|
+| **Next.js** | http://localhost:3000 | 🟢 PRIMARY | Main development |
+| **NestJS API** | http://localhost:3001/docs | 🟢 PRIMARY | Swagger documentation |
+| **Legacy PHP** | http://localhost/Laburar | 🟢 PRESERVED | Original platform |
+| **Emojis API** | http://localhost:3001/api/emojis | 🟢 ACTIVE | 4,284 OpenMoji |
+
+**Architecture Details**: → [docs/development/CLAUDE-STACK.md](./docs/development/CLAUDE-STACK.md)
+
+## 📚 Essential Commands
+
+### Database Operations
+```bash
+# PostgreSQL (Modern Stack)
+cd backend
+npm run db:generate    # Update Prisma client
+npm run db:migrate     # Apply schema changes
+npm run db:seed        # Add test data
+npm run db:reset       # Reset (dev only)
+
+# Legacy MySQL (if needed)
+# → http://localhost/phpmyadmin
+# → http://localhost/Laburar/database/setup_database.php
+```
+
+### Code Quality Checks
+```bash
+# REQUIRED before commits
+cd frontend
+npm run lint && npm run type-check && npm run test && npm run build
+
+cd backend
+npm run lint && npm run test && npm run build
+```
+
+### Production Preparation
+```bash
+# Test production builds
+cd frontend && npm run build
+cd backend && npm run build
+
+# Docker deployment
+docker-compose -f docker-compose.prod.yml up -d
+```
+
+## 🔧 Troubleshooting
+
+### Common Issues & Solutions
+```bash
+# Port conflicts
+netstat -ano | findstr :3000  # Check port usage
+# → Kill conflicting processes
+
+# Dependencies missing
+cd frontend && npm install
+cd backend && npm install
+.\fix-frontend-windows.bat    # Automated fix
+
+# Database connection issues
+# → Verify XAMPP MySQL running
+# → Check PostgreSQL service status
+# → Restart services: .\start-windows.bat
+
+# TypeScript errors
+npm run type-check           # Check frontend
+cd backend && npm run build   # Check backend
+```
+
+### Key Credentials
+- **Admin Account**: admin@laburar.com / admin123
+- **Database**: root / (no password) / laburar_db
+- **PostgreSQL**: postgres / postgres / laburar
+
+### Critical File Locations
+- **Frontend Routes**: `/frontend/app/[feature]/page.tsx`
+- **Backend APIs**: `/backend/src/[service]/[service].controller.ts`
+- **Database Schema**: `/backend/prisma/schema.prisma`
+- **Setup Scripts**: `./setup-windows.bat`, `./start-windows.bat`
+
+---
+
+**🔗 Full Details**: [PROJECT-INDEX.md](./PROJECT-INDEX.md) | **📈 Current Status**: [docs/sessions/CLAUDE-IMPLEMENTATION.md](./docs/sessions/CLAUDE-IMPLEMENTATION.md) | **⚠️ Critical Rules**: [docs/development/CLAUDE-RULES.md](./docs/development/CLAUDE-RULES.md)
+
+**Last Updated**: 2025-07-29 | **Version**: Production Ready | **Next Priority**: E2E Testing + File Management

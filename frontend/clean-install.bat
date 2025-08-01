@@ -1,0 +1,19 @@
+@echo off
+echo Cleaning frontend installation...
+
+echo Stopping any running Node processes...
+taskkill /F /IM node.exe 2>nul
+
+echo Removing .next folder...
+rmdir /s /q .next 2>nul
+
+echo Removing node_modules...
+rmdir /s /q node_modules 2>nul
+
+echo Removing package-lock.json...
+del /f package-lock.json 2>nul
+
+echo Installing dependencies...
+npm install
+
+echo Done! You can now run 'npm run dev'

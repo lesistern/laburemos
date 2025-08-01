@@ -1,0 +1,323 @@
+name: Security Scan
+
+on:
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Frontend Security Audit
+        run: |
+          cd frontend
+          npm audit --audit-level high
+          npm audit --json > security-audit-frontend.json || true
+
+      - name: Backend Security Audit
+        run: |
+          cd backend
+          npm audit --audit-level high
+          npm audit --json > security-audit-backend.json || true
+
+      - name: Upload audit results
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-audit-results
+          path: |
+            frontend/security-audit-frontend.json
+            backend/security-audit-backend.json
+
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run dependency check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'LABUREMOS'
+          path: '.'
+          format: 'ALL'
+          out: 'dependency-check-report'
+          args: >
+            --enableRetired
+            --enableExperimental
+            --scan './frontend/package.json'
+            --scan './backend/package.json'
+
+      - name: Upload dependency check results
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency-check-report
+          path: dependency-check-report
+
+  snyk-security:
+    name: Snyk Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd frontend && npm ci
+          cd ../backend && npm ci
+
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --all-projects --severity-threshold=high
+
+      - name: Upload Snyk results to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: snyk.sarif
+
+  trivy-scan:
+    name: Trivy Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+  secret-scan:
+    name: Secret Scanning
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for secret scanning
+
+      - name: TruffleHog OSS
+        id: trufflehog
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  docker-security:
+    name: Docker Security Scan
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Frontend image for scanning
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./docker/frontend/Dockerfile
+          load: true
+          tags: laburemos/frontend:scan
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Backend image for scanning
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./docker/backend/Dockerfile
+          load: true
+          tags: laburemos/backend:scan
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Run Trivy vulnerability scanner on Frontend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: laburemos/frontend:scan
+          format: 'sarif'
+          output: 'trivy-frontend-image.sarif'
+
+      - name: Run Trivy vulnerability scanner on Backend image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: laburemos/backend:scan
+          format: 'sarif'
+          output: 'trivy-backend-image.sarif'
+
+      - name: Upload Frontend image scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-frontend-image.sarif'
+          category: 'frontend-image'
+
+      - name: Upload Backend image scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-backend-image.sarif'
+          category: 'backend-image'
+
+  infrastructure-security:
+    name: Infrastructure Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Checkov on CloudFormation templates
+        uses: bridgecrewio/checkov-action@master
+        with:
+          directory: infrastructure/aws/
+          framework: cloudformation
+          output_format: sarif
+          output_file_path: checkov-results.sarif
+
+      - name: Upload Checkov results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: checkov-results.sarif
+
+  security-report:
+    name: Generate Security Report
+    runs-on: ubuntu-latest
+    needs: [security-audit, dependency-check, snyk-security, trivy-scan, secret-scan, docker-security, infrastructure-security]
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+
+      - name: Generate security summary
+        run: |
+          echo "# Security Scan Summary" > security-summary.md
+          echo "" >> security-summary.md
+          echo "**Scan Date:** $(date)" >> security-summary.md
+          echo "**Commit:** ${{ github.sha }}" >> security-summary.md
+          echo "" >> security-summary.md
+          
+          echo "## Scan Results" >> security-summary.md
+          echo "" >> security-summary.md
+          
+          # Check if any jobs failed
+          if [[ "${{ needs.security-audit.result }}" == "failure" ]]; then
+            echo "❌ **Security Audit:** Failed" >> security-summary.md
+          else
+            echo "✅ **Security Audit:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.dependency-check.result }}" == "failure" ]]; then
+            echo "❌ **Dependency Check:** Failed" >> security-summary.md
+          else
+            echo "✅ **Dependency Check:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.snyk-security.result }}" == "failure" ]]; then
+            echo "❌ **Snyk Security:** Failed" >> security-summary.md
+          else
+            echo "✅ **Snyk Security:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.trivy-scan.result }}" == "failure" ]]; then
+            echo "❌ **Trivy Scan:** Failed" >> security-summary.md
+          else
+            echo "✅ **Trivy Scan:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.secret-scan.result }}" == "failure" ]]; then
+            echo "❌ **Secret Scan:** Failed" >> security-summary.md
+          else
+            echo "✅ **Secret Scan:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.docker-security.result }}" == "failure" ]]; then
+            echo "❌ **Docker Security:** Failed" >> security-summary.md
+          else
+            echo "✅ **Docker Security:** Passed" >> security-summary.md
+          fi
+          
+          if [[ "${{ needs.infrastructure-security.result }}" == "failure" ]]; then
+            echo "❌ **Infrastructure Security:** Failed" >> security-summary.md
+          else
+            echo "✅ **Infrastructure Security:** Passed" >> security-summary.md
+          fi
+          
+          echo "" >> security-summary.md
+          echo "## Next Steps" >> security-summary.md
+          echo "- Review security findings in GitHub Security tab" >> security-summary.md
+          echo "- Address any critical or high severity vulnerabilities" >> security-summary.md
+          echo "- Update dependencies if needed" >> security-summary.md
+
+      - name: Upload security summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: security-summary
+          path: security-summary.md
+
+      - name: Notify on critical findings
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: failure
+          channel: '#security'
+          text: |
+            🚨 **Critical Security Issues Found**
+            
+            Repository: ${{ github.repository }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            
+            Please review the security findings immediately!
+            
+            GitHub Security: ${{ github.server_url }}/${{ github.repository }}/security
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews y Reputación - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/reviews.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/Laburar/" class="brand-link">
+                    <span class="brand-name">Labur<span class="brand-ar">AR</span></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/Laburar/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/Laburar/projects.html" class="nav-link">Mis Proyectos</a>
+                <a href="/Laburar/payments.html" class="nav-link">Pagos</a>
+                <a href="/Laburar/reviews.html" class="nav-link active">Reviews</a>
+                <a href="/Laburar/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/Laburar/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/Laburar/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="reviews-container" id="reviewsContainer">
+        <!-- Header -->
+        <header class="reviews-header">
+            <h1>Sistema de Reviews</h1>
+            <p class="subtitle">Construí tu reputación y ayudá a otros con reviews honestas</p>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="reviewLoadingIndicator" class="review-loading" style="display: none;">
+            <div class="review-spinner"></div>
+            Cargando reviews...
+        </div>
+
+        <!-- Reputation Display -->
+        <div id="reputationContainer">
+            <!-- Reputation will be loaded here -->
+        </div>
+
+        <!-- Review Summary -->
+        <div class="review-summary" id="reviewSummary">
+            <div class="summary-stats">
+                <div class="overall-rating">
+                    <div class="overall-rating-number" id="overallRatingNumber">0.0</div>
+                    <div class="overall-rating-stars" id="overallRatingStars">
+                        <div class="rating-stars large" data-rating="0"></div>
+                    </div>
+                    <div class="overall-rating-count" id="overallRatingCount">0 reviews</div>
+                </div>
+                
+                <div class="rating-distribution" id="ratingDistribution">
+                    <!-- Rating bars will be loaded here -->
+                </div>
+                
+                <div class="recommendation-stats">
+                    <div class="recommendation-percentage" id="recommendationPercentage">0%</div>
+                    <p class="recommendation-label">lo recomiendan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Filters -->
+        <div class="reviews-filters">
+            <div class="filters-header">
+                <h3>Filtrar Reviews</h3>
+            </div>
+            <div class="filters-row">
+                <select class="filter-select" id="ratingFilter">
+                    <option value="all">Todas las calificaciones</option>
+                    <option value="5">5 estrellas</option>
+                    <option value="4">4 estrellas</option>
+                    <option value="3">3 estrellas</option>
+                    <option value="2">2 estrellas</option>
+                    <option value="1">1 estrella</option>
+                </select>
+                
+                <select class="filter-select" id="sortFilter">
+                    <option value="newest">Más recientes</option>
+                    <option value="oldest">Más antiguos</option>
+                    <option value="helpful">Más útiles</option>
+                    <option value="rating_high">Calificación alta</option>
+                    <option value="rating_low">Calificación baja</option>
+                </select>
+                
+                <div class="filter-chips">
+                    <span class="filter-chip active" data-filter="all">Todas</span>
+                    <span class="filter-chip" data-filter="with_comment">Con comentarios</span>
+                    <span class="filter-chip" data-filter="with_response">Con respuesta</span>
+                    <span class="filter-chip" data-filter="verified">Verificadas</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Review Form (shown conditionally) -->
+        <div class="review-form" id="reviewFormContainer" style="display: none;">
+            <h3>Escribir Review</h3>
+            <form id="reviewForm">
+                <input type="hidden" name="project_id" id="projectId">
+                <input type="hidden" name="reviewee_id" id="revieweeId">
+                
+                <!-- Overall Rating -->
+                <div class="form-group">
+                    <label class="form-label">Calificación General *</label>
+                    <div class="rating-stars interactive large" data-input-name="overall_rating"></div>
+                    <input type="hidden" name="overall_rating" required>
+                </div>
+                
+                <!-- Detailed Ratings -->
+                <div class="form-group">
+                    <label class="form-label">Calificaciones Detalladas</label>
+                    <div class="rating-input">
+                        <div class="rating-group">
+                            <label>Comunicación</label>
+                            <div class="rating-stars interactive" data-input-name="communication_rating"></div>
+                            <input type="hidden" name="communication_rating">
+                        </div>
+                        <div class="rating-group">
+                            <label>Calidad del Trabajo</label>
+                            <div class="rating-stars interactive" data-input-name="quality_rating"></div>
+                            <input type="hidden" name="quality_rating">
+                        </div>
+                        <div class="rating-group">
+                            <label>Puntualidad</label>
+                            <div class="rating-stars interactive" data-input-name="timeliness_rating"></div>
+                            <input type="hidden" name="timeliness_rating">
+                        </div>
+                        <div class="rating-group">
+                            <label>Profesionalismo</label>
+                            <div class="rating-stars interactive" data-input-name="professionalism_rating"></div>
+                            <input type="hidden" name="professionalism_rating">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Title -->
+                <div class="form-group">
+                    <label for="reviewTitle" class="form-label">Título de la Review</label>
+                    <input type="text" id="reviewTitle" name="title" class="form-control" 
+                           placeholder="Resumí tu experiencia en pocas palabras">
+                </div>
+                
+                <!-- Comment -->
+                <div class="form-group">
+                    <label for="reviewComment" class="form-label">Comentario Detallado</label>
+                    <textarea id="reviewComment" name="comment" class="form-control textarea" rows="5"
+                              placeholder="Contanos sobre tu experiencia trabajando en este proyecto..."></textarea>
+                </div>
+                
+                <!-- Recommendations -->
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="wouldRecommend" name="would_recommend">
+                            <label for="wouldRecommend">Recomendaría a otros</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="wouldWorkAgain" name="would_work_again">
+                            <label for="wouldWorkAgain">Trabajaría de nuevo con esta persona</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn-secondary" onclick="cancelReview()">Cancelar</button>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Enviar Review
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Reviews List -->
+        <div class="reviews-section">
+            <div class="reviews-header">
+                <h3 id="reviewsTitle">Reviews Recibidas</h3>
+                <div class="reviews-actions">
+                    <button class="btn-primary" onclick="showWriteReviewForm()" style="display: none;" id="writeReviewBtn">
+                        <i class="fas fa-plus"></i>
+                        Escribir Review
+                    </button>
+                </div>
+            </div>
+            
+            <div id="reviewsList">
+                <!-- Reviews will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Flag Review Modal -->
+    <div class="modal" id="flagReviewModal">
+        <div class="modal-backdrop" onclick="closeFlagModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Reportar Review</h3>
+                <button class="modal-close" onclick="closeFlagModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="flagReviewForm">
+                    <input type="hidden" name="review_id" id="flagReviewId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Motivo del Reporte *</label>
+                        <select name="reason" class="form-control" required>
+                            <option value="">Seleccionar motivo</option>
+                            <option value="inappropriate">Contenido inapropiado</option>
+                            <option value="fake">Review falsa</option>
+                            <option value="spam">Spam</option>
+                            <option value="offensive">Contenido ofensivo</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Descripción Adicional</label>
+                        <textarea name="description" class="form-control textarea" rows="3"
+                                  placeholder="Proporcioná más detalles sobre el problema..."></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeFlagModal()">Cancelar</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-flag"></i>
+                            Reportar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Response Modal -->
+    <div class="modal" id="responseModal">
+        <div class="modal-backdrop" onclick="closeResponseModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Responder a Review</h3>
+                <button class="modal-close" onclick="closeResponseModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="responseForm">
+                    <input type="hidden" name="review_id" id="responseReviewId">
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tu Respuesta *</label>
+                        <textarea name="response_text" class="form-control textarea" rows="4" required
+                                  placeholder="Escribí una respuesta profesional a esta review..."></textarea>
+                        <small class="form-help">Máximo 1000 caracteres</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeResponseModal()">Cancelar</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-reply"></i>
+                            Enviar Respuesta
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/reviews.js"></script>
+    
+    <script>
+        // Page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Setup navigation
+            setupNavigation();
+            setupUserMenu();
+            
+            // Check URL parameters for specific views
+            const urlParams = new URLSearchParams(window.location.search);
+            const userId = urlParams.get('user_id');
+            const projectId = urlParams.get('project_id');
+            
+            if (projectId) {
+                // Show project-specific view
+                document.getElementById('reviewsTitle').textContent = 'Reviews del Proyecto';
+                document.getElementById('writeReviewBtn').style.display = 'block';
+            } else if (userId) {
+                // Show user-specific view
+                document.getElementById('reviewsTitle').textContent = 'Reviews del Usuario';
+            }
+        });
+        
+        function showWriteReviewForm() {
+            const container = document.getElementById('reviewFormContainer');
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+            
+            // Pre-fill project info if available
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectId = urlParams.get('project_id');
+            const revieweeId = urlParams.get('reviewee_id');
+            
+            if (projectId) {
+                document.getElementById('projectId').value = projectId;
+            }
+            if (revieweeId) {
+                document.getElementById('revieweeId').value = revieweeId;
+            }
+        }
+        
+        function cancelReview() {
+            document.getElementById('reviewFormContainer').style.display = 'none';
+            document.getElementById('reviewForm').reset();
+        }
+        
+        function closeFlagModal() {
+            document.getElementById('flagReviewModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        function closeResponseModal() {
+            document.getElementById('responseModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/Laburar/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

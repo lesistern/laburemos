@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Marketplace moderno de LaburAR - Freelancers argentinos">
+    <title>LaburAR - Marketplace Moderno</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/Laburar/assets/css/marketplace.css">
+    
+    <style>
+        /* Modern LaburAR specific styles */
+        .demo-notice {
+            background: var(--laburar-primary-bg);
+            border: 1px solid var(--laburar-primary-light);
+            color: var(--laburar-primary-dark);
+            padding: 16px;
+            margin: 24px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        .demo-section {
+            margin: 48px 0;
+        }
+        
+        .demo-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #404145;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="marketplace-page">
+    <!-- Demo Notice -->
+    <div class="demo-notice">
+        🇦🇷 <strong>LaburAR Marketplace Moderno</strong> - Plataforma argentina de freelancers con diseño moderno y colores patrios
+    </div>
+
+    <!-- LaburAR Navigation -->
+    <nav class="main-nav" style="background: white; color: #404145; padding: 16px 0; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #e4e5e7; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+        <div style="max-width: 1400px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between;">
+            <a href="/Laburar/dashboard" style="color: var(--laburar-primary); text-decoration: none; font-weight: 700; font-size: 32px; font-family: 'Inter', sans-serif;">LaburAR</a>
+            <div style="display: flex; gap: 32px; align-items: center;">
+                <a href="#" style="color: #404145; text-decoration: none; font-weight: 500; font-size: 16px;">Dashboard</a>
+                <a href="#" style="color: var(--laburar-primary); text-decoration: none; font-weight: 600; font-size: 16px;">Marketplace</a>
+                <a href="#" style="color: #404145; text-decoration: none; font-weight: 500; font-size: 16px;">Proyectos</a>
+                <a href="#" style="color: #404145; text-decoration: none; font-weight: 500; font-size: 16px;">Mensajes</a>
+                <button style="background: var(--laburar-primary); border: none; color: white; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px;">Marketplace</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="marketplace-hero">
+        <div class="marketplace-container">
+            <h1 style="font-size: var(--marketplace-font-size-3xl); font-weight: 700; margin-bottom: 16px;">
+                Encontrá freelancers argentinos excepcionales
+            </h1>
+            <p style="font-size: var(--marketplace-font-size-lg); opacity: 0.9; margin-bottom: 32px;">
+                Miles de talentos listos para hacer realidad tus proyectos
+            </p>
+            
+            <div style="max-width: 600px; margin: 0 auto; position: relative;">
+                <input 
+                    type="text" 
+                    placeholder="¿Qué servicio necesitás? Ej: diseño de logo, desarrollo web..."
+                    style="width: 100%; padding: 16px 20px; font-size: var(--marketplace-font-size-base); border: none; border-radius: 8px; outline: none; box-shadow: 0 4px 16px rgba(0,0,0,0.1);"
+                    id="heroSearch"
+                >
+                <button 
+                    style="position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--laburar-primary); border: none; color: white; padding: 8px 24px; border-radius: 4px; cursor: pointer; font-weight: 600;"
+                    onclick="searchServices()"
+                >
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature Showcase -->
+    <section class="demo-section">
+        <div class="marketplace-container">
+            <h2 class="demo-title">Servicios destacados con diseño moderno LaburAR</h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin: 32px 0;">
+                <div style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); text-align: center;">
+                    <h3 style="color: #404145; margin-bottom: 8px;">Colores Argentinos</h3>
+                    <p style="color: #74767e; font-size: 14px;">Azul patrio (#5CA7D8) como color principal con acentos celestes</p>
+                    <div style="width: 100%; height: 60px; background: linear-gradient(90deg, var(--laburar-primary), var(--argentina-celeste)); border-radius: 4px; margin-top: 12px;"></div>
+                </div>
+                
+                <div style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); text-align: center;">
+                    <h3 style="color: #404145; margin-bottom: 8px;">Mobile-First</h3>
+                    <p style="color: #74767e; font-size: 14px;">Responsive perfecto desde 320px hasta 1400px+</p>
+                    <div style="display: flex; gap: 4px; justify-content: center; margin-top: 12px;">
+                        <div style="width: 20px; height: 40px; background: var(--laburar-primary); border-radius: 2px;"></div>
+                        <div style="width: 30px; height: 30px; background: var(--argentina-blue); border-radius: 2px;"></div>
+                        <div style="width: 40px; height: 25px; background: var(--argentina-celeste); border-radius: 2px;"></div>
+                    </div>
+                </div>
+                
+                <div style="background: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.1); text-align: center;">
+                    <h3 style="color: #404145; margin-bottom: 8px;">Enterprise Backend</h3>
+                    <p style="color: #74767e; font-size: 14px;">78+ tablas, 7 APIs REST, WebSocket real-time</p>
+                    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 12px;">
+                        <span style="padding: 4px 8px; background: var(--laburar-primary-bg); color: var(--laburar-primary); border-radius: 12px; font-size: 12px; font-weight: 600;">API</span>
+                        <span style="padding: 4px 8px; background: var(--laburar-primary-bg); color: var(--laburar-primary); border-radius: 12px; font-size: 12px; font-weight: 600;">WebSocket</span>
+                        <span style="padding: 4px 8px; background: var(--laburar-primary-bg); color: var(--laburar-primary); border-radius: 12px; font-size: 12px; font-weight: 600;">MySQL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section class="services-grid-container">
+        <div class="marketplace-container">
+            <h2 style="font-size: var(--marketplace-font-size-2xl); font-weight: 700; color: #404145; margin-bottom: 32px; text-align: center;">
+                Servicios Populares
+            </h2>
+            
+            <div class="services-grid">
+                <!-- Service Card 1 -->
+                <div class="service-card laburar-shadow-medium">
+                    <div class="service-image">
+                        <img src="https://via.placeholder.com/300x180/5ca7d8/ffffff?text=Dise%C3%B1o+Logo" alt="Diseño de Logo">
+                        <div class="service-badges">
+                            <span class="badge badge-choice">DESTACADO</span>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <div class="seller-info">
+                            <img src="https://via.placeholder.com/32x32/74acdf/ffffff?text=JP" alt="Juan Pérez" class="seller-avatar">
+                            <div class="seller-details">
+                                <span class="seller-name">Juan Pérez</span>
+                                <span class="seller-level">Nivel 2</span>
+                            </div>
+                        </div>
+                        <h3 class="service-title">Diseñaré un logo profesional para tu empresa argentina</h3>
+                        <div class="service-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">(127)</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">Desde AR$ 5.000</span>
+                        <button class="service-heart">♡</button>
+                    </div>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="service-card laburar-shadow-medium">
+                    <div class="service-image">
+                        <img src="https://via.placeholder.com/300x180/74acdf/ffffff?text=Desarrollo+Web" alt="Desarrollo Web">
+                        <div class="service-badges">
+                            <span class="badge badge-pro">PRO</span>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <div class="seller-info">
+                            <img src="https://via.placeholder.com/32x32/87ceeb/ffffff?text=MG" alt="María González" class="seller-avatar">
+                            <div class="seller-details">
+                                <span class="seller-name">María González</span>
+                                <span class="seller-level">Top Seller</span>
+                            </div>
+                        </div>
+                        <h3 class="service-title">Desarrollaré tu sitio web responsivo con React y Node.js</h3>
+                        <div class="service-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">(89)</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">Desde AR$ 25.000</span>
+                        <button class="service-heart">♡</button>
+                    </div>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="service-card laburar-shadow-medium">
+                    <div class="service-image">
+                        <img src="https://via.placeholder.com/300x180/b8d4f0/ffffff?text=Marketing+Digital" alt="Marketing Digital">
+                    </div>
+                    <div class="service-content">
+                        <div class="seller-info">
+                            <img src="https://via.placeholder.com/32x32/5ca7d8/ffffff?text=LR" alt="Luis Rodriguez" class="seller-avatar">
+                            <div class="seller-details">
+                                <span class="seller-name">Luis Rodriguez</span>
+                                <span class="seller-level">Nivel 1</span>
+                            </div>
+                        </div>
+                        <h3 class="service-title">Crearé tu estrategia de marketing digital para redes sociales</h3>
+                        <div class="service-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">(54)</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">Desde AR$ 8.500</span>
+                        <button class="service-heart">♡</button>
+                    </div>
+                </div>
+
+                <!-- Service Card 4 -->
+                <div class="service-card laburar-shadow-medium">
+                    <div class="service-image">
+                        <img src="https://via.placeholder.com/300x180/87ceeb/ffffff?text=Traducci%C3%B3n" alt="Traducción">
+                        <div class="service-badges">
+                            <span class="badge badge-trending">TENDENCIA</span>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <div class="seller-info">
+                            <img src="https://via.placeholder.com/32x32/74acdf/ffffff?text=AS" alt="Ana Silva" class="seller-avatar">
+                            <div class="seller-details">
+                                <span class="seller-name">Ana Silva</span>
+                                <span class="seller-level">Nivel 2</span>
+                            </div>
+                        </div>
+                        <h3 class="service-title">Traduciré documentos del inglés al español rioplatense</h3>
+                        <div class="service-rating">
+                            <span class="stars">⭐⭐⭐⭐⭐</span>
+                            <span class="rating-count">(203)</span>
+                        </div>
+                    </div>
+                    <div class="service-footer">
+                        <span class="service-price">Desde AR$ 3.200</span>
+                        <button class="service-heart">♡</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Notice -->
+    <div style="background: var(--marketplace-secondary-bg); padding: 24px; text-align: center; margin-top: 48px;">
+        <p style="color: #74767e; margin: 0;">
+            🇦🇷 <strong>LaburAR</strong> - Marketplace argentino con diseño moderno, colores patrios y backend enterprise completo
+        </p>
+    </div>
+
+    <script>
+        function searchServices() {
+            const query = document.getElementById('heroSearch').value;
+            if (query.trim()) {
+                alert(`Demo: Búsqueda de "${query}" en el nuevo marketplace moderno LaburAR`);
+            } else {
+                const searchTerms = ['diseño gráfico', 'desarrollo web', 'marketing digital', 'traducción', 'fotografía'];
+                const randomTerm = searchTerms[Math.floor(Math.random() * searchTerms.length)];
+                document.getElementById('heroSearch').value = randomTerm;
+                alert(`Demo: Búsqueda de "${randomTerm}" en el nuevo marketplace moderno LaburAR`);
+            }
+        }
+
+        // Demo de interacciones
+        document.querySelectorAll('.service-heart').forEach(heart => {
+            heart.addEventListener('click', function() {
+                this.style.color = this.style.color === 'red' ? '#74767e' : 'red';
+                this.textContent = this.textContent === '♡' ? '♥' : '♡';
+            });
+        });
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('click', function() {
+                alert('Demo: Abriendo detalles del servicio en el nuevo diseño LaburAR');
+            });
+        });
+
+        // Simular carga responsive
+        window.addEventListener('resize', function() {
+            console.log('LaburAR Responsive: ' + window.innerWidth + 'px');
+        });
+    </script>
+</body>
+</html>

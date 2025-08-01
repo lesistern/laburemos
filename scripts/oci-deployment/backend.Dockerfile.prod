@@ -1,0 +1,56 @@
+# LaburAR Backend Production Dockerfile for ARM64
+FROM node:20-alpine
+
+# Set platform for ARM64
+ARG TARGETPLATFORM
+ARG BUILDPLATFORM
+RUN echo "Building on $BUILDPLATFORM, targeting $TARGETPLATFORM"
+
+# Install system dependencies for ARM64
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    bash \
+    curl \
+    && rm -rf /var/cache/apk/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy dependency files
+COPY package*.json ./
+COPY prisma ./prisma/
+
+# Install dependencies
+RUN npm ci --only=production && npm cache clean --force
+
+# Install Prisma CLI and generate client
+RUN npx prisma generate
+
+# Copy source code
+COPY . .
+
+# Build application
+RUN npm run build
+
+# Remove development dependencies and files
+RUN rm -rf src/ test/ *.md .eslintrc.js .prettierrc tsconfig*.json
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
+
+# Change ownership of app directory
+RUN chown -R nestjs:nodejs /app
+USER nestjs
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:3001/health || exit 1
+
+# Start application
+CMD ["node", "dist/main.js"]

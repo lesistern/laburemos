@@ -1,0 +1,124 @@
+name: 🔒 Security Report
+description: Report a security vulnerability (for non-critical issues only)
+title: "[Security]: "
+labels: ["security", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        # ⚠️ Security Reporting Guidelines
+        
+        **CRITICAL VULNERABILITIES**: Please do NOT use this public form for critical security vulnerabilities. 
+        Instead, email us directly at: **security@laburemos.com.ar**
+        
+        This form is for:
+        - Non-critical security improvements
+        - Security best practices suggestions
+        - Configuration recommendations
+        - Documentation security issues
+
+  - type: checkboxes
+    id: severity_check
+    attributes:
+      label: Vulnerability Severity
+      description: Please confirm this is appropriate for public reporting
+      options:
+        - label: This is NOT a critical vulnerability that could lead to immediate system compromise
+          required: true
+        - label: This is NOT related to authentication bypass or data exposure
+          required: true
+        - label: I understand that critical vulnerabilities should be reported privately to security@laburemos.com.ar
+          required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Security Category
+      description: What type of security issue is this?
+      options:
+        - Configuration Improvement
+        - Security Best Practice
+        - Dependencies Update
+        - Documentation Security
+        - Code Quality Security
+        - Infrastructure Security
+        - Other Non-Critical Issue
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which component is affected?
+      options:
+        - Frontend (Next.js)
+        - Backend (NestJS)
+        - Database Configuration
+        - Infrastructure (AWS)
+        - CI/CD Pipeline
+        - Documentation
+        - Dependencies
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Issue Description
+      description: Describe the security concern or improvement
+      placeholder: |
+        Provide a clear description of:
+        - What the security concern is
+        - Why it's a concern
+        - Potential impact (if any)
+    validations:
+      required: true
+
+  - type: textarea
+    id: recommendation
+    attributes:
+      label: Recommended Solution
+      description: What do you recommend to address this issue?
+      placeholder: |
+        Suggest specific actions such as:
+        - Configuration changes
+        - Code improvements
+        - Documentation updates
+        - Best practices to implement
+    validations:
+      required: true
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: Include any relevant links or documentation
+      placeholder: |
+        - Links to security best practices
+        - OWASP guidelines
+        - Documentation references
+        - Similar issues or solutions
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority Level
+      description: How urgent is this improvement?
+      options:
+        - Low (General improvement)
+        - Medium (Important best practice)
+        - High (Should be addressed soon)
+      default: 0
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful
+      placeholder: Additional details, context, or considerations...

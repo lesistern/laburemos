@@ -1,0 +1,5 @@
+# LABUREMOS Documentation Cross-References
+
+This file has been moved from the root directory to organize documentation.
+
+For the complete documentation mapping information, this file contains the detailed cross-reference documentation that was previously in the root directory.

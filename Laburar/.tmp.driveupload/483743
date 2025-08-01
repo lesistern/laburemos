@@ -1,0 +1,30 @@
+# Payment System Documentation
+
+This directory contains comprehensive documentation for LaburAR's payment processing system.
+
+## Contents
+
+- MercadoPago integration specifications
+- Escrow system implementation
+- Multi-payment gateway support
+- Dynamic fee calculation
+- Mass payout systems
+- Fraud prevention measures
+- Tax compliance features
+
+## Files Overview
+
+- `MERCADOPAGO.md` - Primary payment gateway integration for Argentina
+- `ESCROW-ENHANCED.md` - Enhanced escrow system specifications
+- `MULTI-PAYMENT-GATEWAY.md` - Multiple payment provider support (Stripe, PayPal, etc.)
+- `DYNAMIC-FEES.md` - Dynamic commission structure with tier-based rates
+- `MASS-PAYOUTS.md` - Bulk payment processing and batching systems
+- `tax-compliance.md` - Tax reporting and AFIP compliance features
+
+## Architecture
+
+The payment system uses a dual approach:
+- **Modern Stack**: NestJS + Stripe integration
+- **Legacy Stack**: PHP + MercadoPago integration
+
+See individual files for detailed specifications.

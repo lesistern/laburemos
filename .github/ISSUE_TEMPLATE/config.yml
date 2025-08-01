@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🚨 Critical Security Vulnerabilities
+    url: mailto:security@laburemos.com.ar
+    about: Report critical security vulnerabilities privately via email
+  - name: 💬 General Questions & Discussions  
+    url: https://github.com/yourusername/laburemos/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 📚 Documentation
+    url: https://github.com/yourusername/laburemos/wiki
+    about: Check our comprehensive documentation and guides
+  - name: 🌐 Live Platform
+    url: https://laburemos.com.ar
+    about: Visit the live Laburemos platform
+  - name: 📧 Direct Contact
+    url: mailto:contacto.laburemos@gmail.com
+    about: Contact the Laburemos team directly

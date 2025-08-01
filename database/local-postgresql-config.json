@@ -1,0 +1,47 @@
+{
+  "name": "LABUREMOS Local Development Database Configuration",
+  "description": "pgAdmin4 configuration for local PostgreSQL database development",
+  "database_configs": {
+    "local_development": {
+      "name": "LABUREMOS Local",
+      "host": "localhost",
+      "port": 5432,
+      "database": "laburemos",
+      "username": "postgres",
+      "password": "postgres",
+      "schema": "public",
+      "ssl_mode": "disable",
+      "maintenance_database": "postgres",
+      "connection_timeout": 10,
+      "command_timeout": 30
+    },
+    "aws_production": {
+      "name": "LABUREMOS AWS RDS",
+      "host": "laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com",
+      "port": 5432,
+      "database": "laburemos",
+      "username": "postgres",
+      "password": "REPLACE_WITH_ACTUAL_PASSWORD",
+      "schema": "public",
+      "ssl_mode": "require",
+      "maintenance_database": "postgres",
+      "connection_timeout": 30,
+      "command_timeout": 60
+    }
+  },
+  "pgadmin_connection_steps": [
+    "1. Open pgAdmin4",
+    "2. Right-click 'Servers' → Create → Server...",
+    "3. General Tab: Name = 'LABUREMOS Local'",
+    "4. Connection Tab: Fill in the local_development config above",
+    "5. Save and connect"
+  ],
+  "initial_setup_checklist": [
+    "✓ PostgreSQL service running (check with 'pg_ctl status')",
+    "✓ User 'postgres' exists with password 'postgres'",
+    "✓ Database 'laburemos' created",
+    "✓ pgAdmin4 can connect to localhost:5432",
+    "✓ Prisma schema updated to use PostgreSQL",
+    "✓ Backend .env configured for local PostgreSQL"
+  ]
+}

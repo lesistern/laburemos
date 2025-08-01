@@ -1,0 +1,179 @@
+name: ✨ Feature Request
+description: Suggest a new feature or enhancement for Laburemos
+title: "[Feature]: "
+labels: ["enhancement", "feature-request"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! 🚀
+        
+        Please search existing issues before creating a new one to avoid duplicates.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please check all applicable items
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have provided all required information below
+          required: true
+        - label: This feature would benefit multiple users
+          required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Which part of the application would this feature affect?
+      options:
+        - Frontend (User Interface)
+        - Backend (API/Services)
+        - Database
+        - Authentication
+        - Admin Panel
+        - Payment System
+        - Real-time Features
+        - Mobile App
+        - Performance
+        - Security
+        - Documentation
+        - DevOps/Infrastructure
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature?
+      options:
+        - High (Critical for business)
+        - Medium (Important improvement)
+        - Low (Nice to have)
+      default: 1
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem Description
+      description: What problem does this feature solve?
+      placeholder: |
+        Is your feature request related to a problem? Please describe.
+        A clear and concise description of what the problem is.
+        Ex. I'm always frustrated when [...]
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like
+      placeholder: |
+        A clear and concise description of what you want to happen.
+        Include details about:
+        - How it should work
+        - What it should look like
+        - How users would interact with it
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe alternatives you've considered
+      placeholder: |
+        A clear and concise description of any alternative solutions 
+        or features you've considered.
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Wireframes
+      description: If applicable, add mockups, wireframes, or screenshots
+      placeholder: Paste mockups or drag & drop files here...
+
+  - type: dropdown
+    id: user_type
+    attributes:
+      label: User Type
+      description: Who would primarily benefit from this feature?
+      options:
+        - Freelancers
+        - Clients
+        - Administrators
+        - All Users
+        - Developers
+      default: 3
+    validations:
+      required: true
+
+  - type: textarea
+    id: use_cases
+    attributes:
+      label: Use Cases
+      description: Provide specific use cases for this feature
+      placeholder: |
+        1. As a [user type], I want [feature] so that [benefit]
+        2. When [scenario], users should be able to [action]
+        3. [Additional use cases...]
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: impact
+    attributes:
+      label: Impact Areas
+      description: Which areas might this feature impact? (Check all that apply)
+      options:
+        - label: User Experience (UX)
+        - label: Performance
+        - label: Security
+        - label: Accessibility
+        - label: Mobile Experience
+        - label: SEO
+        - label: Analytics
+        - label: API Design
+        - label: Database Schema
+        - label: Third-party Integrations
+
+  - type: textarea
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Define what "done" looks like for this feature
+      placeholder: |
+        - [ ] Feature requirement 1
+        - [ ] Feature requirement 2
+        - [ ] Tests are written and passing
+        - [ ] Documentation is updated
+        - [ ] Feature is accessible
+        - [ ] Feature works on mobile devices
+
+  - type: textarea
+    id: technical_considerations
+    attributes:
+      label: Technical Considerations
+      description: Any technical requirements or constraints?
+      placeholder: |
+        - Database changes needed
+        - API changes required
+        - Third-party services involved
+        - Performance considerations
+        - Security implications
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples
+      placeholder: Any additional information that might be helpful...

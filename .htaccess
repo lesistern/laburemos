@@ -1,0 +1,20 @@
+# LaburAR - Configuration
+RewriteEngine On
+
+# Serve static assets directly from public folder
+RewriteRule ^public/(.*) public/$1 [L]
+
+# Handle root request
+RewriteRule ^$ public/ [L]
+
+# All other requests go to public/index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [L,QSA]
+
+# Security headers (simplified)
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

@@ -1,0 +1,1 @@
+Looking for main page file - likely app/page.tsx based on Next.js structure

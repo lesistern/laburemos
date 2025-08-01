@@ -1,0 +1,104 @@
+# PROJECT-INDEX.md - Master Project Index
+
+## LABUREMOS Project Overview
+
+LABUREMOS is a professional services platform connecting freelancers with clients, featuring a modern Next.js frontend and NestJS backend architecture.
+
+## Documentation Structure
+
+This project uses an organized documentation hierarchy to reduce root directory clutter while maintaining accessibility.
+
+### Core Documentation (Root Directory)
+Essential files for project navigation and quick reference:
+
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| **CLAUDE.md** | Main entry point and quick reference | Always start here |
+| **PROJECT-INDEX.md** | Master project index (this file) | First time setup |
+
+### Organized Documentation (`docs/` Directory)
+
+#### Development Documentation (`docs/development/`)
+Technical guides, architecture, and development patterns:
+
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| [CLAUDE-STACK.md](./docs/development/CLAUDE-STACK.md) | Technology stack details | Before development |
+| [CLAUDE-ARCHITECTURE.md](./docs/development/CLAUDE-ARCHITECTURE.md) | System architecture | Before coding |
+| [CLAUDE-DEVELOPMENT.md](./docs/development/CLAUDE-DEVELOPMENT.md) | Development patterns | During development |
+| [CLAUDE-RULES.md](./docs/development/CLAUDE-RULES.md) | Critical requirements | Always reference |
+
+#### Session Documentation (`docs/sessions/`)
+Development history and implementation tracking:
+
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| [CLAUDE-SESSIONS.md](./docs/sessions/CLAUDE-SESSIONS.md) | Development session history | For project history |
+| [CLAUDE-IMPLEMENTATION.md](./docs/sessions/CLAUDE-IMPLEMENTATION.md) | Implementation status tracking | For current progress |
+
+#### Archive Documentation (`docs/archive/`)
+Historical and reference documentation:
+
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| [DOCUMENTATION-MAP.md](./docs/archive/DOCUMENTATION-MAP.md) | Cross-references and navigation | For documentation references |
+
+#### API Documentation (`docs/api/`)
+Service documentation and API guides:
+- API reference documentation
+- Service integration guides
+- Third-party service documentation
+
+#### Deployment Documentation (`docs/deployment/`)
+Infrastructure and deployment guides:
+- Deployment procedures
+- Infrastructure configuration
+- Production setup guides
+
+## Project Status
+
+### Current State: Production Ready
+- **Frontend**: Next.js 15.4.4 (PRIMARY STACK) - 47 files
+- **Backend**: NestJS microservices (PRIMARY STACK)
+- **Database**: PostgreSQL (primary), MySQL (legacy support)
+- **Features**: OpenMoji emoji system, predictive search, optimized categories
+
+### Architecture Overview
+- **Modern Stack**: Next.js + NestJS + PostgreSQL + Redis
+- **Legacy Stack**: PHP + MySQL (backward compatibility)
+- **DevOps**: Docker + GitHub Actions + CI/CD
+
+### Service URLs
+| Service | URL | Status |
+|---------|-----|--------|
+| Next.js Frontend | http://localhost:3000 | PRIMARY |
+| NestJS Backend | http://localhost:3001/docs | PRIMARY |
+| Legacy PHP | http://localhost/Laburar | LEGACY |
+
+## Quick Navigation
+
+### For New Developers
+1. Start with [CLAUDE.md](./CLAUDE.md) for overview
+2. Review [docs/development/CLAUDE-STACK.md](./docs/development/CLAUDE-STACK.md) for technology details
+3. Check [docs/development/CLAUDE-ARCHITECTURE.md](./docs/development/CLAUDE-ARCHITECTURE.md) for system design
+4. Follow [docs/development/CLAUDE-DEVELOPMENT.md](./docs/development/CLAUDE-DEVELOPMENT.md) for patterns
+
+### For Project Management
+1. Check [docs/sessions/CLAUDE-IMPLEMENTATION.md](./docs/sessions/CLAUDE-IMPLEMENTATION.md) for current status
+2. Review [docs/sessions/CLAUDE-SESSIONS.md](./docs/sessions/CLAUDE-SESSIONS.md) for development history
+3. Reference [docs/development/CLAUDE-RULES.md](./docs/development/CLAUDE-RULES.md) for requirements
+
+### For Deployment
+1. Review [docs/deployment/](./docs/deployment/) for infrastructure guides
+2. Check [docs/development/CLAUDE-STACK.md](./docs/development/CLAUDE-STACK.md) for environment setup
+3. Follow modern stack setup procedures in [CLAUDE.md](./CLAUDE.md)
+
+## Documentation Philosophy
+
+- **Core files in root**: Essential navigation and quick reference
+- **Organized structure**: Logical categorization in `docs/` directory
+- **Maintained accessibility**: All documentation remains easily accessible
+- **Reduced clutter**: Non-essential files organized into appropriate categories
+- **Cross-references**: Updated links maintain navigation functionality
+
+For the complete quick reference guide, see [CLAUDE.md](./CLAUDE.md).

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/notifications.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/Laburar/" class="brand-link">
+                    <span class="brand-name">Labur<span class="brand-ar">AR</span></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/Laburar/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/Laburar/projects.html" class="nav-link">Mis Proyectos</a>
+                <a href="/Laburar/payments.html" class="nav-link">Pagos</a>
+                <a href="/Laburar/reviews.html" class="nav-link">Reviews</a>
+                <a href="/Laburar/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/Laburar/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/Laburar/notifications.html" class="user-menu-item">
+                            <i class="fas fa-bell"></i>
+                            Notificaciones
+                        </a>
+                        <a href="/Laburar/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="notifications-container" id="notificationsContainer">
+        <!-- Header -->
+        <header class="notifications-header">
+            <h1>Centro de Notificaciones</h1>
+            <p class="subtitle">Mantenete al día con todas las actualizaciones de tus proyectos</p>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="notificationLoadingIndicator" class="notification-loading" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            Cargando notificaciones...
+        </div>
+
+        <!-- Notification Summary -->
+        <div class="notifications-summary" id="notificationSummary">
+            <div class="summary-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalNotifications">0</div>
+                    <div class="stat-label">Total</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="unreadNotifications">0</div>
+                    <div class="stat-label">Sin leer</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="urgentNotifications">0</div>
+                    <div class="stat-label">Urgentes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="btn-primary" id="markAllReadBtn">
+                <i class="fas fa-check-double"></i>
+                Marcar todas como leídas
+            </button>
+            <button class="btn-secondary" id="refreshNotificationsBtn">
+                <i class="fas fa-sync-alt"></i>
+                Actualizar
+            </button>
+            <button class="btn-secondary" id="notificationPreferencesBtn">
+                <i class="fas fa-cog"></i>
+                Preferencias
+            </button>
+        </div>
+
+        <!-- Notification Filters -->
+        <div class="notifications-filters">
+            <div class="filters-header">
+                <h3>Filtrar Notificaciones</h3>
+            </div>
+            <div class="filters-row">
+                <select class="filter-select" id="statusFilter">
+                    <option value="all">Todas las notificaciones</option>
+                    <option value="unread">Sin leer</option>
+                    <option value="read">Leídas</option>
+                </select>
+                
+                <select class="filter-select" id="priorityFilter">
+                    <option value="all">Todas las prioridades</option>
+                    <option value="urgent">Urgentes</option>
+                    <option value="high">Alta prioridad</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Baja prioridad</option>
+                </select>
+                
+                <select class="filter-select" id="categoryFilter">
+                    <option value="all">Todas las categorías</option>
+                    <option value="project">Proyectos</option>
+                    <option value="payment">Pagos</option>
+                    <option value="review">Reviews</option>
+                    <option value="message">Mensajes</option>
+                    <option value="system">Sistema</option>
+                </select>
+                
+                <div class="filter-chips">
+                    <span class="filter-chip active" data-filter="all">Todas</span>
+                    <span class="filter-chip" data-filter="today">Hoy</span>
+                    <span class="filter-chip" data-filter="week">Esta semana</span>
+                    <span class="filter-chip" data-filter="month">Este mes</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notifications List -->
+        <div class="notifications-list" id="notificationsList">
+            <!-- Notifications will be loaded here -->
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+            <button class="btn-secondary" id="loadMoreBtn">
+                <i class="fas fa-chevron-down"></i>
+                Cargar más notificaciones
+            </button>
+        </div>
+    </main>
+
+    <!-- Notification Preferences Modal -->
+    <div class="modal" id="preferencesModal">
+        <div class="modal-backdrop" onclick="closePreferencesModal()"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Preferencias de Notificaciones</h3>
+                <button class="modal-close" onclick="closePreferencesModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="preferences-section">
+                    <div id="preferencesContent">
+                        <!-- Preferences will be loaded here -->
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closePreferencesModal()">Cancelar</button>
+                        <button type="button" class="btn-primary" id="savePreferencesBtn">
+                            <i class="fas fa-save"></i>
+                            Guardar Preferencias
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/notifications.js"></script>
+    
+    <script>
+        // Page-specific notification manager
+        class NotificationPageManager {
+            constructor() {
+                this.currentNotifications = [];
+                this.currentFilters = {
+                    status: 'all',
+                    priority: 'all',
+                    category: 'all',
+                    timeframe: 'all'
+                };
+                this.currentPage = 0;
+                this.pageSize = 20;
+                this.hasMore = true;
+                
+                this.init();
+            }
+            
+            async init() {
+                this.setupEventListeners();
+                await this.loadNotifications();
+                await this.loadSummary();
+            }
+            
+            setupEventListeners() {
+                // Filter changes
+                document.addEventListener('change', (e) => {
+                    if (e.target.matches('.filter-select')) {
+                        this.handleFilterChange(e.target);
+                    }
+                });
+                
+                document.addEventListener('click', (e) => {
+                    if (e.target.matches('.filter-chip')) {
+                        this.handleChipFilter(e.target);
+                    }
+                });
+                
+                // Action buttons
+                document.addEventListener('click', (e) => {
+                    if (e.target.matches('#markAllReadBtn')) {
+                        this.markAllAsRead();
+                    }
+                    
+                    if (e.target.matches('#refreshNotificationsBtn')) {
+                        this.refreshNotifications();
+                    }
+                    
+                    if (e.target.matches('#notificationPreferencesBtn')) {
+                        this.showPreferences();
+                    }
+                    
+                    if (e.target.matches('#loadMoreBtn')) {
+                        this.loadMoreNotifications();
+                    }
+                    
+                    if (e.target.matches('#savePreferencesBtn')) {
+                        this.savePreferences();
+                    }
+                });
+                
+                // Notification actions
+                document.addEventListener('click', (e) => {
+                    if (e.target.matches('.btn-mark-read')) {
+                        const notificationId = e.target.dataset.notificationId;
+                        this.markAsRead([notificationId]);
+                    }
+                    
+                    if (e.target.matches('.btn-dismiss')) {
+                        const notificationId = e.target.dataset.notificationId;
+                        this.dismissNotification(notificationId);
+                    }
+                });
+            }
+            
+            async loadNotifications(reset = true) {
+                try {
+                    this.showLoading(true);
+                    
+                    if (reset) {
+                        this.currentPage = 0;
+                        this.currentNotifications = [];
+                    }
+                    
+                    const params = new URLSearchParams({
+                        action: 'list',
+                        limit: this.pageSize,
+                        offset: this.currentPage * this.pageSize,
+                        ...this.buildFilterParams()
+                    });
+                    
+                    const response = await fetch(`/Laburar/api/NotificationController.php?${params}`, {
+                        headers: {
+                            'Authorization': `Bearer ${this.getAuthToken()}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        if (reset) {
+                            this.currentNotifications = data.data.notifications;
+                        } else {
+                            this.currentNotifications.push(...data.data.notifications);
+                        }
+                        
+                        this.hasMore = data.data.pagination.has_more;
+                        this.renderNotifications();
+                        this.updateLoadMoreButton();
+                    } else {
+                        throw new Error(data.error);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading notifications:', error);
+                    this.showError('Error al cargar las notificaciones');
+                } finally {
+                    this.showLoading(false);
+                }
+            }
+            
+            async loadSummary() {
+                try {
+                    const response = await fetch('/Laburar/api/NotificationController.php?action=summary', {
+                        headers: {
+                            'Authorization': `Bearer ${this.getAuthToken()}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.updateSummary(data.data.summary);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading summary:', error);
+                }
+            }
+            
+            buildFilterParams() {
+                const params = {};
+                
+                if (this.currentFilters.status !== 'all') {
+                    params.unread_only = this.currentFilters.status === 'unread';
+                }
+                
+                if (this.currentFilters.priority !== 'all') {
+                    params.priority = this.currentFilters.priority;
+                }
+                
+                // Additional filter logic can be added here
+                
+                return params;
+            }
+            
+            renderNotifications() {
+                const container = document.getElementById('notificationsList');
+                if (!container) return;
+                
+                if (this.currentNotifications.length === 0) {
+                    container.innerHTML = `
+                        <div class="notification-empty">
+                            <i class="fas fa-bell-slash"></i>
+                            <h3>No hay notificaciones</h3>
+                            <p>No se encontraron notificaciones que coincidan con los filtros seleccionados</p>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                container.innerHTML = this.currentNotifications
+                    .map(notification => this.renderNotificationItem(notification))
+                    .join('');
+            }
+            
+            renderNotificationItem(notification) {
+                const isUnread = !notification.read_at;
+                const iconClass = notification.icon || 'fas fa-bell';
+                const priorityClass = notification.priority === 'urgent' ? 'urgent' : 
+                                    notification.priority === 'high' ? 'high' : '';
+                
+                return `
+                    <div class="notification-item-full ${isUnread ? 'unread' : ''} ${priorityClass}" 
+                         data-notification-id="${notification.id}">
+                        <div class="notification-icon">
+                            <i class="${iconClass}" style="color: ${notification.color || '#0078D4'}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <div class="notification-title">${this.escapeHtml(notification.title)}</div>
+                            <div class="notification-body">${this.escapeHtml(notification.body)}</div>
+                            <div class="notification-meta">
+                                <span class="notification-time">${notification.formatted_created_at}</span>
+                                ${notification.category ? `<span class="notification-category">${notification.category}</span>` : ''}
+                                ${notification.priority !== 'normal' ? `<span class="notification-priority ${notification.priority}">${notification.priority}</span>` : ''}
+                            </div>
+                            ${isUnread ? `
+                                <div class="notification-actions">
+                                    <button class="btn-mark-read" data-notification-id="${notification.id}">
+                                        <i class="fas fa-check"></i>
+                                        Marcar como leída
+                                    </button>
+                                    <button class="btn-dismiss" data-notification-id="${notification.id}">
+                                        <i class="fas fa-times"></i>
+                                        Descartar
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${isUnread ? '<div class="notification-unread-dot"></div>' : ''}
+                    </div>
+                `;
+            }
+            
+            updateSummary(summary) {
+                document.getElementById('totalNotifications').textContent = summary.total || 0;
+                document.getElementById('unreadNotifications').textContent = summary.unread || 0;
+                document.getElementById('urgentNotifications').textContent = summary.urgent_unread || 0;
+            }
+            
+            handleFilterChange(select) {
+                const filterType = select.id.replace('Filter', '');
+                this.currentFilters[filterType] = select.value;
+                this.loadNotifications(true);
+            }
+            
+            handleChipFilter(chip) {
+                // Remove active from all chips
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                
+                this.currentFilters.timeframe = chip.dataset.filter;
+                this.loadNotifications(true);
+            }
+            
+            async markAllAsRead() {
+                try {
+                    const response = await fetch('/Laburar/api/NotificationController.php?action=mark-all-read', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${this.getAuthToken()}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.showSuccess('Todas las notificaciones marcadas como leídas');
+                        await this.refreshNotifications();
+                    } else {
+                        throw new Error(data.error);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error marking all as read:', error);
+                    this.showError('Error al marcar notificaciones como leídas');
+                }
+            }
+            
+            async refreshNotifications() {
+                await Promise.all([
+                    this.loadNotifications(true),
+                    this.loadSummary()
+                ]);
+                this.showSuccess('Notificaciones actualizadas');
+            }
+            
+            async loadMoreNotifications() {
+                this.currentPage++;
+                await this.loadNotifications(false);
+            }
+            
+            updateLoadMoreButton() {
+                const container = document.getElementById('loadMoreContainer');
+                if (container) {
+                    container.style.display = this.hasMore ? 'block' : 'none';
+                }
+            }
+            
+            // Utility methods
+            getAuthToken() {
+                return localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+            }
+            
+            escapeHtml(text) {
+                const map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, m => map[m]);
+            }
+            
+            showLoading(show) {
+                const loader = document.getElementById('notificationLoadingIndicator');
+                if (loader) {
+                    loader.style.display = show ? 'flex' : 'none';
+                }
+            }
+            
+            showSuccess(message) {
+                if (window.notificationManager) {
+                    window.notificationManager.showToast(message, 'success');
+                }
+            }
+            
+            showError(message) {
+                if (window.notificationManager) {
+                    window.notificationManager.showToast(message, 'error');
+                }
+            }
+        }
+        
+        // Page initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Setup navigation
+            setupNavigation();
+            setupUserMenu();
+            
+            // Initialize page manager
+            window.notificationPageManager = new NotificationPageManager();
+        });
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function closePreferencesModal() {
+            document.getElementById('preferencesModal').classList.remove('show');
+            document.body.style.overflow = '';
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/Laburar/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

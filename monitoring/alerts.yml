@@ -1,0 +1,361 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'LABUREMOS Production Monitoring and Alerting Stack'
+
+Parameters:
+  Environment:
+    Type: String
+    Default: production
+    AllowedValues: [production, staging]
+    Description: Environment name
+  
+  NotificationEmail:
+    Type: String
+    Default: alerts@laburemos.com.ar
+    Description: Email for critical alerts
+  
+  SlackWebhookUrl:
+    Type: String
+    Default: ""
+    Description: Slack webhook URL for notifications (optional)
+    NoEcho: true
+
+Resources:
+  # SNS Topics for Notifications
+  CriticalAlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub 'laburemos-${Environment}-critical-alerts'
+      DisplayName: 'LABUREMOS Critical Alerts'
+      
+  WarningAlertsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: !Sub 'laburemos-${Environment}-warning-alerts' 
+      DisplayName: 'LABUREMOS Warning Alerts'
+
+  # Email Subscriptions
+  CriticalEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      TopicArn: !Ref CriticalAlertsTopic
+      Endpoint: !Ref NotificationEmail
+
+  WarningEmailSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Protocol: email
+      TopicArn: !Ref WarningAlertsTopic
+      Endpoint: !Ref NotificationEmail
+
+  # CloudFront Alarms
+  CloudFrontHighErrorRateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-cloudfront-high-error-rate'
+      AlarmDescription: 'CloudFront 4xx/5xx error rate is too high'
+      MetricName: 4xxErrorRate
+      Namespace: AWS/CloudFront
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 5.0
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: DistributionId
+          Value: E1E1QZ7YLALIAZ
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+      OKActions:
+        - !Ref CriticalAlertsTopic
+
+  CloudFrontOriginLatencyAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-cloudfront-high-latency'
+      AlarmDescription: 'CloudFront origin latency is too high'
+      MetricName: OriginLatency
+      Namespace: AWS/CloudFront
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 10000
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: DistributionId
+          Value: E1E1QZ7YLALIAZ
+      AlarmActions:
+        - !Ref WarningAlertsTopic
+
+  # EC2 Alarms
+  EC2HighCPUAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-ec2-high-cpu'
+      AlarmDescription: 'EC2 CPU utilization is too high'
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 80.0
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: InstanceId
+          Value: i-0123456789abcdef0  # Replace with actual instance ID
+      AlarmActions:
+        - !Ref WarningAlertsTopic
+      OKActions:
+        - !Ref WarningAlertsTopic
+
+  EC2StatusCheckAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-ec2-status-check-failed'
+      AlarmDescription: 'EC2 instance status check failed'
+      MetricName: StatusCheckFailed
+      Namespace: AWS/EC2
+      Statistic: Maximum
+      Period: 300
+      EvaluationPeriods: 1
+      Threshold: 0
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: InstanceId
+          Value: i-0123456789abcdef0  # Replace with actual instance ID
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+      OKActions:
+        - !Ref CriticalAlertsTopic
+
+  # RDS Alarms
+  RDSHighCPUAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-rds-high-cpu'
+      AlarmDescription: 'RDS CPU utilization is too high'
+      MetricName: CPUUtilization
+      Namespace: AWS/RDS
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 75.0
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: DBInstanceIdentifier
+          Value: laburemos-db
+      AlarmActions:
+        - !Ref WarningAlertsTopic
+
+  RDSLowFreeMemoryAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-rds-low-memory'
+      AlarmDescription: 'RDS free memory is too low'
+      MetricName: FreeableMemory
+      Namespace: AWS/RDS
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 200000000  # 200MB in bytes
+      ComparisonOperator: LessThanThreshold
+      Dimensions:
+        - Name: DBInstanceIdentifier
+          Value: laburemos-db
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+
+  RDSHighDatabaseConnectionsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-rds-high-connections'
+      AlarmDescription: 'RDS database connections are too high'
+      MetricName: DatabaseConnections
+      Namespace: AWS/RDS
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 50
+      ComparisonOperator: GreaterThanThreshold
+      Dimensions:
+        - Name: DBInstanceIdentifier
+          Value: laburemos-db
+      AlarmActions:
+        - !Ref WarningAlertsTopic
+
+  RDSLowFreeStorageAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-rds-low-storage'
+      AlarmDescription: 'RDS free storage space is too low'
+      MetricName: FreeStorageSpace
+      Namespace: AWS/RDS
+      Statistic: Average
+      Period: 3600  # Check every hour
+      EvaluationPeriods: 1
+      Threshold: 2000000000  # 2GB in bytes
+      ComparisonOperator: LessThanThreshold
+      Dimensions:
+        - Name: DBInstanceIdentifier
+          Value: laburemos-db
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+
+  # Custom Application Alarms (require custom metrics)
+  ApplicationErrorRateAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-app-high-error-rate'
+      AlarmDescription: 'Application error rate is too high'
+      MetricName: APIErrorRate
+      Namespace: LABUREMOS/Custom
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 2
+      Threshold: 5.0
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+      TreatMissingData: notBreaching
+
+  ApplicationResponseTimeAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-app-slow-response'
+      AlarmDescription: 'Application response time is too slow'
+      MetricName: APIResponseTime
+      Namespace: LABUREMOS/Custom
+      Statistic: Average
+      Period: 300
+      EvaluationPeriods: 3
+      Threshold: 2000  # 2 seconds in milliseconds
+      ComparisonOperator: GreaterThanThreshold
+      AlarmActions:
+        - !Ref WarningAlertsTopic
+      TreatMissingData: notBreaching
+
+  # Composite Alarms
+  SystemHealthCompositeAlarm:
+    Type: AWS::CloudWatch::CompositeAlarm
+    Properties:
+      AlarmName: !Sub 'laburemos-${Environment}-system-health'
+      AlarmDescription: 'Overall system health composite alarm'
+      AlarmRule: !Sub |
+        ALARM("${EC2StatusCheckAlarm}") OR 
+        ALARM("${RDSLowFreeMemoryAlarm}") OR 
+        ALARM("${CloudFrontHighErrorRateAlarm}") OR
+        ALARM("${ApplicationErrorRateAlarm}")
+      AlarmActions:
+        - !Ref CriticalAlertsTopic
+      OKActions:
+        - !Ref CriticalAlertsTopic
+
+  # Lambda Function for Slack Notifications (if webhook provided)
+  SlackNotificationFunction:
+    Type: AWS::Lambda::Function
+    Condition: HasSlackWebhook
+    Properties:
+      FunctionName: !Sub 'laburemos-${Environment}-slack-notifier'
+      Runtime: python3.9
+      Handler: index.lambda_handler
+      Role: !GetAtt SlackNotificationRole.Arn
+      Environment:
+        Variables:
+          SLACK_WEBHOOK_URL: !Ref SlackWebhookUrl
+      Code:
+        ZipFile: |
+          import json
+          import urllib3
+          import os
+          
+          def lambda_handler(event, context):
+              webhook_url = os.environ['SLACK_WEBHOOK_URL']
+              if not webhook_url:
+                  return {'statusCode': 200, 'body': 'No webhook configured'}
+              
+              # Parse SNS message
+              message = json.loads(event['Records'][0]['Sns']['Message'])
+              alarm_name = message['AlarmName']
+              new_state = message['NewStateValue']
+              reason = message['NewStateReason']
+              
+              # Determine color based on state
+              color = 'danger' if new_state == 'ALARM' else 'good'
+              emoji = '🚨' if new_state == 'ALARM' else '✅'
+              
+              # Create Slack message
+              slack_message = {
+                  'text': f'{emoji} LABUREMOS Alert: {alarm_name}',
+                  'attachments': [{
+                      'color': color,
+                      'fields': [
+                          {'title': 'Alarm', 'value': alarm_name, 'short': True},
+                          {'title': 'State', 'value': new_state, 'short': True},
+                          {'title': 'Reason', 'value': reason, 'short': False}
+                      ]
+                  }]
+              }
+              
+              # Send to Slack
+              http = urllib3.PoolManager()
+              response = http.request(
+                  'POST',
+                  webhook_url,
+                  body=json.dumps(slack_message),
+                  headers={'Content-Type': 'application/json'}
+              )
+              
+              return {'statusCode': 200, 'body': 'Notification sent'}
+
+  SlackNotificationRole:
+    Type: AWS::IAM::Role
+    Condition: HasSlackWebhook
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+  SlackNotificationSubscription:
+    Type: AWS::SNS::Subscription
+    Condition: HasSlackWebhook
+    Properties:
+      Protocol: lambda
+      TopicArn: !Ref CriticalAlertsTopic
+      Endpoint: !GetAtt SlackNotificationFunction.Arn
+
+  SlackNotificationPermission:
+    Type: AWS::Lambda::Permission
+    Condition: HasSlackWebhook
+    Properties:
+      FunctionName: !Ref SlackNotificationFunction
+      Action: lambda:InvokeFunction
+      Principal: sns.amazonaws.com
+      SourceArn: !Ref CriticalAlertsTopic
+
+Conditions:
+  HasSlackWebhook: !Not [!Equals [!Ref SlackWebhookUrl, ""]]
+
+Outputs:
+  CriticalAlertsTopicArn:
+    Description: 'ARN of the critical alerts SNS topic'
+    Value: !Ref CriticalAlertsTopic
+    Export:
+      Name: !Sub '${AWS::StackName}-critical-alerts-topic'
+  
+  WarningAlertsTopicArn:
+    Description: 'ARN of the warning alerts SNS topic'
+    Value: !Ref WarningAlertsTopic
+    Export:
+      Name: !Sub '${AWS::StackName}-warning-alerts-topic'
+      
+  SystemHealthAlarmArn:
+    Description: 'ARN of the system health composite alarm'
+    Value: !GetAtt SystemHealthCompositeAlarm.Arn
+    Export:
+      Name: !Sub '${AWS::StackName}-system-health-alarm'

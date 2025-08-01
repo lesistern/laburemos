@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolios Profesionales - LaburAR</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #6FBFEF 0%, #87CEEB 25%, #ffffff 60%, #f0f8fc 100%);
+            min-height: 100vh;
+            font-family: var(--font-family);
+        }
+        
+        .page-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+        
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 8px rgba(111, 191, 239, 0.1);
+        }
+        
+        .page-subtitle {
+            font-size: 1.25rem;
+            color: #475569;
+            max-width: 600px;
+            margin: 0 auto 32px;
+            line-height: 1.6;
+        }
+        
+        .page-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--color-primary-blue);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="page-header">
+        <div class="container">
+            <h1 class="page-title">🎨 Portfolios Profesionales</h1>
+            <p class="page-subtitle">
+                Descubre el trabajo excepcional de nuestros diseñadores argentinos. 
+                Cada portfolio cuenta una historia de creatividad e innovación.
+            </p>
+            <div class="page-stats">
+                <div class="stat-item">
+                    <span class="stat-number">240+</span>
+                    <span class="stat-label">Portfolios</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">98%</span>
+                    <span class="stat-label">Satisfacción</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">15min</span>
+                    <span class="stat-label">Resp. Promedio</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Grid de portfolios con glassmorphism -->
+        <div class="figma-portfolio-grid" id="portfoliosGrid">
+            <!-- Portfolio Card 1 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="1">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=240&fit=crop&crop=center" alt="Portfolio Diseño UX E-commerce" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">Rediseño UX E-commerce</h3>
+                        <span class="portfolio-category badge-glass">UI/UX</span>
+                    </div>
+                    <p class="portfolio-description">Rediseño completo de experiencia de usuario para plataforma de e-commerce argentina. Se mejoró la conversión en un 45% y se redujo la tasa de abandono del carrito en un 60%.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b66bb11f?w=40&h=40&fit=crop&crop=face" alt="María González" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">María González</span>
+                                <span class="designer-level">UX Designer Pro</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                245
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                89
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $45.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Portfolio Card 2 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="2">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=400&h=240&fit=crop&crop=center" alt="Identidad Visual Startup" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">Identidad Visual Startup</h3>
+                        <span class="portfolio-category badge-glass">Branding</span>
+                    </div>
+                    <p class="portfolio-description">Desarrollo completo de identidad visual para startup fintech argentina. Incluye logo, paleta de colores, tipografía y guidelines de marca.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face" alt="Carlos Ruiz" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">Carlos Ruiz</span>
+                                <span class="designer-level">Brand Designer</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                189
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                67
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $32.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Portfolio Card 3 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="3">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=400&h=240&fit=crop&crop=center" alt="App Móvil Salud" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">App Móvil Salud</h3>
+                        <span class="portfolio-category badge-glass">Mobile UI</span>
+                    </div>
+                    <p class="portfolio-description">Diseño de aplicación móvil para telemedicina con enfoque en accesibilidad y usabilidad para adultos mayores en Argentina.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=40&h=40&fit=crop&crop=face" alt="Ana Martínez" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">Ana Martínez</span>
+                                <span class="designer-level">Mobile Designer</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                312
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                124
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $58.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Portfolio Card 4 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="4">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=240&fit=crop&crop=center" alt="Dashboard Analytics" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">Dashboard Analytics</h3>
+                        <span class="portfolio-category badge-glass">Data Viz</span>
+                    </div>
+                    <p class="portfolio-description">Dashboard completo de analytics para empresa de logística con visualización de datos en tiempo real y KPIs operativos.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" alt="Diego López" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">Diego López</span>
+                                <span class="designer-level">Data Designer</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                278
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                95
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $67.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Portfolio Card 5 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="5">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1547658719-da2b51169166?w=400&h=240&fit=crop&crop=center" alt="Website Inmobiliaria" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">Website Inmobiliaria</h3>
+                        <span class="portfolio-category badge-glass">Web Design</span>
+                    </div>
+                    <p class="portfolio-description">Rediseño completo de sitio web para inmobiliaria premium con búsqueda avanzada y tour virtual 360° de propiedades.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=40&h=40&fit=crop&crop=face" alt="Lucía Torres" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">Lucía Torres</span>
+                                <span class="designer-level">Web Designer Pro</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                198
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                73
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $54.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Portfolio Card 6 -->
+            <article class="figma-portfolio-card glass-element" data-portfolio-id="6">
+                <div class="portfolio-image-container">
+                    <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=400&h=240&fit=crop&crop=center" alt="Packaging Orgánico" class="portfolio-image">
+                    <div class="portfolio-overlay">
+                        <button class="preview-btn glass-light" aria-label="Vista previa">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button class="favorite-btn glass-light" aria-label="Agregar a favoritos">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="portfolio-content">
+                    <div class="portfolio-header">
+                        <h3 class="portfolio-title">Packaging Orgánico</h3>
+                        <span class="portfolio-category badge-glass">Packaging</span>
+                    </div>
+                    <p class="portfolio-description">Sistema de packaging sustentable para línea de productos orgánicos argentinos con identidad premium y eco-friendly.</p>
+                    <div class="portfolio-meta">
+                        <div class="designer-info">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=40&h=40&fit=crop&crop=face" alt="Martín Silva" class="designer-avatar">
+                            <div class="designer-details">
+                                <span class="designer-name">Martín Silva</span>
+                                <span class="designer-level">Package Designer</span>
+                            </div>
+                        </div>
+                        <div class="portfolio-stats">
+                            <span class="stat-item">
+                                <i class="fas fa-eye stat-icon"></i>
+                                156
+                            </span>
+                            <span class="stat-item">
+                                <i class="fas fa-heart stat-icon"></i>
+                                52
+                            </span>
+                        </div>
+                    </div>
+                    <div class="portfolio-footer">
+                        <span class="portfolio-price">Desde $38.000</span>
+                        <button class="btn-contact glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar
+                        </button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <!-- Preview Modal Glassmorphism -->
+    <div class="figma-preview-overlay glass-element" id="figmaPreviewModal" style="display: none;">
+        <div class="figma-preview-modal">
+            <button class="figma-preview-close" aria-label="Cerrar preview">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <header class="figma-preview-header">
+                <div class="preview-title-section">
+                    <h2 class="preview-title">Rediseño UX E-commerce</h2>
+                    <div class="preview-tags">
+                        <span class="tag-glass">UI/UX</span>
+                        <span class="tag-glass">E-commerce</span>
+                        <span class="tag-glass">Mobile</span>
+                    </div>
+                </div>
+                <div class="preview-actions">
+                    <button class="action-btn glass-light" title="Agregar a favoritos">
+                        <i class="far fa-heart"></i>
+                    </button>
+                    <button class="action-btn glass-light" title="Compartir">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    <button class="action-btn glass-light" title="Fullscreen">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </header>
+            
+            <div class="figma-preview-content">
+                <div class="preview-gallery">
+                    <div class="main-preview">
+                        <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=800&h=500&fit=crop&crop=center" alt="Vista principal" class="preview-main-image">
+                    </div>
+                    <div class="preview-thumbnails">
+                        <button class="thumbnail-btn active">
+                            <img src="https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=80&h=60&fit=crop&crop=center" alt="Vista 1">
+                        </button>
+                        <button class="thumbnail-btn">
+                            <img src="https://images.unsplash.com/photo-1559028006-448665bd7c7f?w=80&h=60&fit=crop&crop=center" alt="Vista 2">
+                        </button>
+                        <button class="thumbnail-btn">
+                            <img src="https://images.unsplash.com/photo-1517180102446-f3ece451e9d8?w=80&h=60&fit=crop&crop=center" alt="Vista 3">
+                        </button>
+                        <button class="thumbnail-btn">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=80&h=60&fit=crop&crop=center" alt="Vista 4">
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="preview-details">
+                    <div class="designer-profile glass-light">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b66bb11f?w=60&h=60&fit=crop&crop=face" alt="María González" class="designer-preview-avatar">
+                        <div class="designer-preview-info">
+                            <h3 class="designer-preview-name">María González</h3>
+                            <p class="designer-preview-title">Senior UX Designer</p>
+                            <div class="designer-preview-rating">
+                                <div class="stars">★★★★★</div>
+                                <span class="rating-text">4.9 (127 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-description">
+                        <h4>Descripción del Proyecto</h4>
+                        <p>Rediseño completo de la experiencia de usuario para una plataforma de e-commerce argentina. Se mejoró la conversión en un 45% y se redujo la tasa de abandono del carrito en un 60%. El proyecto incluye investigación de usuarios, wireframing, prototipado y testing de usabilidad.</p>
+                    </div>
+                    
+                    <div class="project-details-grid">
+                        <div class="detail-item">
+                            <span class="detail-label">Duración</span>
+                            <span class="detail-value">4 semanas</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Herramientas</span>
+                            <span class="detail-value">Figma, Adobe XD</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Plataformas</span>
+                            <span class="detail-value">Web, Mobile</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Precio desde</span>
+                            <span class="detail-value price">$45.000</span>
+                        </div>
+                    </div>
+                    
+                    <div class="preview-footer">
+                        <button class="btn-contact-large glass-base">
+                            <i class="fas fa-message"></i>
+                            Contactar Diseñador
+                        </button>
+                        <button class="btn-quote glass-base">
+                            <i class="fas fa-calculator"></i>
+                            Solicitar Cotización
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Basic interaction setup
+        document.addEventListener('DOMContentLoaded', function() {
+            // Intersection observer for scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.classList.add('animate-in');
+                        }, index * 100);
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '50px'
+            });
+            
+            document.querySelectorAll('.figma-portfolio-card').forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Favorite button functionality
+            document.querySelectorAll('.favorite-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    btn.classList.toggle('active');
+                    const icon = btn.querySelector('i');
+                    if (btn.classList.contains('active')) {
+                        icon.className = 'fas fa-heart';
+                    } else {
+                        icon.className = 'far fa-heart';
+                    }
+                });
+            });
+            
+            // Figma Preview Modal Functionality
+            class FigmaPreviewModal {
+                constructor() {
+                    this.modal = document.getElementById('figmaPreviewModal');
+                    this.closeBtn = this.modal?.querySelector('.figma-preview-close');
+                    this.thumbnails = this.modal?.querySelectorAll('.thumbnail-btn');
+                    this.mainImage = this.modal?.querySelector('.preview-main-image');
+                    this.portfolioCards = document.querySelectorAll('.figma-portfolio-card');
+                    
+                    this.init();
+                }
+                
+                init() {
+                    this.bindEvents();
+                }
+                
+                bindEvents() {
+                    // Open modal from portfolio cards
+                    this.portfolioCards.forEach(card => {
+                        const previewBtn = card.querySelector('.preview-btn');
+                        previewBtn?.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.openModal(card.dataset.portfolioId);
+                        });
+                    });
+                    
+                    // Close modal
+                    this.closeBtn?.addEventListener('click', () => this.closeModal());
+                    this.modal?.addEventListener('click', (e) => {
+                        if (e.target === this.modal) this.closeModal();
+                    });
+                    
+                    // Thumbnail navigation
+                    this.thumbnails?.forEach(thumb => {
+                        thumb.addEventListener('click', () => this.switchImage(thumb));
+                    });
+                    
+                    // Keyboard navigation
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && this.modal.classList.contains('show')) {
+                            this.closeModal();
+                        }
+                    });
+
+                    // Action buttons in modal
+                    const favoriteModalBtn = this.modal?.querySelector('.action-btn[title="Agregar a favoritos"]');
+                    favoriteModalBtn?.addEventListener('click', () => this.toggleFavorite());
+                    
+                    const shareBtn = this.modal?.querySelector('.action-btn[title="Compartir"]');
+                    shareBtn?.addEventListener('click', () => this.sharePortfolio());
+                    
+                    const fullscreenBtn = this.modal?.querySelector('.action-btn[title="Fullscreen"]');
+                    fullscreenBtn?.addEventListener('click', () => this.toggleFullscreen());
+                    
+                    // Contact and quote buttons
+                    const contactBtn = this.modal?.querySelector('.btn-contact-large');
+                    contactBtn?.addEventListener('click', () => this.contactDesigner());
+                    
+                    const quoteBtn = this.modal?.querySelector('.btn-quote');
+                    quoteBtn?.addEventListener('click', () => this.requestQuote());
+                }
+                
+                openModal(portfolioId) {
+                    // Load portfolio data
+                    this.loadPortfolioData(portfolioId);
+                    
+                    // Show modal with animation
+                    this.modal.style.display = 'flex';
+                    setTimeout(() => {
+                        this.modal.classList.add('show');
+                    }, 10);
+                    
+                    // Prevent body scroll
+                    document.body.style.overflow = 'hidden';
+                }
+                
+                closeModal() {
+                    this.modal.classList.remove('show');
+                    setTimeout(() => {
+                        this.modal.style.display = 'none';
+                    }, 300);
+                    
+                    // Restore body scroll
+                    document.body.style.overflow = '';
+                }
+                
+                switchImage(thumbnail) {
+                    // Remove active class from all thumbnails
+                    this.thumbnails.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked thumbnail
+                    thumbnail.classList.add('active');
+                    
+                    // Switch main image with fade effect
+                    this.mainImage.style.opacity = '0.7';
+                    setTimeout(() => {
+                        const newSrc = thumbnail.querySelector('img').src.replace(/w=80&h=60/, 'w=800&h=500');
+                        this.mainImage.src = newSrc;
+                        this.mainImage.style.opacity = '1';
+                    }, 150);
+                }
+                
+                toggleFavorite() {
+                    const favoriteBtn = this.modal?.querySelector('.action-btn[title="Agregar a favoritos"] i');
+                    if (favoriteBtn) {
+                        if (favoriteBtn.classList.contains('far')) {
+                            favoriteBtn.className = 'fas fa-heart';
+                            favoriteBtn.parentElement.style.color = '#ef4444';
+                        } else {
+                            favoriteBtn.className = 'far fa-heart';
+                            favoriteBtn.parentElement.style.color = '#475569';
+                        }
+                    }
+                }
+                
+                sharePortfolio() {
+                    if (navigator.share) {
+                        navigator.share({
+                            title: 'Portfolio - LaburAR',
+                            text: 'Mira este increíble portfolio en LaburAR',
+                            url: window.location.href
+                        });
+                    } else {
+                        // Fallback: copy to clipboard
+                        navigator.clipboard.writeText(window.location.href).then(() => {
+                            alert('¡Enlace copiado al portapapeles!');
+                        });
+                    }
+                }
+                
+                toggleFullscreen() {
+                    const mainPreview = this.modal?.querySelector('.main-preview');
+                    if (mainPreview) {
+                        if (document.fullscreenElement) {
+                            document.exitFullscreen();
+                        } else {
+                            mainPreview.requestFullscreen();
+                        }
+                    }
+                }
+                
+                contactDesigner() {
+                    // Simulate contact action
+                    alert('Funcionalidad de contacto será implementada próximamente');
+                }
+                
+                requestQuote() {
+                    // Simulate quote request
+                    alert('Funcionalidad de cotización será implementada próximamente');
+                }
+                
+                loadPortfolioData(portfolioId) {
+                    // Update modal content based on portfolio ID
+                    const card = document.querySelector(`[data-portfolio-id="${portfolioId}"]`);
+                    if (card) {
+                        const title = card.querySelector('.portfolio-title').textContent;
+                        const category = card.querySelector('.portfolio-category').textContent;
+                        const description = card.querySelector('.portfolio-description').textContent;
+                        const price = card.querySelector('.portfolio-price').textContent;
+                        const designer = card.querySelector('.designer-name').textContent;
+                        const level = card.querySelector('.designer-level').textContent;
+                        
+                        // Update modal content
+                        this.modal.querySelector('.preview-title').textContent = title;
+                        this.modal.querySelector('.project-description p').textContent = description;
+                        this.modal.querySelector('.detail-value.price').textContent = price;
+                        this.modal.querySelector('.designer-preview-name').textContent = designer;
+                        this.modal.querySelector('.designer-preview-title').textContent = level;
+                        
+                        // Update tags
+                        const tagsContainer = this.modal.querySelector('.preview-tags');
+                        tagsContainer.innerHTML = `<span class="tag-glass">${category}</span>`;
+                    }
+                }
+            }
+            
+            // Initialize modal
+            const figmaModal = new FigmaPreviewModal();
+            
+            // Contact button interactions
+            document.querySelectorAll('.btn-contact').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    btn.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        btn.style.transform = '';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

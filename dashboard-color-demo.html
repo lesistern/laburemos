@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LaburAR Dashboard - Demo de Paleta Optimizada</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="./public/assets/css/dashboard-colors.css" rel="stylesheet">
+    <link href="./public/assets/css/dashboard-components.css" rel="stylesheet">
+    <style>
+        /* Demo específico */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dashboard-container);
+        }
+        
+        .demo-section {
+            margin-bottom: 3rem;
+        }
+        
+        .color-swatch {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 4px;
+            border: 2px solid var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+        
+        .color-item {
+            text-align: center;
+        }
+        
+        .color-label {
+            font-size: 0.75rem;
+            color: var(--gray-600);
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <div class="container-fluid">
+            <div class="row">
+                <!-- Sidebar Demo -->
+                <div class="col-md-3 col-lg-2 p-0">
+                    <div class="sidebar sidebar-glass min-vh-100">
+                        <div class="p-4">
+                            <h5 class="text-center mb-4" style="color: var(--primary-700); font-weight: 700;">
+                                <i class="fas fa-briefcase me-2"></i>LaburAR
+                            </h5>
+                            
+                            <nav class="nav flex-column">
+                                <a href="#" class="sidebar-nav-item active">
+                                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                                </a>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-projects-diagram me-2"></i>Proyectos
+                                </a>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-users me-2"></i>Clientes
+                                </a>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-chart-line me-2"></i>Métricas
+                                </a>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-wallet me-2"></i>Finanzas
+                                </a>
+                                <a href="#" class="sidebar-nav-item">
+                                    <i class="fas fa-cog me-2"></i>Configuración
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="col-md-9 col-lg-10">
+                    <!-- Header Demo -->
+                    <header class="dashboard-header mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h1 class="header-title mb-1">Dashboard Freelancer</h1>
+                                <p class="header-subtitle mb-0">Bienvenido de vuelta, María González</p>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <button class="btn-primary-ar">
+                                    <i class="fas fa-plus me-2"></i>Nuevo Proyecto
+                                </button>
+                                <img src="https://ui-avatars.com/api/?name=Maria+Gonzalez&background=6FBFEF&color=fff" 
+                                     alt="Avatar" class="avatar-ar avatar-premium">
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="px-4">
+                        <!-- Métricas Demo -->
+                        <section class="demo-section">
+                            <h2 class="mb-4" style="color: var(--gray-800);">Métricas del Mes</h2>
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <div class="metric-card">
+                                        <span class="metric-value">$24,580</span>
+                                        <div class="metric-label">Ingresos Totales</div>
+                                        <div class="metric-change metric-positive">
+                                            <i class="fas fa-arrow-up me-1"></i>+12.5%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="metric-card">
+                                        <span class="metric-value">47</span>
+                                        <div class="metric-label">Proyectos Activos</div>
+                                        <div class="metric-change metric-positive">
+                                            <i class="fas fa-arrow-up me-1"></i>+8.2%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="metric-card">
+                                        <span class="metric-value">4.9</span>
+                                        <div class="metric-label">Rating Promedio</div>
+                                        <div class="metric-change metric-neutral">
+                                            <i class="fas fa-minus me-1"></i>0.0%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <div class="metric-card">
+                                        <span class="metric-value">156</span>
+                                        <div class="metric-label">Clientes Satisfechos</div>
+                                        <div class="metric-change metric-positive">
+                                            <i class="fas fa-arrow-up me-1"></i>+15.3%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- Cards Demo -->
+                        <section class="demo-section">
+                            <h2 class="mb-4" style="color: var(--gray-800);">Componentes Dashboard</h2>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="dashboard-card dashboard-card-glass">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="card-icon fas fa-chart-line"></i>
+                                                Proyectos Recientes
+                                            </h3>
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table-ar">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Cliente</th>
+                                                        <th>Proyecto</th>
+                                                        <th>Estado</th>
+                                                        <th>Valor</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>TechCorp</td>
+                                                        <td>Desarrollo Web</td>
+                                                        <td><span class="badge-success">Activo</span></td>
+                                                        <td>$2,400</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>StartupXYZ</td>
+                                                        <td>Diseño UI/UX</td>
+                                                        <td><span class="badge-warning">En Revisión</span></td>
+                                                        <td>$1,800</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>E-commerce Plus</td>
+                                                        <td>Marketing Digital</td>
+                                                        <td><span class="badge-primary">Completado</span></td>
+                                                        <td>$3,200</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6 mb-4">
+                                    <div class="dashboard-card">
+                                        <div class="card-header">
+                                            <h3 class="card-title">
+                                                <i class="card-icon fas fa-star text-warning"></i>
+                                                Servicios Premium
+                                            </h3>
+                                        </div>
+                                        <div class="d-grid gap-2">
+                                            <button class="btn-gold-ar">
+                                                <i class="fas fa-crown me-2"></i>Upgrade a Premium
+                                            </button>
+                                            <button class="btn-secondary-ar">
+                                                <i class="fas fa-chart-bar me-2"></i>Ver Estadísticas
+                                            </button>
+                                            <button class="btn-primary-ar">
+                                                <i class="fas fa-plus me-2"></i>Crear Servicio
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- Paleta de Colores Demo -->
+                        <section class="demo-section">
+                            <h2 class="mb-4" style="color: var(--gray-800);">Paleta de Colores Optimizada</h2>
+                            
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Colores Primarios Argentinos</h3>
+                                </div>
+                                
+                                <div class="color-grid">
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--primary-50);"></div>
+                                        <div class="color-label">Primary 50</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--primary-200);"></div>
+                                        <div class="color-label">Primary 200</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--primary-500);"></div>
+                                        <div class="color-label">Primary 500</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--primary-700);"></div>
+                                        <div class="color-label">Primary 700</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--primary-900);"></div>
+                                        <div class="color-label">Primary 900</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--gold-400);"></div>
+                                        <div class="color-label">Gold 400</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--gold-500);"></div>
+                                        <div class="color-label">Gold 500</div>
+                                    </div>
+                                    <div class="color-item">
+                                        <div class="color-swatch" style="background: var(--gold-600);"></div>
+                                        <div class="color-label">Gold 600</div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="mt-4 mb-3" style="color: var(--gray-700);">Colores de Estado</h4>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="alert-success">
+                                            <i class="fas fa-check-circle me-2"></i>
+                                            <strong>Éxito:</strong> Proyecto completado exitosamente
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert-warning">
+                                            <i class="fas fa-exclamation-triangle me-2"></i>
+                                            <strong>Advertencia:</strong> Revisar documentación
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert-error">
+                                            <i class="fas fa-times-circle me-2"></i>
+                                            <strong>Error:</strong> Fallo en la validación
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="alert-info">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <strong>Info:</strong> Nueva función disponible
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- Progress Bars Demo -->
+                        <section class="demo-section">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="card-icon fas fa-tasks"></i>
+                                        Progreso de Proyectos
+                                    </h3>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span style="color: var(--gray-700); font-weight: 500;">Desarrollo Web - TechCorp</span>
+                                        <span style="color: var(--gray-600);">75%</span>
+                                    </div>
+                                    <div class="progress-ar">
+                                        <div class="progress-bar-ar" style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span style="color: var(--gray-700); font-weight: 500;">Marketing Digital - E-commerce</span>
+                                        <span style="color: var(--gray-600);">90%</span>
+                                    </div>
+                                    <div class="progress-ar">
+                                        <div class="progress-bar-success" style="width: 90%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span style="color: var(--gray-700); font-weight: 500;">Premium Upgrade - StartupXYZ</span>
+                                        <span style="color: var(--gray-600);">60%</span>
+                                    </div>
+                                    <div class="progress-ar">
+                                        <div class="progress-bar-gold" style="width: 60%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        
+                        <!-- Navegación de Pestañas Demo -->
+                        <section class="demo-section">
+                            <div class="dashboard-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        <i class="card-icon fas fa-chart-pie"></i>
+                                        Análisis Detallado
+                                    </h3>
+                                </div>
+                                
+                                <nav class="nav-tabs-ar">
+                                    <a href="#" class="nav-tab-ar active">Ingresos</a>
+                                    <a href="#" class="nav-tab-ar">Proyectos</a>
+                                    <a href="#" class="nav-tab-ar">Clientes</a>
+                                    <a href="#" class="nav-tab-ar">Performance</a>
+                                </nav>
+                                
+                                <div class="p-4">
+                                    <p style="color: var(--gray-600);">
+                                        Los ingresos han mostrado un crecimiento constante del 12.5% este mes, 
+                                        con una proyección positiva para el próximo trimestre.
+                                    </p>
+                                    
+                                    <div class="row mt-4">
+                                        <div class="col-md-4 text-center">
+                                            <div style="color: var(--success-600); font-size: 2rem; font-weight: 700;">
+                                                +$3,240
+                                            </div>
+                                            <div style="color: var(--gray-600); font-size: 0.875rem;">
+                                                Incremento mensual
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div style="color: var(--primary-600); font-size: 2rem; font-weight: 700;">
+                                                89%
+                                            </div>
+                                            <div style="color: var(--gray-600); font-size: 0.875rem;">
+                                                Satisfacción cliente
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 text-center">
+                                            <div style="color: var(--gold-600); font-size: 2rem; font-weight: 700;">
+                                                23
+                                            </div>
+                                            <div style="color: var(--gray-600); font-size: 0.875rem;">
+                                                Proyectos premium
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Demo de interactividad
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animación de entrada para las cards
+            const cards = document.querySelectorAll('.dashboard-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.classList.add('animate-slide-up');
+            });
+            
+            // Hover effects para métricas
+            const metricCards = document.querySelectorAll('.metric-card');
+            metricCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // Navegación de pestañas
+            const navTabs = document.querySelectorAll('.nav-tab-ar');
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remover active de todos
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Agregar active al clickeado
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

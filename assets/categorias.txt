@@ -1,0 +1,732 @@
+("*" es categoría madre, "-" es subcategoria, dentro de las subcategoria están todos los servicios) Usa la imagen Captura de pantalla 2025-07-22 004124.png como referencia. Algunos pueden que se repitan, esos deben redireccionar a la misma pagina
+
+* Tendencias (emoji fuego)
+- Publica tu libro
+Diseño de libros
+Edición de libros
+Marketing de libros y libros electrónicos
+Ilustraciones de libros infantiles
+Lector beta
+Convertir a libro electrónico
+Escritura de libros electrónicos
+
+- Crea tu sitio web
+E-commerce & Dropshipping
+Shopify
+WordPress
+Diseño web
+Marketing para e-commerce
+
+- Crea tu marca
+Estrategia de marca
+Guías de estilo para marcas
+Administración de redes sociales
+Diseños para medios sociales
+Videos UGC
+Anuncios y comerciales en video
+Redes sociales pagas
+
+- Encontrar un trabajo
+Redacción de currículums
+Diseño de currículums
+Buscar y aplicar
+Preparación para entrevistas
+Consultoría en carreras
+Perfiles de LinkedIn
+
+-Servicios de IA
+
+Sitios web y software con IA
+Aplicaciones móviles de IA
+Automatizaciones y agentes de IA
+Entrenamiento del modelo de datos
+Consultoría tecnológica con IA
+Optimización del motor generativo
+
+------
+
+* Artes graficas y diseño
+- Logo e identidad de marca
+Diseño de logos
+Guías de estilo para marcas
+Tarjetas de presentación y papelería
+Fuentes y tipografía
+Dirección de arte
+Herramienta Logo Maker
+
+- Arte e ilustraciones
+Ilustraciones
+Artistas de IA
+Diseño de avatar de IA
+Retratos y caricaturas
+Ilustraciones de cómics
+Ilustración de dibujos animados
+Storyboards
+Diseño de portada de álbumes
+Diseño de patrones
+Diseño de tatuajes
+
+- Varios
+Consejos de diseño
+
+- Diseño de aplicaciones y sitios web
+Diseño web
+Diseño de aplicaciones
+Diseño UX
+Diseño de landing page
+Diseño de íconos
+
+- Producto y gaming
+Diseño industrial y de productos
+Modelado de personajes
+Game art
+Artes gráficas para Streamers
+
+- Diseño de impresión
+Diseño de folletos
+Diseño de flyers
+Diseño de packaging y etiquetas
+Diseño de pósteres
+Diseño de catálogos
+Diseño de menús
+
+- Libros y eBooks
+Diseño de libros
+Portadas de libros
+Diseño y composición de libros
+Ilustraciones de libros infantiles
+Ilustración de cómics
+
+- Diseño visual
+Edición de imágenes
+Edición de imágenes con IA
+Diseño de presentaciones
+Diseño de currículums
+Diseño de infografías
+Vectorización
+
+- Diseño de marketing
+Diseños para redes sociales
+Diseño de correo electrónico
+Banners web
+Diseño de carteles
+Arquitectura y diseño de construcción
+Arquitectura y diseño de interiores
+Paisajismo
+Ingeniería de edificación
+Diseño de iluminación
+
+- Moda y merchandise
+Camisetas y artículos de promoción
+Diseño de moda
+Diseño de joyas
+
+- Diseño 3D
+Arquitectura 3D
+Diseño industrial en 3D
+Moda y prendas de vestir en 3D
+Personajes para impresión 3D
+Paisaje 3D
+Game art en 3D
+Diseño de joyas en 3D
+
+----
+* Programación y tecnol.
+- Desarrollo de sitios web
+Sitio web comercial
+Desarrollo de e-commerce
+Sitios web personalizados
+Landing pages
+Sitios web Dropshipping
+Plataformas de sitios web
+WordPress
+Shopify
+Wix
+Webflow
+Bubble
+Mantenimiento del sitio web
+Personalización del sitio web
+Corrección de errores
+Copia de seguridad y migración
+Optimización de velocidad
+
+- Idiomas y marcos
+Python
+React
+Java
+React Native
+Flutter
+
+- Desarrollo de IA
+Sitios web y software con IA
+Aplicaciones móviles de IA
+Integraciones de IA
+Automatizaciones y agentes de IA
+Perfeccionamiento de la IA
+Consultoría tecnológica con IA
+
+- VibeCode
+Desarrollo y MVP
+Solución de problemas y mejoras
+Implementaciones y DevOps
+
+- Desarrollo de aplicaciones móviles
+Desarrollo multiplataforma
+Desarrollo de aplicaciones para Android
+Desarrollo de aplicaciones para iOS
+Mantenimiento de aplicaciones móviles
+
+- Desarrollo de chatbots
+Chatbots de IA
+Chatbot basados en reglas
+
+- Desarrollo de videojuegos
+Unreal Engine
+Unity
+Roblox
+Fivem
+
+- Nube y ciberseguridad
+Cloud Computing
+DevOps Engineering
+Cybersecurity
+
+- Desarrollo de software
+Aplicaciones web
+Automatizaciones y flujos de trabajo
+API e integraciones
+Bases de datos
+QA y revisión
+Pruebas de usuario
+
+- Blockchain y criptomonedas
+Aplicaciones descentralizadas (dApps)
+Criptomonedas y tokens
+
+- Varios
+Ingeniería electrónica
+Support & IT
+Creación de modelos
+Etiquetado y anotación de datos
+Conversión de archivos
+
+--------
+* Marketing digital
+- Posicionamiento en buscadores
+Posicionamiento web (SEO)
+Optimización del motor generativoNuevo
+Marketing de motores de búsqueda (SEM)
+SEO local
+SEO para E-commerce
+SEO de video
+
+- Redes sociales
+Marketing para redes sociales
+Redes sociales pagas
+Comercio en redes sociales Nuevo
+Marketing de influencia
+Community management
+
+- Específico de canal
+TikTok Shop
+Campaña de Facebook Ads
+Marketing en instagram
+Google SEM
+marketing shopify
+
+- Métodos y técnicas
+Video marketing
+Marketing para e-commerce
+Email marketing
+Automatizaciones de correo electrónico
+Automatizaciones de marketing
+Publicación de invitados
+Marketing de afiliados
+Publicidad display
+Relaciones públicas
+Crowdfunding
+SMS Marketing
+
+- Escala tu marketing con IA
+Estrategia de prompts de IA para marketing
+Diseño de personalidad de marca
+Personalización de email marketing
+Gestión de campañas impulsada por IA
+Automatización y licitaciones de anuncios impulsadas por IA
+
+- Análisis y estrategia
+Estrategia de marketing
+Conceptos e ideas de marketing
+Optimización de la tasa de conversión (CRO)
+Branding y marketing responsables
+Web analytics
+Asesoramiento de marketing
+
+- Industria y fines específicos
+Promoción musical
+Marketing de pódcast
+Marketing de aplicaciones móviles
+Marketing de libros y libros electrónicos
+
+------------
+* Video y animación
+- Edición y postproducción
+Edición de video
+Efectos visuales
+VideoarteNuevo
+Videos de intros y outros
+Edición de plantillas de video
+Subtítulos y leyendas
+
+- Videos sociales y de marketing
+Anuncios y comerciales en video
+Videos en redes sociales
+Videos musicales
+Videos de diapositivas
+
+- Gráficos animados
+Animación de logos
+Lottie y Animación web
+Animación de textoNuevo
+
+- Videos de presentador
+Videos UGC Nuevo
+Videos de presentadores
+Anuncios UGC
+Videos de UGC para TikTok
+
+- Animación
+Animación de personajes
+GIF animados
+Animación para niños
+Animación para Streamers
+Montaje
+Animación de NFT
+
+- Producción cinematográfica
+Camarógrafos
+Producción cinematográfica
+
+- Videos explicativos
+Video explicativo animado
+Explicaciones con imágenes reales
+Screencasting
+Producción de video de eLearning
+Videos de crowdfunding
+
+- Videos de productos
+Animación de productos en 3D
+Videos de productos para e-commerce
+Videos corporativos
+Vistas previas de aplicaciones y sitios web
+
+- Video de IA
+Videoarte con IA
+Videos musicales de IA
+Avatares de video con IA
+
+- Varios
+Avatares virtuales y para Streaming
+De artículo a video
+Tráileres para videojuegos
+Grabaciones y guías para videojuegos
+Videos de meditación
+Promociones inmobiliarias
+Tráileres para libros
+Consejos para video
+Otros
+
+-----
+* Escritura y traducción
+- Redacción de contenido
+Artículos y blogs
+Estrategia de contenido
+Contenido para sitios web
+Redacción de guiones
+Escritura creativa
+Redacción de pódcast
+Redacción de discursos
+Investigación y resúmenes
+
+- Edición y crítica
+Corrección y edición de textos
+Apoyo académico
+Edición de contenido de IA
+Consejos de escritura
+
+- Libros y libros electrónicos
+Escritura de libros electrónicos
+Edición de libros
+Lector beta
+Traducción de libros y traducción literaria
+
+- Redacción profesional
+Redacción de currículums
+Cartas de presentación
+Perfiles de LinkedIn
+Descripciones de puestos de trabajo
+
+- Contenido para negocios y marketing
+Tono de voz de la marca
+Nombres comerciales y eslóganes
+Estudio de casos
+Descripciones de productos
+Texto del anuncio
+Texto para ventas
+Texto para correos electrónicos
+Redacción creativa en redes sociales
+Comunicados de prensa
+UX Writing
+Varios
+
+Desarrollo de contenido de eLearning
+Escritura técnica
+Escritura a mano
+
+- Traducción y transcripción
+Traducción
+Localización
+Transcripción
+Interpretación
+
+- Contenido específico de la industria
+Negocios, finanzas y derecho
+Salud y medicina
+Internet y tecnología
+Noticias y política
+Marketing
+Bienes Raíces
+
+-----
+
+* Música y audio
+- Producción y escritura musical
+Productores de música
+Compositores
+Cantantes y vocalistas
+Músicos de sesión
+Compositores de canciones
+Jingles e introducciones
+Canciones personalizadas
+
+- Ingeniería de audio y posproducción
+Mezcla y masterización
+Edición de audio
+Afinación vocal
+Voz en off y narración
+Entrega en 24 horas
+Voice over de mujer
+Voice over de hombre
+Voice over en inglés
+Voice over en portugués
+Voice over en otros idiomas
+
+- Streaming y audio
+Producción de pódcast
+Producción de audiolibros
+Producción de anuncios de audio
+Síntesis de voz e IA
+
+- DJ
+Drops y etiquetas de DJ
+Mezcla de DJ
+Remix
+
+- Diseño de sonido
+Diseño de sonido
+Música de meditación
+Audio Logo y Sonic Branding
+Parches y muestras personalizadas
+Desarrollo de complementos de audio
+
+- Lecciones y transcripciones
+Clases de música en línea
+Transcripción de música
+Consejos de música y audio
+
+------
+* Negocios
+
+- Constitución de empresas y consultoría
+Constitución y registro de empresas
+Estudio de mercado
+Planes de negocios
+Consultoría de negocios
+Consultoría en RR. HH.
+Consultoría de IA
+
+- Operaciones y gestión
+Asistente virtual
+Gestión de proyectos
+Gestión de software
+Gestión de comercio electrónico
+Gestión de la cadena de suministro
+Asesoramiento sobre aduanas y aranceles
+Gestión de eventos
+Gestión de producto
+Servicios jurídicos
+Gestión de propiedad intelectual
+Contratos y documentos legales
+investigación legal
+Asesoría legal general
+
+- Ventas y atención al cliente
+Ventas
+Gestión de experiencia del cliente (CXM)
+Generación de leads
+Ingeniería GTM
+Centro de atención telefónica y llamadas
+Atención al cliente
+Datos y Business Intelligence
+Visualización de datos
+Análisis de datos
+Extracción de datos
+
+- Varios
+Presentaciones
+Investigaciones online
+Consultoría sobre sostenibilidad
+Diseño del concepto del juego
+Otros
+
+----
+* Finanzas
+- Servicios de contabilidad
+Servicios de CFO fraccionados
+Informes financieros
+Auditoría de libros
+Gestión de nóminas
+
+- Finanzas corporativas
+Diligencia debida
+Valoración
+Asesoría en fusiones y adquisiciones
+Estrategia de finanzas corporativas
+
+- Consultoría fiscal
+Declaraciones de impuestos
+Servicios de identificación fiscal
+Planificación fiscal
+Cumplimiento tributario
+Exenciones fiscales
+
+- Planificación y análisis financiero
+Presupuesto y previsiones
+Modelos financieros
+Análisis de costos
+Análisis de acciones
+
+- Finanzas personales y gestión patrimonial
+Gestión de presupuesto personal
+Asesoría de inversiones
+Cursos en línea de Operaciones bursátiles
+Asesoría sobre jubilación
+Coaching financiero
+Asesoría en seguros
+
+- Recaudación de fondos
+Búsqueda de inversores
+Presentaciones de propuestas de financiamiento
+Consulta para recaudación de fondos
+
+- Banking
+Asesoría hipotecaria
+Asesoría de préstamos
+Asesoramiento sobre calificación crediticia
+Apertura de cuenta bancaria
+
+-----
+
+* Servicios de IA
+- Desarrollo de aplicaciones móviles con IA
+Aplicaciones móviles de IA
+Sitios web y software con IA
+Chatbots de IA
+Integraciones de IA
+Automatizaciones y agentes de IA
+Perfeccionamiento de la IA
+Consultoría tecnológica con IA
+
+- Datos
+Ciencia de datos y aprendizaje automático
+Análisis de datos
+Visualización de datos
+
+- Artistas de IA
+Diseño de avatar de IA
+Creación de flujos de trabajo ComfyUI
+Edición de imágenes con IA
+Artistas de Midjourney
+Artistas de Stable Diffusion
+Todos los Servicios de AI Art
+
+- IA para negocios
+Consultoría de IA
+Estrategia de IA
+Lecciones de IA
+
+- Video de IA
+Videos musicales de IA
+Videoarte con IA
+Avatares de video con IA
+
+- Audio con IA
+Síntesis de voz e IA
+Texto a voz
+
+- Contenido de IA
+Edición de contenido de IA
+Prompts de redacción personalizada
+
+----
+* Crecimiento personal
+- Superación personal
+Tutoría en línea
+Clases de idiomas
+Coaching de vida
+Orientación profesional
+Clases de IA generativa
+
+- Moda y estilo
+Modelaje y actuación
+Estilismo y belleza
+Previsión de tendencias
+
+- Bienestar y fitness
+Fitness
+Nutrición
+Bienestar
+Videojuegos
+Coaching de juegos
+Coaching para Marvel Rivals
+Estrategia y gestión de eSports
+Búsqueda de partidas
+Creaciones dentro del videojuego
+Experiencia en videojuegos y comentarios
+Grabaciones y guías para videojuegos
+
+- Ocio y pasatiempos
+Astrología y poderes psíquicos
+Manualidades
+Juegos de mesa
+Creación de videojuegos y rompecabezas
+Creación de cosplay
+Viajes
+Piezas de colección
+
+- Varios
+Familia y genealogía
+Formulación cosmética
+Tarjetas y videos de saludo
+Digitalización de bordado
+Otros
+
+-----
+* Consultoría
+
+- Consultores empresariales
+Consultoría jurídica
+Consultoría de negocios
+Consultoría en RR. HH.
+Consultoría de IA
+Planes de negocios
+Consultoría de e-commerce
+
+- Estrategia de marketing
+Estrategia de marketing
+Estrategia de contenido
+Estrategias de medio sociales
+Estrategia de influencers
+Consultoría de Video Marketing
+Estrategia de SEM
+Estrategia de relaciones públicas
+
+- Consultoría de datos
+Consultoría de Data Analytics
+Consultoría de bases de datos
+Consultoría de Visualización de datos
+
+- Coaching y asesoramiento
+Orientación profesional
+Coaching de vida
+Coaching de juegos
+Consejos de estilo y belleza
+Consejos de viaje
+Capacitación nutricionalNuevo
+Coaching de mindfulnessNuevo
+Viajes
+
+- Consultoría de tecnología
+Consultoría tecnológica con IANuevo
+Consultoría de sitios web
+Consultoría de aplicaciones móviles
+Consultoría de desarrollo de videojuegos
+Consultoría de desarrollo de software
+Consultoría en ciberseguridad
+
+- Tutoría
+Tutoría de marketing
+Tutoría de diseño
+Tutoría de redacción
+Tutoría por video
+Tutoría musical
+
+-----
+
+*Datos
+
+- Ciencia de datos y aprendizaje automático
+Aprendizaje automáticoNuevo
+Visión Artificial
+PLN
+Deep learning
+Modelos generativos
+Análisis de series temporales
+
+- Análisis y visualización de datos
+Análisis de datos
+Visualización de datos
+Etiquetado y anotación de datos
+Panel de datos
+
+- Recopilación de datos
+Entrada de datos
+Digitación de datos
+Extracción de datos
+Formato de datos
+Limpieza de datos
+Mejora de datos
+
+- Gestión de datos
+Procesamiento de datos
+Administración y protección de datos
+
+- Bases de datos e ingeniería
+Bases de datos
+Ingeniería de datos
+
+----- 
+*Fotografía
+- Productos y estilo de vida
+Fotógrafos de productos
+Fotógrafos de alimentos
+Fotógrafos de estilo de vida y de moda
+
+- Personas y escenas
+Fotógrafos de retratos
+Fotógrafos de eventos
+Fotógrafos de propiedades
+Fotógrafos escénicos
+Fotógrafos con drones
+
+- Fotógrafos locales
+Fotógrafos en Buenos Aires
+Fotógrafos en Córdoba
+Fotógrafos en Mendoza
+Fotógrafos en Misiones
+Todas las ciudades
+
+- Varios
+Clases de fotografía
+Creación de ajustes preestablecidos de fotografía
+Otro

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Verificar email en LaburAR - Activá tu cuenta de freelancer">
+    <meta name="keywords" content="verificar email, activar cuenta, freelancer, argentina">
+    <title>Verificar Email - LaburAR | Plataforma de Freelancers Argentina</title>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/Laburar/assets/img/favicon.ico">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Header -->
+            <div class="auth-header">
+                <div class="auth-logo">LaburAR</div>
+                <div class="auth-subtitle">Plataforma de Freelancers Argentina</div>
+                <h1 class="auth-title">Verificar Email</h1>
+            </div>
+            
+            <!-- Body -->
+            <div class="auth-body">
+                <!-- Loading State -->
+                <div id="verificationLoading" style="text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">⏳</div>
+                    <h3>Verificando tu email...</h3>
+                    <p>Por favor espera mientras verificamos tu cuenta.</p>
+                </div>
+                
+                <!-- Success State -->
+                <div id="verificationSuccess" style="display: none; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--success-green);">✅</div>
+                    <h3>¡Email verificado exitosamente!</h3>
+                    <p>Tu cuenta ha sido activada. Ya podés iniciar sesión y comenzar a usar LaburAR.</p>
+                    
+                    <div style="margin: 2rem 0;">
+                        <a href="/Laburar/login.html?verified=true" class="btn btn-primary btn-full">
+                            Iniciar sesión
+                        </a>
+                    </div>
+                    
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">
+                        <p>¡Bienvenido a LaburAR! Tu cuenta está lista para usar.</p>
+                    </div>
+                </div>
+                
+                <!-- Error State -->
+                <div id="verificationError" style="display: none; text-align: center;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem; color: var(--error-red);">❌</div>
+                    <h3>Error en la verificación</h3>
+                    <p id="errorMessage">El enlace de verificación es inválido o ha expirado.</p>
+                    
+                    <div style="margin: 2rem 0;">
+                        <button type="button" class="btn btn-primary btn-full" id="resendVerificationBtn">
+                            Reenviar email de verificación
+                        </button>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <a href="/Laburar/login.html" class="btn btn-secondary">
+                            Volver al login
+                        </a>
+                    </div>
+                    
+                    <div style="font-size: 0.875rem; color: var(--text-secondary); margin-top: 1.5rem;">
+                        <p>Si seguís teniendo problemas, <a href="/Laburar/contact" class="auth-link">contactanos</a></p>
+                    </div>
+                </div>
+                
+                <!-- Resend Form -->
+                <div id="resendForm" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 2rem;">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+                        <h3>Reenviar verificación</h3>
+                        <p>Ingresá tu email para recibir un nuevo enlace de verificación</p>
+                    </div>
+                    
+                    <form class="auth-form" id="resendVerificationForm">
+                        <div class="form-group">
+                            <label for="resend_email" class="form-label required">Email</label>
+                            <input 
+                                type="email" 
+                                id="resend_email" 
+                                name="email" 
+                                class="form-input" 
+                                placeholder="tu@email.com"
+                                required
+                                autocomplete="email"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-full">
+                            Reenviar verificación
+                        </button>
+                    </form>
+                    
+                    <div style="text-align: center; margin-top: 1.5rem;">
+                        <button type="button" class="btn btn-secondary" id="backToVerificationBtn">
+                            Volver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const token = urlParams.get('token');
+            
+            const loadingState = document.getElementById('verificationLoading');
+            const successState = document.getElementById('verificationSuccess');
+            const errorState = document.getElementById('verificationError');
+            const resendForm = document.getElementById('resendForm');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!token) {
+                showError('Token de verificación no encontrado en la URL');
+                return;
+            }
+            
+            try {
+                // Verify email with token
+                const response = await fetch('/Laburar/api/AuthController.php?action=verify-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ token: token })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showSuccess();
+                    
+                    // Track successful verification
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'email_verified', {
+                            'event_category': 'authentication',
+                            'event_label': 'email_verification_success'
+                        });
+                    }
+                } else {
+                    showError(result.error || 'Error desconocido en la verificación');
+                    
+                    // Track verification error
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'email_verification_failed', {
+                            'event_category': 'authentication',
+                            'event_label': result.error || 'unknown_error'
+                        });
+                    }
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                showError('Error de conexión. Por favor intentá de nuevo.');
+            }
+            
+            function showSuccess() {
+                loadingState.style.display = 'none';
+                errorState.style.display = 'none';
+                resendForm.style.display = 'none';
+                successState.style.display = 'block';
+            }
+            
+            function showError(message) {
+                loadingState.style.display = 'none';
+                successState.style.display = 'none';
+                resendForm.style.display = 'none';
+                errorMessage.textContent = message;
+                errorState.style.display = 'block';
+            }
+            
+            function showResendForm() {
+                loadingState.style.display = 'none';
+                successState.style.display = 'none';
+                errorState.style.display = 'none';
+                resendForm.style.display = 'block';
+            }
+            
+            function showErrorState() {
+                loadingState.style.display = 'none';
+                successState.style.display = 'none';
+                resendForm.style.display = 'none';
+                errorState.style.display = 'block';
+            }
+            
+            // Resend verification button
+            document.getElementById('resendVerificationBtn')?.addEventListener('click', function() {
+                showResendForm();
+            });
+            
+            // Back button
+            document.getElementById('backToVerificationBtn')?.addEventListener('click', function() {
+                showErrorState();
+            });
+            
+            // Resend form submission
+            document.getElementById('resendVerificationForm')?.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(e.target);
+                const email = formData.get('email');
+                
+                // Show loading on submit button
+                const submitBtn = e.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Enviando...';
+                submitBtn.disabled = true;
+                
+                try {
+                    const response = await fetch('/Laburar/api/AuthController.php?action=resend-verification', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: email })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Show success message
+                        window.authManager.showAlert('success', 'Email de verificación enviado. Revisá tu bandeja de entrada.');
+                        
+                        // Hide form and show success state
+                        setTimeout(() => {
+                            resendForm.style.display = 'none';
+                            const newSuccessDiv = document.createElement('div');
+                            newSuccessDiv.style.textAlign = 'center';
+                            newSuccessDiv.innerHTML = `
+                                <div style="font-size: 3rem; margin-bottom: 1rem;">📧</div>
+                                <h3>Email enviado</h3>
+                                <p>Te enviamos un nuevo enlace de verificación. Revisá tu email y hacé click en el enlace.</p>
+                                <div style="margin-top: 2rem;">
+                                    <a href="/Laburar/login.html" class="btn btn-secondary">Volver al login</a>
+                                </div>
+                            `;
+                            document.querySelector('.auth-body').appendChild(newSuccessDiv);
+                        }, 2000);
+                        
+                    } else {
+                        window.authManager.showAlert('error', result.error || 'Error al enviar el email');
+                    }
+                } catch (error) {
+                    console.error('Resend error:', error);
+                    window.authManager.showAlert('error', 'Error de conexión. Intentá de nuevo.');
+                } finally {
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        });
+    </script>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_TRACKING_ID');
+    </script>
+</body>
+</html>

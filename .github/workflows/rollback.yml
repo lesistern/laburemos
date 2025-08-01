@@ -1,0 +1,122 @@
+name: 🔄 Rollback Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to rollback'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+        - staging
+      version:
+        description: 'Version to rollback to (leave empty for previous version)'
+        required: false
+        type: string
+
+env:
+  NODE_VERSION: '18'
+
+jobs:
+  # ================================
+  # Rollback Deployment
+  # ================================
+  rollback:
+    name: 🔄 Rollback to Previous Version
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: ${{ inputs.environment }}
+      url: ${{ inputs.environment == 'production' && 'https://laburemos.com.ar' || 'https://staging.laburemos.com.ar' }}
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Full history for rollback
+      
+    - name: ⚙️ Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1
+    
+    - name: 🔍 Get rollback target
+      id: target
+      run: |
+        if [ -n "${{ inputs.version }}" ]; then
+          TARGET_VERSION="${{ inputs.version }}"
+        else
+          # Get the previous successful deployment
+          TARGET_VERSION=$(git log --oneline -n 10 --grep="Deploy.*${{ inputs.environment }}" | sed -n '2p' | cut -d' ' -f1)
+        fi
+        
+        if [ -z "$TARGET_VERSION" ]; then
+          echo "❌ Could not determine rollback target"
+          exit 1
+        fi
+        
+        echo "target=$TARGET_VERSION" >> $GITHUB_OUTPUT
+        echo "🎯 Rolling back to: $TARGET_VERSION"
+    
+    - name: 🔄 Perform rollback
+      run: |
+        echo "🔄 Starting rollback to ${{ steps.target.outputs.target }}"
+        
+        # Checkout the target version
+        git checkout ${{ steps.target.outputs.target }}
+        
+        # Execute rollback deployment
+        ./deploy.sh ${{ inputs.environment }} --rollback --version=${{ steps.target.outputs.target }}
+      env:
+        TARGET_VERSION: ${{ steps.target.outputs.target }}
+    
+    - name: ⏳ Wait for deployment
+      run: |
+        echo "⏳ Waiting for rollback to complete..."
+        sleep 180
+    
+    - name: 🔍 Health check after rollback
+      run: |
+        if [ "${{ inputs.environment }}" = "production" ]; then
+          FRONTEND_URL="https://laburemos.com.ar"
+          BACKEND_URL="http://3.81.56.168:3001"
+        else
+          FRONTEND_URL="https://staging.laburemos.com.ar"
+          BACKEND_URL="http://staging-api.laburemos.com.ar"
+        fi
+        
+        echo "🔍 Testing frontend health..."
+        curl -f "$FRONTEND_URL/health" || exit 1
+        
+        echo "🔍 Testing backend health..."
+        curl -f "$BACKEND_URL/health" || exit 1
+        
+        echo "✅ Health checks passed"
+    
+    - name: 📊 Update CloudFront cache
+      if: inputs.environment == 'production'
+      run: |
+        echo "📊 Invalidating CloudFront cache..."
+        aws cloudfront create-invalidation \
+          --distribution-id E1E1QZ7YLALIAZ \
+          --paths "/*"
+    
+    - name: 📊 Send rollback notification
+      if: always()
+      uses: 8398a7/action-slack@v3
+      with:
+        status: ${{ job.status }}
+        webhook_url: ${{ secrets.SLACK_WEBHOOK_URL }}
+        channel: '#deployments'
+        text: |
+          🔄 Rollback Status: ${{ job.status }}
+          🌍 Environment: ${{ inputs.environment }}
+          🎯 Target Version: ${{ steps.target.outputs.target }}
+          👤 Initiated by: ${{ github.actor }}
+          🔗 URL: ${{ inputs.environment == 'production' && 'https://laburemos.com.ar' || 'https://staging.laburemos.com.ar' }}
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Perfil profesional en LaburAR - Freelancer argentino">
+    <meta name="keywords" content="freelancer, perfil, portfolio, argentina, trabajos">
+    <title>Mi Perfil - LaburAR | Plataforma de Freelancers Argentina</title>
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/profile.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/Laburar/assets/img/favicon.ico">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Perfil - LaburAR">
+    <meta property="og:description" content="Perfil profesional en LaburAR - La plataforma de freelancers de Argentina">
+    <meta property="og:type" content="profile">
+    <meta property="og:url" content="https://laburar.com/profile">
+    <meta property="og:image" content="https://laburar.com/assets/img/og-profile.jpg">
+</head>
+<body class="profile-page">
+    <!-- Navigation (will be added when implementing main layout) -->
+    <nav class="main-nav" style="background: var(--primary-blue); color: white; padding: 1rem; position: sticky; top: 0; z-index: 100;">
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+            <a href="/Laburar/dashboard" style="color: white; text-decoration: none; font-weight: 600; font-size: 1.5rem;">LaburAR</a>
+            <div style="display: flex; gap: 1rem; align-items: center;">
+                <a href="/Laburar/dashboard" style="color: white; text-decoration: none;">Dashboard</a>
+                <a href="/Laburar/projects" style="color: white; text-decoration: none;">Projects</a>
+                <a href="/Laburar/messages" style="color: white; text-decoration: none;">Messages</a>
+                <button onclick="logout()" style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Profile Container -->
+    <div class="profile-container">
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+            <!-- Main Profile Card -->
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="/Laburar/assets/img/default-avatar.png" alt="Profile Avatar" class="avatar-image">
+                        <div class="profile-status online"></div>
+                        <input type="file" id="avatarUpload" accept="image/*" style="display: none;">
+                        <button class="avatar-upload owner-only" onclick="document.getElementById('avatarUpload').click()" title="Change Avatar">
+                            📷
+                        </button>
+                    </div>
+                    
+                    <h1 class="profile-name">Loading...</h1>
+                    <p class="profile-title">Loading...</p>
+                    
+                    <div class="profile-rating">
+                        <div class="rating-stars">
+                            <span class="rating-star">★</span>
+                            <span class="rating-star">★</span>
+                            <span class="rating-star">★</span>
+                            <span class="rating-star">★</span>
+                            <span class="rating-star empty">★</span>
+                        </div>
+                        <span class="rating-text">4.8 (120 reviews)</span>
+                    </div>
+                    
+                    <div class="profile-location">
+                        <span>📍</span>
+                        <span>Buenos Aires, Argentina</span>
+                    </div>
+                </div>
+                
+                <!-- Profile Stats -->
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value" data-stat="projects">0</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value" data-stat="success">100%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                </div>
+                
+                <!-- Profile Actions -->
+                <div class="profile-actions">
+                    <button class="btn-profile btn-primary-profile btn-edit-profile owner-only">
+                        ✏️ Edit Profile
+                    </button>
+                    <button class="btn-profile btn-primary-profile btn-contact visitor-only">
+                        💬 Contact
+                    </button>
+                    <button class="btn-profile btn-secondary-profile btn-hire visitor-only">
+                        💼 Hire Me
+                    </button>
+                    <button class="btn-profile btn-secondary-profile" onclick="window.print()">
+                        📄 Download CV
+                    </button>
+                </div>
+                
+                <!-- Skills Section -->
+                <div class="skills-section">
+                    <div class="skills-header">
+                        <h3 class="skills-title">Skills</h3>
+                        <button class="skills-edit owner-only">Edit</button>
+                    </div>
+                    <div class="skills-list">
+                        <!-- Skills will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Completeness (Owner Only) -->
+            <div class="profile-completeness owner-only">
+                <div class="completeness-header">
+                    <h3 class="completeness-title">Profile Completeness</h3>
+                    <span class="completeness-percentage">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <ul class="completeness-steps">
+                    <!-- Steps will be loaded dynamically -->
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="profile-main">
+            <!-- Profile Tabs -->
+            <div class="profile-tabs">
+                <div class="tab-nav">
+                    <button class="tab-button active" data-tab="about">About</button>
+                    <button class="tab-button" data-tab="portfolio">Portfolio</button>
+                    <button class="tab-button" data-tab="reviews">Reviews</button>
+                    <button class="tab-button" data-tab="activity">Activity</button>
+                </div>
+                
+                <!-- About Tab -->
+                <div class="tab-content">
+                    <div id="about" class="tab-pane active">
+                        <div class="about-section">
+                            <h2>About</h2>
+                            <p class="about-text">
+                                Loading profile information...
+                            </p>
+                            
+                            <div class="about-details">
+                                <!-- Details will be loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Portfolio Tab -->
+                    <div id="portfolio" class="tab-pane">
+                        <div class="portfolio-header">
+                            <h2 class="portfolio-title">Portfolio</h2>
+                            <button class="portfolio-add owner-only">
+                                ➕ Add Project
+                            </button>
+                        </div>
+                        
+                        <div class="portfolio-grid">
+                            <!-- Portfolio items will be loaded dynamically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews Tab -->
+                    <div id="reviews" class="tab-pane">
+                        <div class="reviews-summary">
+                            <div class="reviews-overall-rating">4.8</div>
+                            <div class="rating-stars">
+                                <span class="rating-star">★</span>
+                                <span class="rating-star">★</span>
+                                <span class="rating-star">★</span>
+                                <span class="rating-star">★</span>
+                                <span class="rating-star">★</span>
+                            </div>
+                            <p>Based on 120 reviews</p>
+                            
+                            <div class="reviews-breakdown">
+                                <div class="breakdown-item">
+                                    <div class="breakdown-label">Communication</div>
+                                    <div class="breakdown-value">4.9</div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-label">Quality</div>
+                                    <div class="breakdown-value">4.8</div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-label">Timeliness</div>
+                                    <div class="breakdown-value">4.7</div>
+                                </div>
+                                <div class="breakdown-item">
+                                    <div class="breakdown-label">Professionalism</div>
+                                    <div class="breakdown-value">4.9</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="reviews-list">
+                            <!-- Reviews will be loaded dynamically -->
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <img src="/Laburar/assets/img/client-avatar.png" alt="Client" class="review-avatar">
+                                    <div class="review-meta">
+                                        <div class="review-client">María González</div>
+                                        <div class="review-project">Website Development</div>
+                                    </div>
+                                    <div class="review-rating">
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                    </div>
+                                </div>
+                                <p class="review-text">
+                                    Excelente trabajo! Juan entregó exactamente lo que necesitaba y en el tiempo acordado. 
+                                    Su comunicación fue clara y profesional durante todo el proyecto. Definitivamente lo contrataría nuevamente.
+                                </p>
+                                <div class="review-footer">
+                                    <span>December 15, 2024</span>
+                                    <span>AR$ 15,000</span>
+                                </div>
+                            </div>
+                            
+                            <div class="review-item">
+                                <div class="review-header">
+                                    <img src="/Laburar/assets/img/client-avatar-2.png" alt="Client" class="review-avatar">
+                                    <div class="review-meta">
+                                        <div class="review-client">Carlos Mendoza</div>
+                                        <div class="review-project">Mobile App Design</div>
+                                    </div>
+                                    <div class="review-rating">
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star">★</span>
+                                        <span class="rating-star empty">★</span>
+                                    </div>
+                                </div>
+                                <p class="review-text">
+                                    Muy buen freelancer. El diseño de la app quedó increíble y sus sugerencias mejoraron 
+                                    mucho el proyecto original. Solo una pequeña demora en la entrega, pero la calidad compensó.
+                                </p>
+                                <div class="review-footer">
+                                    <span>November 28, 2024</span>
+                                    <span>AR$ 8,500</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Tab -->
+                    <div id="activity" class="tab-pane">
+                        <h2>Recent Activity</h2>
+                        <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                            <div style="font-size: 3rem; margin-bottom: 1rem;">📊</div>
+                            <h3>Activity tracking coming soon</h3>
+                            <p>We're working on detailed activity tracking to show your recent projects, achievements, and milestones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/profile.js"></script>
+    
+    <script>
+        // Simple logout function
+        function logout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('refresh_token');
+            window.location.href = '/Laburar/login.html';
+        }
+        
+        // Check authentication on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('access_token');
+            if (!token) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Initialize profile manager
+            // ProfileManager will be initialized automatically
+        });
+        
+        // Print-friendly styles
+        window.addEventListener('beforeprint', function() {
+            document.body.classList.add('printing');
+        });
+        
+        window.addEventListener('afterprint', function() {
+            document.body.classList.remove('printing');
+        });
+    </script>
+    
+    <!-- Print Styles -->
+    <style>
+        @media print {
+            .main-nav,
+            .profile-actions,
+            .owner-only,
+            .tab-nav,
+            .portfolio-add {
+                display: none !important;
+            }
+            
+            .profile-container {
+                grid-template-columns: 1fr;
+                max-width: none;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .profile-card,
+            .profile-tabs {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            
+            .tab-pane {
+                display: block !important;
+                page-break-inside: avoid;
+            }
+            
+            .tab-pane:not(.active) {
+                page-break-before: always;
+            }
+            
+            .portfolio-item {
+                page-break-inside: avoid;
+                margin-bottom: 1rem;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+    </style>
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_TRACKING_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_TRACKING_ID');
+        
+        // Track profile views
+        gtag('event', 'page_view', {
+            'page_title': 'Profile',
+            'page_location': window.location.href
+        });
+    </script>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Freelancer Profile",
+        "description": "Professional freelancer profile on LaburAR platform",
+        "url": "https://laburar.com/profile",
+        "workLocation": {
+            "@type": "Place",
+            "name": "Buenos Aires, Argentina"
+        },
+        "memberOf": {
+            "@type": "Organization",
+            "name": "LaburAR",
+            "url": "https://laburar.com"
+        }
+    }
+    </script>
+</body>
+</html>

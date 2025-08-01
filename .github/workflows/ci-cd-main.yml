@@ -1,0 +1,586 @@
+name: 🚀 LABUREMOS CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+        - staging
+        - production
+      skip_tests:
+        description: 'Skip tests'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  NODE_VERSION: '18'
+  AWS_REGION: 'us-east-1'
+  S3_BUCKET: 'laburemos-files-2025'
+  CLOUDFRONT_DISTRIBUTION_ID: 'E1E1QZ7YLALIAZ'
+  EC2_INSTANCE_IP: '3.81.56.168'
+
+jobs:
+  # ===========================================
+  # PHASE 1: CODE QUALITY & SECURITY
+  # ===========================================
+  
+  code-quality:
+    name: 📊 Code Quality Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: |
+          frontend/package-lock.json
+          backend/package-lock.json
+    
+    - name: 📦 Install Frontend Dependencies
+      run: |
+        cd frontend
+        npm ci
+    
+    - name: 📦 Install Backend Dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: 🔍 Frontend ESLint
+      run: |
+        cd frontend
+        npm run lint
+    
+    - name: 🔍 Backend ESLint
+      run: |
+        cd backend
+        npm run lint
+    
+    - name: 🔧 TypeScript Check Frontend
+      run: |
+        cd frontend
+        npm run type-check
+    
+    - name: 🔧 TypeScript Check Backend
+      run: |
+        cd backend
+        npm run build
+    
+    - name: 📊 SonarQube Quality Gate
+      uses: sonarqube-quality-gate-action@master
+      if: github.event_name != 'pull_request'
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  security-scan:
+    name: 🔒 Security Scanning
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🛡️ Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: javascript,typescript
+    
+    - name: 🔍 Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+    
+    - name: 🔒 Run npm audit (Frontend)
+      run: |
+        cd frontend
+        npm audit --audit-level high --production
+    
+    - name: 🔒 Run npm audit (Backend)  
+      run: |
+        cd backend
+        npm audit --audit-level high --production
+    
+    - name: 🛡️ OWASP Dependency Check
+      uses: dependency-check/Dependency-Check_Action@main
+      with:
+        project: 'LABUREMOS'
+        path: '.'
+        format: 'ALL'
+    
+    - name: 📊 Upload OWASP results
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-check-report
+        path: reports/
+
+  # ===========================================
+  # PHASE 2: TESTING
+  # ===========================================
+  
+  test-frontend:
+    name: 🧪 Frontend Tests
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+    
+    - name: 📦 Install dependencies
+      run: |
+        cd frontend
+        npm ci
+    
+    - name: 🏗️ Build Frontend
+      run: |
+        cd frontend
+        npm run build
+    
+    - name: 📊 Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/out/
+        retention-days: 7
+
+  test-backend:
+    name: 🧪 Backend Tests
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_DB: laburemos_test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      
+      redis:
+        image: redis:7
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+    
+    - name: 📦 Install dependencies
+      run: |
+        cd backend
+        npm ci
+    
+    - name: 🗄️ Setup test database
+      run: |
+        cd backend
+        npx prisma migrate deploy
+        npx prisma db seed
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/laburemos_test
+    
+    - name: 🧪 Run unit tests
+      run: |
+        cd backend
+        npm run test
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/laburemos_test
+        REDIS_URL: redis://localhost:6379
+    
+    - name: 🧪 Run e2e tests
+      run: |
+        cd backend
+        npm run test:e2e
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/laburemos_test
+        REDIS_URL: redis://localhost:6379
+    
+    - name: 🏗️ Build Backend
+      run: |
+        cd backend
+        npm run build
+    
+    - name: 📊 Upload test coverage
+      uses: codecov/codecov-action@v4
+      with:
+        file: ./backend/coverage/lcov.info
+        flags: backend
+        name: backend-coverage
+
+  test-e2e:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    if: github.event.inputs.skip_tests != 'true'
+    needs: [test-frontend, test-backend]
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: 📦 Install Playwright
+      run: |
+        cd e2e
+        npm ci
+        npx playwright install --with-deps
+    
+    - name: 📥 Download frontend build
+      uses: actions/download-artifact@v4
+      with:
+        name: frontend-build
+        path: frontend/out/
+    
+    - name: 🎭 Run Playwright tests
+      run: |
+        cd e2e
+        npx playwright test
+    
+    - name: 📊 Upload Playwright report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: e2e/playwright-report/
+        retention-days: 30
+
+  # ===========================================
+  # PHASE 3: DEPLOYMENT
+  # ===========================================
+  
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    needs: [code-quality, security-scan, test-frontend, test-backend, test-e2e]
+    environment: 
+      name: staging
+      url: https://staging.laburemos.com.ar
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🔑 Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: 🚀 Deploy to staging
+      run: |
+        chmod +x ./deploy.sh
+        ./deploy.sh staging
+      env:
+        ENVIRONMENT: staging
+    
+    - name: 🏥 Health check
+      run: |
+        sleep 30
+        curl -f https://staging.laburemos.com.ar || exit 1
+        curl -f http://${{ env.EC2_INSTANCE_IP }}:3001/health || exit 1
+    
+    - name: 📢 Notify deployment
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: ${{ job.status }}
+        text: 'Staging deployment completed'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  deploy-production:
+    name: 🌟 Deploy to Production
+    runs-on: ubuntu-latest
+    if: (github.ref == 'refs/heads/main' && github.event_name == 'push') || github.event.inputs.environment == 'production'
+    needs: [code-quality, security-scan, test-frontend, test-backend, test-e2e]
+    environment: 
+      name: production
+      url: https://laburemos.com.ar
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🔑 Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: 🚀 Deploy to production
+      run: |
+        chmod +x ./deploy.sh
+        ./deploy.sh production
+      env:
+        ENVIRONMENT: production
+    
+    - name: 🏥 Extended health check
+      run: |
+        # Wait for deployment to settle
+        sleep 60
+        
+        # Test main site
+        curl -f https://laburemos.com.ar || exit 1
+        curl -f https://www.laburemos.com.ar || exit 1
+        
+        # Test backend API
+        curl -f http://${{ env.EC2_INSTANCE_IP }}:3001/health || exit 1
+        
+        # Test critical endpoints
+        curl -f https://laburemos.com.ar/api/categories || exit 1
+    
+    - name: 🎯 Performance test
+      run: |
+        # Basic performance check
+        RESPONSE_TIME=$(curl -o /dev/null -s -w '%{time_total}' https://laburemos.com.ar)
+        echo "Response time: ${RESPONSE_TIME}s"
+        
+        # Fail if response time > 3 seconds
+        if (( $(echo "$RESPONSE_TIME > 3.0" | bc -l) )); then
+          echo "Performance test failed: Response time too high"
+          exit 1
+        fi
+    
+    - name: 📢 Notify successful deployment
+      uses: 8398a7/action-slack@v3
+      if: success()
+      with:
+        status: success
+        text: '🎉 Production deployment successful! https://laburemos.com.ar'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    
+    - name: 📢 Notify failed deployment
+      uses: 8398a7/action-slack@v3
+      if: failure()
+      with:
+        status: failure
+        text: '🚨 Production deployment failed! Check logs immediately.'
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  # ===========================================
+  # PHASE 4: POST-DEPLOYMENT
+  # ===========================================
+  
+  smoke-tests:
+    name: 💨 Smoke Tests
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && (needs.deploy-production.result == 'success')
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🟢 Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    
+    - name: 📦 Install Playwright
+      run: |
+        cd e2e
+        npm ci
+        npx playwright install --with-deps
+    
+    - name: 💨 Run production smoke tests
+      run: |
+        cd e2e
+        npx playwright test --config=playwright.production.config.js tests/smoke-tests.spec.js
+    
+    - name: 📊 Upload smoke test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: smoke-test-results
+        path: e2e/test-results/
+
+  lighthouse-audit:
+    name: 🌟 Lighthouse Performance Audit
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && (needs.deploy-production.result == 'success')
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🌟 Run Lighthouse CI
+      uses: treosh/lighthouse-ci-action@v10
+      with:
+        urls: |
+          https://laburemos.com.ar
+          https://laburemos.com.ar/categories
+          https://laburemos.com.ar/dashboard
+        configPath: '.lighthouserc.json'
+        uploadArtifacts: true
+        temporaryPublicStorage: true
+    
+    - name: 📊 Upload Lighthouse results
+      uses: actions/upload-artifact@v4
+      with:
+        name: lighthouse-results
+        path: '.lighthouseci'
+
+  # ===========================================
+  # PHASE 5: MONITORING & NOTIFICATIONS  
+  # ===========================================
+  
+  update-monitoring:
+    name: 📊 Update Monitoring
+    runs-on: ubuntu-latest
+    needs: [deploy-production]
+    if: always() && (needs.deploy-production.result == 'success')
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+    
+    - name: 🔑 Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+    
+    - name: 📊 Update CloudWatch Dashboard
+      run: |
+        aws cloudwatch put-dashboard \
+          --dashboard-name "LABUREMOS-Production" \
+          --dashboard-body file://monitoring/cloudwatch-dashboard.json
+    
+    - name: ⚠️ Update CloudWatch Alarms
+      run: |
+        aws cloudformation deploy \
+          --template-file monitoring/alerts.yml \
+          --stack-name laburemos-monitoring \
+          --parameter-overrides Environment=production \
+          --capabilities CAPABILITY_IAM
+
+  notify-completion:
+    name: 📢 Final Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-production, smoke-tests, lighthouse-audit]
+    if: always()
+    
+    steps:
+    - name: 📊 Calculate deployment metrics
+      id: metrics
+      run: |
+        echo "deployment_time=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> $GITHUB_OUTPUT
+        echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+        echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_OUTPUT
+    
+    - name: 📧 Send summary email
+      uses: dawidd6/action-send-mail@v3
+      with:
+        server_address: smtp.gmail.com
+        server_port: 587
+        username: ${{ secrets.EMAIL_USERNAME }}
+        password: ${{ secrets.EMAIL_PASSWORD }}
+        subject: "LABUREMOS Deployment Summary - ${{ steps.metrics.outputs.deployment_time }}"
+        to: ${{ secrets.NOTIFICATION_EMAIL }}
+        from: LABUREMOS CI/CD <noreply@laburemos.com.ar>
+        html_body: |
+          <h2>🚀 LABUREMOS Deployment Complete</h2>
+          <p><strong>Environment:</strong> Production</p>
+          <p><strong>Status:</strong> ${{ needs.deploy-production.result == 'success' && '✅ Success' || '❌ Failed' }}</p>
+          <p><strong>URL:</strong> <a href="https://laburemos.com.ar">https://laburemos.com.ar</a></p>
+          <p><strong>Commit:</strong> ${{ steps.metrics.outputs.commit_sha }}</p>
+          <p><strong>Time:</strong> ${{ steps.metrics.outputs.deployment_time }}</p>
+          <hr>
+          <p><strong>Test Results:</strong></p>
+          <ul>
+            <li>Smoke Tests: ${{ needs.smoke-tests.result == 'success' && '✅' || '❌' }}</li>
+            <li>Lighthouse Audit: ${{ needs.lighthouse-audit.result == 'success' && '✅' || '❌' }}</li>
+          </ul>
+    
+    - name: 📢 Final Slack notification
+      uses: 8398a7/action-slack@v3
+      if: always()
+      with:
+        status: custom
+        custom_payload: |
+          {
+            "text": "🎯 LABUREMOS Deployment Pipeline Complete",
+            "attachments": [
+              {
+                "color": "${{ needs.deploy-production.result == 'success' && 'good' || 'danger' }}",
+                "fields": [
+                  {
+                    "title": "Environment",
+                    "value": "Production",
+                    "short": true
+                  },
+                  {
+                    "title": "Status", 
+                    "value": "${{ needs.deploy-production.result == 'success' && 'Success ✅' || 'Failed ❌' }}",
+                    "short": true
+                  },
+                  {
+                    "title": "URL",
+                    "value": "https://laburemos.com.ar",
+                    "short": true
+                  },
+                  {
+                    "title": "Commit",
+                    "value": "${{ github.sha }}",
+                    "short": true
+                  }
+                ]
+              }
+            ]
+          }
+      env:
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/assets/css/auth.css">
+    <link rel="stylesheet" href="/assets/css/projects.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/" class="brand-link">
+                    <span class="brand-name">Labur<span class="brand-ar">AR</span></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/projects.html" class="nav-link">Mis Proyectos</a>
+                <a href="/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="projects-container">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <a href="/projects.html" class="breadcrumb-link">
+                <i class="fas fa-arrow-left"></i>
+                Volver a Mis Proyectos
+            </a>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingProject" class="loading-spinner" style="display: block;">
+            <div class="spinner"></div>
+            Cargando proyecto...
+        </div>
+
+        <!-- Project Detail Container -->
+        <div id="projectDetailContainer" style="display: none;">
+            <!-- Project Header -->
+            <div class="project-detail-header" id="projectHeader">
+                <!-- Content will be loaded dynamically -->
+            </div>
+
+            <!-- Project Navigation Tabs -->
+            <div class="project-detail-tabs">
+                <button class="detail-tab active" data-tab="overview">
+                    <i class="fas fa-info-circle"></i>
+                    Resumen
+                </button>
+                <button class="detail-tab" data-tab="proposals" id="proposalsTab">
+                    <i class="fas fa-paper-plane"></i>
+                    Propuestas <span class="tab-count">0</span>
+                </button>
+                <button class="detail-tab" data-tab="milestones" id="milestonesTab">
+                    <i class="fas fa-tasks"></i>
+                    Hitos <span class="tab-count">0</span>
+                </button>
+                <button class="detail-tab" data-tab="files">
+                    <i class="fas fa-folder"></i>
+                    Archivos
+                </button>
+                <button class="detail-tab" data-tab="messages">
+                    <i class="fas fa-comments"></i>
+                    Mensajes
+                </button>
+                <button class="detail-tab" data-tab="timeline">
+                    <i class="fas fa-history"></i>
+                    Timeline
+                </button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="project-detail-content">
+                <!-- Overview Tab -->
+                <div class="tab-content active" id="overviewTab">
+                    <div class="overview-grid">
+                        <div class="overview-main">
+                            <div class="detail-section">
+                                <h3>Descripción del Proyecto</h3>
+                                <div id="projectDescription" class="project-description-content">
+                                    <!-- Content loaded dynamically -->
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section" id="requirementsSection" style="display: none;">
+                                <h3>Requerimientos</h3>
+                                <div id="projectRequirements" class="project-requirements-content">
+                                    <!-- Content loaded dynamically -->
+                                </div>
+                            </div>
+                            
+                            <div class="detail-section" id="deliverablesSection" style="display: none;">
+                                <h3>Entregables</h3>
+                                <div id="projectDeliverables" class="project-deliverables-content">
+                                    <!-- Content loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-sidebar">
+                            <div class="project-info-card">
+                                <h4>Información del Proyecto</h4>
+                                <div class="info-item">
+                                    <span class="info-label">Estado:</span>
+                                    <span class="info-value" id="projectStatus">
+                                        <!-- Content loaded dynamically -->
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Presupuesto:</span>
+                                    <span class="info-value" id="projectBudget">
+                                        <!-- Content loaded dynamically -->
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Categoría:</span>
+                                    <span class="info-value" id="projectCategory">
+                                        <!-- Content loaded dynamically -->
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Fecha límite:</span>
+                                    <span class="info-value" id="projectDeadline">
+                                        <!-- Content loaded dynamically -->
+                                    </span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Progreso:</span>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="projectProgress" style="width: 0%"></div>
+                                    </div>
+                                    <span class="progress-text" id="progressText">0%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions-card" id="projectActionsCard">
+                                <!-- Actions loaded dynamically based on user role and project status -->
+                            </div>
+                            
+                            <div class="project-participants-card">
+                                <h4>Participantes</h4>
+                                <div class="participant" id="clientInfo">
+                                    <!-- Client info loaded dynamically -->
+                                </div>
+                                <div class="participant" id="freelancerInfo" style="display: none;">
+                                    <!-- Freelancer info loaded dynamically -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Proposals Tab -->
+                <div class="tab-content" id="proposalsTabContent">
+                    <div class="proposals-header">
+                        <h3>Propuestas Recibidas</h3>
+                        <div class="proposals-stats" id="proposalsStats">
+                            <!-- Stats loaded dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="proposals-filters">
+                        <select class="filter-select" id="proposalsFilter">
+                            <option value="all">Todas las propuestas</option>
+                            <option value="submitted">Enviadas</option>
+                            <option value="negotiating">En negociación</option>
+                            <option value="accepted">Aceptadas</option>
+                            <option value="rejected">Rechazadas</option>
+                        </select>
+                        
+                        <select class="filter-select" id="proposalsSortFilter">
+                            <option value="recent">Más recientes</option>
+                            <option value="budget_low">Menor precio</option>
+                            <option value="budget_high">Mayor precio</option>
+                            <option value="timeline_fast">Entrega más rápida</option>
+                            <option value="rating">Mejor calificación</option>
+                        </select>
+                    </div>
+                    
+                    <div class="proposals-list" id="proposalsList">
+                        <!-- Proposals loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Milestones Tab -->
+                <div class="tab-content" id="milestonesTabContent">
+                    <div class="milestones-header">
+                        <h3>Hitos del Proyecto</h3>
+                        <button class="btn-primary" id="addMilestoneBtn" style="display: none;">
+                            <i class="fas fa-plus"></i>
+                            Agregar Hito
+                        </button>
+                    </div>
+                    
+                    <div class="milestones-list" id="milestonesList">
+                        <!-- Milestones loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Files Tab -->
+                <div class="tab-content" id="filesTabContent">
+                    <div class="files-header">
+                        <h3>Archivos del Proyecto</h3>
+                        <button class="btn-primary" id="uploadFileBtn">
+                            <i class="fas fa-upload"></i>
+                            Subir Archivo
+                        </button>
+                    </div>
+                    
+                    <div class="files-categories">
+                        <div class="files-category">
+                            <h4>Archivos de Requisitos</h4>
+                            <div class="files-list" id="requirementFiles">
+                                <!-- Files loaded dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="files-category">
+                            <h4>Entregables</h4>
+                            <div class="files-list" id="deliverableFiles">
+                                <!-- Files loaded dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="files-category">
+                            <h4>Referencias</h4>
+                            <div class="files-list" id="referenceFiles">
+                                <!-- Files loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Tab -->
+                <div class="tab-content" id="messagesTabContent">
+                    <div class="messages-container">
+                        <div class="messages-list" id="messagesList">
+                            <!-- Messages loaded dynamically -->
+                        </div>
+                        
+                        <div class="message-compose">
+                            <form id="messageForm" class="message-form">
+                                <input type="hidden" name="project_id" id="messageProjectId">
+                                <div class="message-input-container">
+                                    <textarea 
+                                        name="message" 
+                                        id="messageText" 
+                                        class="message-input"
+                                        placeholder="Escribí tu mensaje..."
+                                        rows="3"
+                                        required
+                                    ></textarea>
+                                    <div class="message-actions">
+                                        <button type="button" class="btn-secondary btn-mini" id="attachFileBtn">
+                                            <i class="fas fa-paperclip"></i>
+                                        </button>
+                                        <button type="submit" class="btn-primary btn-mini">
+                                            <i class="fas fa-paper-plane"></i>
+                                            Enviar
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Tab -->
+                <div class="tab-content" id="timelineTabContent">
+                    <div class="timeline-container">
+                        <div class="timeline-list" id="timelineList">
+                            <!-- Timeline events loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- File Upload Modal -->
+    <div class="modal" id="fileUploadModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Subir Archivo</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="fileUploadForm" class="form" enctype="multipart/form-data">
+                    <input type="hidden" name="project_id" id="uploadProjectId">
+                    
+                    <div class="form-group">
+                        <label for="fileType" class="form-label">Tipo de Archivo *</label>
+                        <select id="fileType" name="file_type" class="form-control" required>
+                            <option value="requirement">Archivo de Requisitos</option>
+                            <option value="reference">Referencia</option>
+                            <option value="deliverable">Entregable</option>
+                            <option value="revision">Revisión</option>
+                            <option value="final">Archivo Final</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fileInput" class="form-label">Archivo *</label>
+                        <input 
+                            type="file" 
+                            id="fileInput" 
+                            name="file" 
+                            class="form-control"
+                            required
+                        >
+                        <small class="form-help">
+                            Archivos permitidos: PDF, DOC, DOCX, ZIP, RAR, JPG, PNG, GIF. Máximo 10MB.
+                        </small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fileDescription" class="form-label">Descripción</label>
+                        <textarea 
+                            id="fileDescription" 
+                            name="description" 
+                            class="form-control"
+                            rows="3"
+                            placeholder="Describe el contenido del archivo..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-group" id="milestoneSelectGroup" style="display: none;">
+                        <label for="fileMilestone" class="form-label">Asociar a Hito</label>
+                        <select id="fileMilestone" name="milestone_id" class="form-control">
+                            <option value="">Sin asociar</option>
+                            <!-- Milestones loaded dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-upload"></i>
+                            Subir Archivo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Milestone Modal -->
+    <div class="modal" id="addMilestoneModal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Hito</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="milestoneForm" class="form">
+                    <input type="hidden" name="project_id" id="milestoneProjectId">
+                    
+                    <div class="form-group">
+                        <label for="milestoneTitle" class="form-label">Título del Hito *</label>
+                        <input 
+                            type="text" 
+                            id="milestoneTitle" 
+                            name="title" 
+                            class="form-control"
+                            placeholder="Ej: Diseño inicial"
+                            required
+                        >
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="milestoneDescription" class="form-label">Descripción</label>
+                        <textarea 
+                            id="milestoneDescription" 
+                            name="description" 
+                            class="form-control"
+                            rows="3"
+                            placeholder="Describe lo que incluye este hito..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="milestoneAmount" class="form-label">Monto (ARS) *</label>
+                            <input 
+                                type="number" 
+                                id="milestoneAmount" 
+                                name="amount" 
+                                class="form-control"
+                                min="100"
+                                step="100"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="milestonePercentage" class="form-label">Porcentaje del Proyecto</label>
+                            <input 
+                                type="number" 
+                                id="milestonePercentage" 
+                                name="percentage" 
+                                class="form-control"
+                                min="1"
+                                max="100"
+                                step="1"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="milestoneDays" class="form-label">Días Estimados</label>
+                            <input 
+                                type="number" 
+                                id="milestoneDays" 
+                                name="estimated_days" 
+                                class="form-control"
+                                min="1"
+                                max="365"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="milestoneDueDate" class="form-label">Fecha Límite</label>
+                            <input 
+                                type="date" 
+                                id="milestoneDueDate" 
+                                name="due_date" 
+                                class="form-control"
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="milestoneDeliverables" class="form-label">Entregables</label>
+                        <textarea 
+                            id="milestoneDeliverables" 
+                            name="deliverables" 
+                            class="form-control"
+                            rows="2"
+                            placeholder="Lista de entregables para este hito..."
+                        ></textarea>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Crear Hito
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/auth.js"></script>
+    <script src="/assets/js/projects.js"></script>
+    
+    <script>
+        // Project Detail Page Controller
+        class ProjectDetailController {
+            constructor() {
+                this.projectId = this.getProjectIdFromUrl();
+                this.project = null;
+                this.activeTab = 'overview';
+                
+                if (!this.projectId) {
+                    window.location.href = '/projects.html';
+                    return;
+                }
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupEventListeners();
+                this.loadProject();
+            }
+            
+            setupEventListeners() {
+                // Tab switching
+                document.addEventListener('click', (e) => {
+                    if (e.target.matches('.detail-tab') || e.target.closest('.detail-tab')) {
+                        const tab = e.target.closest('.detail-tab');
+                        this.switchTab(tab.dataset.tab);
+                    }
+                });
+                
+                // Form submissions
+                document.getElementById('fileUploadForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.uploadFile(new FormData(e.target));
+                });
+                
+                document.getElementById('milestoneForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.createMilestone(new FormData(e.target));
+                });
+                
+                document.getElementById('messageForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.sendMessage(new FormData(e.target));
+                });
+            }
+            
+            getProjectIdFromUrl() {
+                const params = new URLSearchParams(window.location.search);
+                return params.get('id');
+            }
+            
+            async loadProject() {
+                try {
+                    const response = await fetch(`/api/ProjectController.php?action=get&project_id=${this.projectId}`, {
+                        headers: {
+                            'Authorization': `Bearer ${this.getAuthToken()}`
+                        }
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.project = data.data.project;
+                        this.renderProject();
+                        this.loadTabData();
+                    } else {
+                        throw new Error(data.error || 'Project not found');
+                    }
+                    
+                } catch (error) {
+                    console.error('Error loading project:', error);
+                    alert('Error al cargar el proyecto');
+                    window.location.href = '/projects.html';
+                } finally {
+                    document.getElementById('loadingProject').style.display = 'none';
+                    document.getElementById('projectDetailContainer').style.display = 'block';
+                }
+            }
+            
+            renderProject() {
+                if (!this.project) return;
+                
+                // Update page title
+                document.title = `${this.project.title} - LaburAR`;
+                
+                // Render project header
+                this.renderProjectHeader();
+                
+                // Render overview tab
+                this.renderOverviewTab();
+                
+                // Update tab visibility based on user role and project status
+                this.updateTabVisibility();
+            }
+            
+            renderProjectHeader() {
+                const header = document.getElementById('projectHeader');
+                const statusClass = `status-${this.project.status.replace('_', '-')}`;
+                
+                header.innerHTML = `
+                    <h1 class="project-detail-title">${escapeHtml(this.project.title)}</h1>
+                    <div class="project-detail-meta">
+                        <div class="meta-item">
+                            <span class="project-status ${statusClass}">${this.getStatusLabel(this.project.status)}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-user"></i>
+                            Cliente: ${escapeHtml(this.project.client_name)}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-calendar"></i>
+                            Creado ${formatDate(this.project.created_at)}
+                        </div>
+                        ${this.project.deadline ? `
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                Entrega ${formatDate(this.project.deadline)}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            switchTab(tabName) {
+                // Update tab buttons
+                document.querySelectorAll('.detail-tab').forEach(tab => {
+                    tab.classList.toggle('active', tab.dataset.tab === tabName);
+                });
+                
+                // Update tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.toggle('active', content.id === `${tabName}Tab` || content.id === `${tabName}TabContent`);
+                });
+                
+                this.activeTab = tabName;
+                this.loadTabData();
+            }
+            
+            async loadTabData() {
+                switch (this.activeTab) {
+                    case 'proposals':
+                        await this.loadProposals();
+                        break;
+                    case 'milestones':
+                        await this.loadMilestones();
+                        break;
+                    case 'files':
+                        await this.loadFiles();
+                        break;
+                    case 'messages':
+                        await this.loadMessages();
+                        break;
+                    case 'timeline':
+                        await this.loadTimeline();
+                        break;
+                }
+            }
+            
+            getAuthToken() {
+                return localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+            }
+            
+            getStatusLabel(status) {
+                const labels = {
+                    'draft': 'Borrador',
+                    'posted': 'Publicado',
+                    'proposals_review': 'Revisando Propuestas',
+                    'in_progress': 'En Progreso',
+                    'review': 'En Revisión',
+                    'completed': 'Completado',
+                    'cancelled': 'Cancelado',
+                    'disputed': 'En Disputa'
+                };
+                
+                return labels[status] || status;
+            }
+        }
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
+            // Initialize project detail controller
+            window.projectDetailController = new ProjectDetailController();
+            
+            // Setup navigation
+            setupNavigation();
+            setupUserMenu();
+        });
+        
+        // Utility functions
+        function closeModal() {
+            document.querySelectorAll('.modal.show').forEach(modal => {
+                modal.classList.remove('show');
+            });
+            document.body.style.overflow = '';
+        }
+        
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+        
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('es-AR', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

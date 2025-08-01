@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos y Finanzas - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/payments.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/Laburar/" class="brand-link">
+                    <span class="brand-name">Labur<span class="brand-ar">AR</span></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/Laburar/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/Laburar/projects.html" class="nav-link">Mis Proyectos</a>
+                <a href="/Laburar/payments.html" class="nav-link active">Pagos</a>
+                <a href="/Laburar/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/Laburar/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/Laburar/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="payments-container" id="paymentsContainer">
+        <!-- Header -->
+        <header class="payments-header">
+            <h1>Centro de Pagos</h1>
+            <p class="subtitle">Administrá tus finanzas y transacciones en LaburAR</p>
+        </header>
+
+        <!-- Loading Indicator -->
+        <div id="paymentLoadingIndicator" class="payment-loading" style="display: none;">
+            <div class="payment-spinner"></div>
+            Cargando información de pagos...
+        </div>
+
+        <!-- Balance Card -->
+        <div class="balance-card">
+            <div class="balance-header">
+                <h2 class="balance-title">Tu Balance</h2>
+                <div class="balance-actions">
+                    <button class="btn-secondary" data-action="view-transactions">
+                        <i class="fas fa-history"></i>
+                        Historial
+                    </button>
+                    <button class="btn-primary" data-action="withdraw">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Retirar Fondos
+                    </button>
+                </div>
+            </div>
+            
+            <div class="balance-grid">
+                <div class="balance-item">
+                    <p class="balance-label">Disponible</p>
+                    <h3 class="balance-amount available" id="availableBalance">AR$ 0</h3>
+                </div>
+                <div class="balance-item">
+                    <p class="balance-label">En Escrow</p>
+                    <h3 class="balance-amount pending" id="pendingBalance">AR$ 0</h3>
+                </div>
+                <div class="balance-item">
+                    <p class="balance-label">Total Ganado</p>
+                    <h3 class="balance-amount" id="totalEarned">AR$ 0</h3>
+                </div>
+                <div class="balance-item">
+                    <p class="balance-label">Total Gastado</p>
+                    <h3 class="balance-amount" id="totalSpent">AR$ 0</h3>
+                </div>
+            </div>
+            
+            <div class="balance-help">
+                <i class="fas fa-info-circle"></i>
+                Los fondos en escrow se liberan automáticamente después de 7 días o cuando el cliente aprueba el trabajo.
+            </div>
+        </div>
+
+        <!-- Payment Methods Section -->
+        <div class="payment-methods-section">
+            <div class="payment-methods-header">
+                <h3>Métodos de Pago</h3>
+                <button class="btn-secondary" data-action="add-payment-method">
+                    <i class="fas fa-plus"></i>
+                    Agregar Método
+                </button>
+            </div>
+            
+            <div class="payment-methods-grid" id="paymentMethodsGrid">
+                <!-- Payment methods will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Escrow Accounts Section -->
+        <div class="escrow-section" id="escrowSection" style="display: none;">
+            <div class="escrow-header">
+                <h3>Fondos en Escrow</h3>
+                <button class="btn-secondary" onclick="paymentManager.loadEscrowAccounts()">
+                    <i class="fas fa-sync"></i>
+                    Actualizar
+                </button>
+            </div>
+            
+            <div class="escrow-list" id="escrowList">
+                <!-- Escrow accounts will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Recent Transactions -->
+        <div class="transactions-section">
+            <div class="transactions-header">
+                <h3>Transacciones Recientes</h3>
+                <div class="transactions-filters">
+                    <span class="filter-chip active" data-filter="all" data-value="all">
+                        Todas
+                    </span>
+                    <span class="filter-chip" data-filter="direction" data-value="incoming">
+                        Ingresos
+                    </span>
+                    <span class="filter-chip" data-filter="direction" data-value="outgoing">
+                        Gastos
+                    </span>
+                    <span class="filter-chip" data-filter="type" data-value="payment">
+                        Pagos
+                    </span>
+                    <span class="filter-chip" data-filter="type" data-value="withdrawal">
+                        Retiros
+                    </span>
+                </div>
+            </div>
+            
+            <div class="transactions-list" id="transactionsList">
+                <!-- Transactions will be loaded here -->
+            </div>
+            
+            <div class="text-center mt-3">
+                <a href="/Laburar/transactions.html" class="btn-secondary">
+                    Ver Todas las Transacciones
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Withdrawal Modal -->
+    <div class="modal" id="withdrawalModal">
+        <div class="modal-backdrop" onclick="paymentManager.closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Retirar Fondos</h3>
+                <button class="modal-close" onclick="paymentManager.closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="withdrawal-section">
+                    <div class="withdrawal-limits">
+                        <p>Balance disponible: <strong id="availableToWithdraw">AR$ 0</strong></p>
+                        <div class="withdrawal-limits-grid">
+                            <div class="limit-item">
+                                <p class="limit-label">Mínimo</p>
+                                <p class="limit-value" id="minWithdrawal">AR$ 1,000</p>
+                            </div>
+                            <div class="limit-item">
+                                <p class="limit-label">Máximo</p>
+                                <p class="limit-value" id="maxWithdrawal">AR$ 500,000</p>
+                            </div>
+                            <div class="limit-item">
+                                <p class="limit-label">Comisión</p>
+                                <p class="limit-value" id="withdrawalFee">AR$ 50</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="withdrawalForm" class="withdrawal-form">
+                        <div class="form-group">
+                            <label for="withdrawAmount" class="form-label">Monto a Retirar (ARS) *</label>
+                            <input 
+                                type="number" 
+                                id="withdrawAmount" 
+                                name="amount" 
+                                class="form-control"
+                                min="1000"
+                                step="100"
+                                required
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="withdrawalMethod" class="form-label">Método de Retiro *</label>
+                            <select id="withdrawalMethod" name="withdrawal_method" class="form-control" required>
+                                <option value="">Seleccionar método</option>
+                                <option value="mercadopago">MercadoPago</option>
+                                <option value="bank_transfer">Transferencia Bancaria</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="paymentMethodId" class="form-label">Cuenta Destino *</label>
+                            <select id="paymentMethodId" name="payment_method_id" class="form-control" required>
+                                <option value="">Seleccionar cuenta</option>
+                                <!-- Payment methods will be loaded here -->
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="paymentManager.closeModal()">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-check"></i>
+                                Confirmar Retiro
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Payment Method Modal -->
+    <div class="modal" id="addPaymentMethodModal">
+        <div class="modal-backdrop" onclick="paymentManager.closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Agregar Método de Pago</h3>
+                <button class="modal-close" onclick="paymentManager.closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentMethodForm" class="form">
+                    <div class="form-group">
+                        <label for="methodType" class="form-label">Tipo de Método *</label>
+                        <select id="methodType" name="method_type" class="form-control" required onchange="toggleMethodFields(this.value)">
+                            <option value="">Seleccionar tipo</option>
+                            <option value="mercadopago">MercadoPago</option>
+                            <option value="bank_transfer">Transferencia Bancaria</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Bank Transfer Fields -->
+                    <div id="bankTransferFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="bankName" class="form-label">Banco *</label>
+                            <select id="bankName" name="bank_name" class="form-control">
+                                <option value="">Seleccionar banco</option>
+                                <option value="Banco Nación">Banco Nación</option>
+                                <option value="Banco Provincia">Banco Provincia</option>
+                                <option value="Banco Galicia">Banco Galicia</option>
+                                <option value="Banco Santander">Banco Santander</option>
+                                <option value="Banco BBVA">Banco BBVA</option>
+                                <option value="Banco HSBC">Banco HSBC</option>
+                                <option value="Banco Macro">Banco Macro</option>
+                                <option value="Banco Patagonia">Banco Patagonia</option>
+                                <option value="Brubank">Brubank</option>
+                                <option value="Ualá">Ualá</option>
+                                <option value="Mercado Pago">Mercado Pago</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="accountType" class="form-label">Tipo de Cuenta *</label>
+                            <select id="accountType" name="account_type" class="form-control">
+                                <option value="">Seleccionar tipo</option>
+                                <option value="savings">Caja de Ahorro</option>
+                                <option value="checking">Cuenta Corriente</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="accountHolderName" class="form-label">Titular de la Cuenta *</label>
+                            <input 
+                                type="text" 
+                                id="accountHolderName" 
+                                name="account_holder_name" 
+                                class="form-control"
+                                placeholder="Nombre completo como figura en el banco"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="accountNumber" class="form-label">Número de Cuenta *</label>
+                            <input 
+                                type="text" 
+                                id="accountNumber" 
+                                name="account_number" 
+                                class="form-control"
+                                placeholder="Número de cuenta bancaria"
+                            >
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cbuAlias" class="form-label">CBU o Alias *</label>
+                            <input 
+                                type="text" 
+                                id="cbuAlias" 
+                                name="cbu_alias" 
+                                class="form-control"
+                                placeholder="CBU completo o alias"
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- MercadoPago Fields -->
+                    <div id="mercadopagoFields" style="display: none;">
+                        <div class="alert alert-info">
+                            <i class="fas fa-info-circle"></i>
+                            Serás redirigido a MercadoPago para configurar tu cuenta de forma segura.
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="is_default" value="1">
+                            <span class="checkmark"></span>
+                            Establecer como método principal
+                        </label>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="paymentManager.closeModal()">
+                            Cancelar
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-plus"></i>
+                            Agregar Método
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment Modal (for making payments) -->
+    <div class="payment-modal" id="paymentModal">
+        <div class="payment-modal-content">
+            <div class="payment-modal-header">
+                <h2 class="payment-modal-title">Confirmar Pago</h2>
+                <p class="payment-modal-subtitle" id="paymentProjectTitle">Proyecto</p>
+            </div>
+            
+            <div class="payment-modal-body">
+                <div class="payment-summary">
+                    <div class="payment-summary-row">
+                        <span>Monto del proyecto</span>
+                        <span id="paymentAmount">AR$ 0</span>
+                    </div>
+                    <div class="payment-summary-row">
+                        <span>Comisión LaburAR (5%)</span>
+                        <span id="paymentFee">AR$ 0</span>
+                    </div>
+                    <div class="payment-summary-row total">
+                        <span>Total a pagar</span>
+                        <span id="paymentTotal">AR$ 0</span>
+                    </div>
+                </div>
+                
+                <h4>Seleccioná tu método de pago</h4>
+                <div class="payment-method-selector" id="paymentMethodSelector">
+                    <!-- Payment methods will be loaded here -->
+                </div>
+                
+                <div class="payment-security">
+                    <i class="fas fa-lock security-icon"></i>
+                    <span>Pago seguro con encriptación de 256 bits</span>
+                </div>
+            </div>
+            
+            <div class="payment-modal-actions">
+                <button class="btn-secondary" onclick="paymentManager.closeModal()">
+                    Cancelar
+                </button>
+                <button class="mercadopago-button" onclick="paymentManager.processPaymentWithMercadoPago()">
+                    <i class="fas fa-credit-card"></i>
+                    Pagar con MercadoPago
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/payments.js"></script>
+    
+    <script>
+        // Additional page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Check if escrow section should be displayed (for freelancers)
+            const userRole = getUserRole();
+            if (userRole === 'freelancer') {
+                document.getElementById('escrowSection').style.display = 'block';
+            }
+            
+            // Setup navigation
+            setupNavigation();
+            setupUserMenu();
+        });
+        
+        function toggleMethodFields(methodType) {
+            // Hide all method-specific fields
+            document.getElementById('bankTransferFields').style.display = 'none';
+            document.getElementById('mercadopagoFields').style.display = 'none';
+            
+            // Show relevant fields
+            if (methodType === 'bank_transfer') {
+                document.getElementById('bankTransferFields').style.display = 'block';
+            } else if (methodType === 'mercadopago') {
+                document.getElementById('mercadopagoFields').style.display = 'block';
+            }
+        }
+        
+        function getUserRole() {
+            const token = localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+            if (!token) return null;
+            
+            try {
+                const payload = JSON.parse(atob(token.split('.')[1]));
+                return payload.user_type;
+            } catch (error) {
+                return null;
+            }
+        }
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/Laburar/login.html';
+            }
+        }
+    </script>
+</body>
+</html>

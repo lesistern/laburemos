@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - LaburAR</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="/Laburar/assets/css/main.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/auth.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/chat.css">
+    <link rel="stylesheet" href="/Laburar/assets/css/notifications.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="/Laburar/" class="brand-link">
+                    <span class="brand-name">Labur<span class="brand-ar">AR</span></span>
+                </a>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="/Laburar/marketplace.html" class="nav-link">Explorar</a>
+                <a href="/Laburar/projects.html" class="nav-link">Mis Proyectos</a>
+                <a href="/Laburar/payments.html" class="nav-link">Pagos</a>
+                <a href="/Laburar/reviews.html" class="nav-link">Reviews</a>
+                <a href="/Laburar/chat.html" class="nav-link active">Chat</a>
+                <a href="/Laburar/profile.html" class="nav-link">Mi Perfil</a>
+                
+                <div class="nav-user">
+                    <div class="user-avatar" id="userAvatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="/Laburar/profile.html" class="user-menu-item">
+                            <i class="fas fa-user"></i>
+                            Perfil
+                        </a>
+                        <a href="/Laburar/notifications.html" class="user-menu-item">
+                            <i class="fas fa-bell"></i>
+                            Notificaciones
+                        </a>
+                        <a href="/Laburar/settings.html" class="user-menu-item">
+                            <i class="fas fa-cog"></i>
+                            Configuración
+                        </a>
+                        <hr class="user-menu-divider">
+                        <a href="#" class="user-menu-item" onclick="logout()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Cerrar Sesión
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="chat-page" style="padding: 20px 0;">
+        <!-- Loading Indicator -->
+        <div id="chatLoadingIndicator" class="chat-loading" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            Conectando al chat...
+        </div>
+
+        <!-- Chat Container -->
+        <div class="chat-container" id="chatContainer">
+            <!-- Chat Sidebar -->
+            <div class="chat-sidebar">
+                <div class="chat-sidebar-header">
+                    <div class="chat-sidebar-title">
+                        <h2>Conversaciones</h2>
+                        <button class="new-chat-btn" id="newChatBtn" title="Nuevo chat">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <div class="chat-search">
+                        <input type="text" id="chatSearch" placeholder="Buscar conversaciones...">
+                        <i class="fas fa-search"></i>
+                    </div>
+                </div>
+                
+                <div class="conversations-list" id="conversationsList">
+                    <!-- Conversations will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Chat Main Area -->
+            <div class="chat-main">
+                <!-- Chat Header -->
+                <div class="chat-header" id="chatHeader">
+                    <div class="chat-header-info">
+                        <div class="chat-avatar">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <div class="chat-details">
+                            <h3 class="chat-title">Selecciona una conversación</h3>
+                            <div class="chat-status">
+                                <span>Comenzá a chatear con otros usuarios de LaburAR</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages Container -->
+                <div class="messages-container" id="messagesContainer">
+                    <div class="messages-empty">
+                        <i class="fas fa-comment"></i>
+                        <h3>¡Bienvenido al Chat de LaburAR!</h3>
+                        <p>Selecciona una conversación de la lista lateral para comenzar a chatear</p>
+                        <p>O creá una nueva conversación haciendo clic en el botón +</p>
+                    </div>
+                </div>
+
+                <!-- Upload Progress -->
+                <div id="uploadProgress" class="upload-progress"></div>
+
+                <!-- Message Input Area -->
+                <div class="message-input-area">
+                    <div class="message-input-container">
+                        <div class="input-actions">
+                            <button class="input-action-btn" id="attachBtn" title="Adjuntar archivo">
+                                <i class="fas fa-paperclip"></i>
+                            </button>
+                            <input type="file" id="fileInput" style="display: none;" 
+                                   accept="image/*,.pdf,.doc,.docx,.txt,.zip">
+                        </div>
+                        
+                        <textarea class="message-input" id="messageInput" 
+                                  placeholder="Escribí tu mensaje..." 
+                                  rows="1"></textarea>
+                        
+                        <button class="send-button" id="sendMessageBtn" title="Enviar mensaje">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Chat Modal -->
+    <div class="modal" id="newChatModal">
+        <div class="modal-backdrop" onclick="closeNewChatModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Nueva Conversación</h3>
+                <button class="modal-close" onclick="closeNewChatModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="newChatForm">
+                    <div class="form-group">
+                        <label for="chatType" class="form-label">Tipo de Conversación</label>
+                        <select id="chatType" name="type" class="form-control" required>
+                            <option value="private">Chat Privado</option>
+                            <option value="group">Grupo</option>
+                            <option value="project">Chat de Proyecto</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="participantGroup">
+                        <label for="participantEmail" class="form-label">Email del Usuario</label>
+                        <input type="email" id="participantEmail" class="form-control" 
+                               placeholder="usuario@ejemplo.com">
+                        <small class="form-help">Ingresa el email del usuario con quien querés chatear</small>
+                    </div>
+                    
+                    <div class="form-group" id="groupTitleGroup" style="display: none;">
+                        <label for="groupTitle" class="form-label">Nombre del Grupo</label>
+                        <input type="text" id="groupTitle" class="form-control" 
+                               placeholder="Nombre del grupo">
+                    </div>
+                    
+                    <div class="form-group" id="projectGroup" style="display: none;">
+                        <label for="projectSelect" class="form-label">Seleccionar Proyecto</label>
+                        <select id="projectSelect" class="form-control">
+                            <option value="">Cargando proyectos...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" class="btn-secondary" onclick="closeNewChatModal()">Cancelar</button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-comments"></i>
+                            Crear Conversación
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div class="modal" id="imageModal">
+        <div class="modal-backdrop" onclick="closeImageModal()"></div>
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Imagen</h3>
+                <button class="modal-close" onclick="closeImageModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img id="modalImage" src="" alt="Imagen" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Emoji Picker -->
+    <div class="emoji-picker" id="emojiPicker" style="display: none;">
+        <div class="emoji-grid">
+            <span class="emoji-item" onclick="chatManager.addReaction('👍')">👍</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('❤️')">❤️</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('😂')">😂</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('😮')">😮</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('😢')">😢</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('😡')">😡</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('🎉')">🎉</span>
+            <span class="emoji-item" onclick="chatManager.addReaction('🔥')">🔥</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/Laburar/assets/js/auth.js"></script>
+    <script src="/Laburar/assets/js/notifications.js"></script>
+    <script src="/Laburar/assets/js/chat.js"></script>
+    
+    <script>
+        // Page-specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check authentication
+            if (!isAuthenticated()) {
+                window.location.href = '/Laburar/login.html';
+                return;
+            }
+            
+            // Setup navigation
+            setupNavigation();
+            setupUserMenu();
+            setupChatModals();
+        });
+        
+        function setupNavigation() {
+            const navToggle = document.getElementById('navToggle');
+            const navMenu = document.getElementById('navMenu');
+            
+            if (navToggle && navMenu) {
+                navToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('show');
+                });
+            }
+        }
+        
+        function setupUserMenu() {
+            const userAvatar = document.getElementById('userAvatar');
+            const userMenu = document.getElementById('userMenu');
+            
+            if (userAvatar && userMenu) {
+                userAvatar.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    userMenu.classList.toggle('show');
+                });
+                
+                document.addEventListener('click', function() {
+                    userMenu.classList.remove('show');
+                });
+            }
+        }
+        
+        function setupChatModals() {
+            // New chat modal setup
+            const chatTypeSelect = document.getElementById('chatType');
+            const participantGroup = document.getElementById('participantGroup');
+            const groupTitleGroup = document.getElementById('groupTitleGroup');
+            const projectGroup = document.getElementById('projectGroup');
+            
+            if (chatTypeSelect) {
+                chatTypeSelect.addEventListener('change', function() {
+                    const type = this.value;
+                    
+                    // Show/hide relevant fields
+                    participantGroup.style.display = type === 'private' ? 'block' : 'none';
+                    groupTitleGroup.style.display = type === 'group' ? 'block' : 'none';
+                    projectGroup.style.display = type === 'project' ? 'block' : 'none';
+                    
+                    // Load projects if needed
+                    if (type === 'project') {
+                        loadUserProjects();
+                    }
+                });
+            }
+            
+            // New chat form submission
+            const newChatForm = document.getElementById('newChatForm');
+            if (newChatForm) {
+                newChatForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleNewChatSubmission();
+                });
+            }
+        }
+        
+        function showNewChatModal() {
+            const modal = document.getElementById('newChatModal');
+            if (modal) {
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeNewChatModal() {
+            const modal = document.getElementById('newChatModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+                document.getElementById('newChatForm').reset();
+            }
+        }
+        
+        function showImageModal(imageUrl) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            
+            if (modal && modalImage) {
+                modalImage.src = imageUrl;
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        async function loadUserProjects() {
+            try {
+                const response = await fetch('/Laburar/api/ProjectController.php?action=user-projects', {
+                    headers: {
+                        'Authorization': `Bearer ${getAuthToken()}`
+                    }
+                });
+                
+                const data = await response.json();
+                const projectSelect = document.getElementById('projectSelect');
+                
+                if (data.success && projectSelect) {
+                    projectSelect.innerHTML = '<option value="">Seleccionar proyecto</option>';
+                    
+                    data.data.projects.forEach(project => {
+                        const option = document.createElement('option');
+                        option.value = project.id;
+                        option.textContent = project.title;
+                        projectSelect.appendChild(option);
+                    });
+                }
+                
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
+        }
+        
+        async function handleNewChatSubmission() {
+            const form = document.getElementById('newChatForm');
+            const formData = new FormData(form);
+            const type = formData.get('type');
+            
+            let conversationData = { type };
+            
+            if (type === 'private') {
+                const email = formData.get('participant_email') || document.getElementById('participantEmail').value;
+                if (!email) {
+                    alert('Por favor ingresa el email del usuario');
+                    return;
+                }
+                
+                // Find user by email first
+                try {
+                    const userResponse = await fetch(`/Laburar/api/UserController.php?action=find-by-email&email=${encodeURIComponent(email)}`, {
+                        headers: {
+                            'Authorization': `Bearer ${getAuthToken()}`
+                        }
+                    });
+                    
+                    const userData = await userResponse.json();
+                    if (!userData.success) {
+                        alert('Usuario no encontrado');
+                        return;
+                    }
+                    
+                    conversationData.participant_id = userData.data.user.id;
+                    
+                } catch (error) {
+                    alert('Error al buscar usuario');
+                    return;
+                }
+                
+            } else if (type === 'group') {
+                const title = formData.get('title') || document.getElementById('groupTitle').value;
+                if (!title) {
+                    alert('Por favor ingresa el nombre del grupo');
+                    return;
+                }
+                conversationData.title = title;
+                conversationData.participants = []; // Could be extended to add multiple participants
+                
+            } else if (type === 'project') {
+                const projectId = formData.get('project_id') || document.getElementById('projectSelect').value;
+                if (!projectId) {
+                    alert('Por favor selecciona un proyecto');
+                    return;
+                }
+                conversationData.project_id = projectId;
+                conversationData.participants = []; // Will be populated based on project participants
+            }
+            
+            // Create conversation
+            try {
+                const response = await fetch('/Laburar/api/ChatController.php?action=create-conversation', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${getAuthToken()}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(conversationData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    closeNewChatModal();
+                    
+                    // Reload conversations and select the new one
+                    if (window.chatManager) {
+                        await window.chatManager.loadConversations();
+                        window.chatManager.selectConversation(data.data.conversation_id);
+                    }
+                    
+                    if (window.notificationManager) {
+                        window.notificationManager.showToast('Conversación creada exitosamente', 'success');
+                    }
+                } else {
+                    alert('Error al crear la conversación: ' + data.error);
+                }
+                
+            } catch (error) {
+                console.error('Error creating conversation:', error);
+                alert('Error al crear la conversación');
+            }
+        }
+        
+        function getAuthToken() {
+            return localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+        }
+        
+        function logout() {
+            if (confirm('¿Estás seguro de que querés cerrar sesión?')) {
+                localStorage.removeItem('auth_token');
+                sessionStorage.removeItem('auth_token');
+                window.location.href = '/Laburar/login.html';
+            }
+        }
+        
+        // Global chat functions for interaction
+        window.showNewChatModal = showNewChatModal;
+        window.closeNewChatModal = closeNewChatModal;
+        window.showImageModal = showImageModal;
+        window.closeImageModal = closeImageModal;
+    </script>
+</body>
+</html>

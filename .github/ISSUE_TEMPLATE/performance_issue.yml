@@ -1,0 +1,185 @@
+name: ⚡ Performance Issue
+description: Report a performance problem or optimization opportunity
+title: "[Performance]: "
+labels: ["performance", "optimization"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a performance issue! ⚡
+        
+        Performance is crucial for user experience. Please provide as much detail as possible.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Please check all applicable items
+      options:
+        - label: I have searched existing issues to ensure this is not a duplicate
+          required: true
+        - label: I have tested this on multiple occasions
+          required: true
+        - label: I have provided performance measurements where possible
+          required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: Where did you observe this performance issue?
+      options:
+        - Production (https://laburemos.com.ar)
+        - Local Development
+        - Staging
+      default: 0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: component
+    attributes:
+      label: Affected Component
+      description: Which part of the application has performance issues?
+      options:
+        - Frontend Loading
+        - Page Navigation
+        - API Response Times
+        - Database Queries
+        - Real-time Features
+        - File Uploads
+        - Search Functionality
+        - Admin Panel
+        - Mobile Performance
+        - Overall System
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Performance Impact
+      description: How severe is the performance issue?
+      options:
+        - Critical (System unusable, >10s load times)
+        - High (Significantly impacts user experience, >5s)
+        - Medium (Noticeable delay, 2-5s)
+        - Low (Minor optimization opportunity, <2s)
+      default: 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Performance Issue Description
+      description: Describe the performance problem
+      placeholder: |
+        Clearly describe:
+        - What operation is slow
+        - When it occurs
+        - How often it happens
+        - Impact on user experience
+    validations:
+      required: true
+
+  - type: textarea
+    id: measurements
+    attributes:
+      label: Performance Measurements
+      description: Provide specific performance data if available
+      placeholder: |
+        Include measurements such as:
+        - Load times (in seconds)
+        - Response times
+        - Time to first byte (TTFB)
+        - Largest contentful paint (LCP)
+        - First input delay (FID)
+        - Browser dev tools screenshots
+        - Network tab information
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to Reproduce
+      description: How can we reproduce this performance issue?
+      placeholder: |
+        1. Go to '...'
+        2. Perform action '...'
+        3. Measure/observe '...'
+        4. Notice slow performance at step '...'
+    validations:
+      required: true
+
+  - type: textarea
+    id: device_info
+    attributes:
+      label: Device & Network Information
+      description: Provide details about your testing environment
+      placeholder: |
+        Device Information:
+        - Device: Desktop/Mobile/Tablet
+        - OS: 
+        - CPU: 
+        - RAM: 
+        - Browser: 
+        - Browser Version: 
+        
+        Network Information:
+        - Connection Type: WiFi/4G/5G/etc
+        - Speed: 
+        - Location: 
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Performance Screenshots/Data
+      description: Include screenshots from browser dev tools, performance monitors, etc.
+      placeholder: |
+        Helpful screenshots:
+        - Chrome DevTools Performance tab
+        - Network tab showing slow requests
+        - Lighthouse report
+        - Any monitoring dashboard screenshots
+
+  - type: textarea
+    id: expected_performance
+    attributes:
+      label: Expected Performance
+      description: What performance would you expect?
+      placeholder: |
+        - Expected load time: 
+        - Expected response time: 
+        - Benchmark comparison: 
+        - Industry standards:
+    validations:
+      required: true
+
+  - type: textarea
+    id: business_impact
+    attributes:
+      label: Business Impact
+      description: How does this performance issue affect the business/users?
+      placeholder: |
+        - User experience impact
+        - Potential user abandonment
+        - SEO implications
+        - Business metrics affected
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any other information about the performance issue
+      placeholder: |
+        - Similar issues observed
+        - Patterns noticed
+        - Workarounds discovered
+        - Related performance issues

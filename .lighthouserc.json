@@ -1,0 +1,43 @@
+{
+  "ci": {
+    "collect": {
+      "numberOfRuns": 3,
+      "startServerCommand": "",
+      "url": [
+        "https://laburemos.com.ar",
+        "https://laburemos.com.ar/categories",
+        "https://laburemos.com.ar/dashboard",
+        "https://laburemos.com.ar/projects",
+        "https://laburemos.com.ar/profile"
+      ],
+      "settings": {
+        "chromeFlags": "--no-sandbox --disable-dev-shm-usage",
+        "preset": "desktop",
+        "throttling": {
+          "rttMs": 40,
+          "throughputKbps": 10240,
+          "cpuSlowdownMultiplier": 1,
+          "requestLatencyMs": 0,
+          "downloadThroughputKbps": 0,
+          "uploadThroughputKbps": 0
+        }
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", {"minScore": 0.8}],
+        "categories:accessibility": ["error", {"minScore": 0.9}],
+        "categories:best-practices": ["error", {"minScore": 0.85}],
+        "categories:seo": ["error", {"minScore": 0.9}],
+        "categories:pwa": ["warn", {"minScore": 0.7}]
+      }
+    },
+    "upload": {
+      "target": "temporary-public-storage"
+    },
+    "server": {
+      "port": 9001,
+      "storage": ".lighthouseci"
+    }
+  }
+}

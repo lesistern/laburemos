@@ -1,0 +1,155 @@
+{
+  "name": "laburemos",
+  "version": "1.0.0",
+  "description": "🚀 Professional Freelance Platform - Next.js 15.4.4 + NestJS + AWS Production Ready",
+  "keywords": [
+    "freelance",
+    "platform",
+    "nextjs",
+    "nestjs",
+    "typescript",
+    "aws",
+    "postgresql",
+    "redis",
+    "professional",
+    "enterprise"
+  ],
+  "author": {
+    "name": "Laburemos Team",
+    "email": "contacto.laburemos@gmail.com",
+    "url": "https://laburemos.com.ar"
+  },
+  "license": "MIT",
+  "homepage": "https://laburemos.com.ar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/laburemos.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/laburemos/issues",
+    "email": "contacto.laburemos@gmail.com"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') !== -1) throw new Error('Please use npm instead of yarn')\"",
+    "install:all": "npm install && npm run install:frontend && npm run install:backend",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run start:dev",
+    "build": "npm run build:frontend && npm run build:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\"",
+    "start:frontend": "cd frontend && npm start",
+    "start:backend": "cd backend && npm run start:prod",
+    "test": "npm run test:frontend && npm run test:backend",
+    "test:frontend": "cd frontend && npm run test",
+    "test:backend": "cd backend && npm run test",
+    "test:e2e": "npm run test:e2e:frontend && npm run test:e2e:backend",
+    "test:e2e:frontend": "cd frontend && npm run test:e2e",
+    "test:e2e:backend": "cd backend && npm run test:e2e",
+    "test:integration": "cd backend && npm run test:integration",
+    "test:coverage": "npm run test:coverage:frontend && npm run test:coverage:backend",
+    "test:coverage:frontend": "cd frontend && npm run test:coverage",
+    "test:coverage:backend": "cd backend && npm run test:coverage",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:backend": "cd backend && npm run lint",
+    "lint:fix": "npm run lint:fix:frontend && npm run lint:fix:backend",
+    "lint:fix:frontend": "cd frontend && npm run lint:fix",
+    "lint:fix:backend": "cd backend && npm run lint:fix",
+    "type-check": "npm run type-check:frontend && npm run type-check:backend",
+    "type-check:frontend": "cd frontend && npm run type-check",
+    "type-check:backend": "cd backend && npm run build",
+    "format": "npm run format:frontend && npm run format:backend",
+    "format:frontend": "cd frontend && npm run format",
+    "format:backend": "cd backend && npm run format",
+    "clean": "npm run clean:frontend && npm run clean:backend && npm run clean:root",
+    "clean:frontend": "cd frontend && rm -rf .next out node_modules/.cache",
+    "clean:backend": "cd backend && rm -rf dist node_modules/.cache",
+    "clean:root": "rm -rf node_modules/.cache",
+    "clean:all": "npm run clean && rm -rf node_modules frontend/node_modules backend/node_modules",
+    "db:setup": "cd backend && npm run db:generate && npm run db:migrate && npm run db:seed",
+    "db:generate": "cd backend && npm run db:generate",
+    "db:migrate": "cd backend && npm run db:migrate",
+    "db:seed": "cd backend && npm run db:seed",
+    "db:reset": "cd backend && npm run db:reset",
+    "db:studio": "cd backend && npm run db:studio",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:clean": "docker-compose down -v --remove-orphans",
+    "deploy:staging": "./deploy.sh staging",
+    "deploy:production": "./deploy.sh production",
+    "deploy:rollback": "./deploy.sh production --rollback",
+    "aws:status": "node test-backend-connection.js",
+    "aws:monitor": "./monitor-dns-and-services.sh",
+    "aws:viewer": "./start-aws-viewer-server.bat",
+    "setup:env": "cp frontend/.env.example frontend/.env.local && cp backend/.env.example backend/.env",
+    "setup:github": "./setup-github-repo.sh",
+    "setup:secrets": "./setup-github-secrets.sh",
+    "setup:windows": "./setup-windows.bat",
+    "start:windows": "./start-windows.bat",
+    "security:audit": "npm audit && cd frontend && npm audit && cd ../backend && npm audit",
+    "security:fix": "npm audit fix && cd frontend && npm audit fix && cd ../backend && npm audit fix",
+    "update:deps": "npm update && cd frontend && npm update && cd ../backend && npm update",
+    "check:deps": "npm outdated && cd frontend && npm outdated && cd ../backend && npm outdated",
+    "precommit": "npm run lint && npm run type-check && npm run test",
+    "prepush": "npm run build && npm run test:e2e",
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags",
+    "docs:serve": "cd docs && python -m http.server 8000",
+    "docs:build": "echo 'Documentation build not implemented yet'",
+    "health:check": "curl -f http://localhost:3000/health && curl -f http://localhost:3001/health",
+    "logs:frontend": "cd frontend && npm run logs",
+    "logs:backend": "cd backend && npm run logs",
+    "backup:db": "cd backend && npm run db:backup",
+    "restore:db": "cd backend && npm run db:restore"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run prepush"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}

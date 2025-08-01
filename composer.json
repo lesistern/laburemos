@@ -1,0 +1,79 @@
+{
+    "name": "laburar/platform",
+    "description": "LaburAR - Plataforma de Freelancers Argentina",
+    "type": "project",
+    "version": "1.0.0",
+    "keywords": ["freelancer", "argentina", "marketplace", "php", "mvc"],
+    "authors": [
+        {
+            "name": "LaburAR Team",
+            "email": "dev@laburar.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*",
+        "ext-curl": "*",
+        "ext-redis": "*",
+        "firebase/php-jwt": "^6.0",
+        "phpmailer/phpmailer": "^6.8",
+        "predis/predis": "^2.0",
+        "intervention/image": "^2.7",
+        "league/flysystem": "^3.0",
+        "monolog/monolog": "^3.0",
+        "ramsey/uuid": "^4.7",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.10",
+        "squizlabs/php_codesniffer": "^3.7",
+        "fakerphp/faker": "^1.21"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaburAR\\Controllers\\": "app/Controllers/",
+            "LaburAR\\Models\\": "app/Models/",
+            "LaburAR\\Services\\": "app/Services/",
+            "LaburAR\\Middleware\\": "app/Middleware/",
+            "LaburAR\\Helpers\\": "app/Helpers/",
+            "LaburAR\\Core\\": "src/Core/",
+            "LaburAR\\Argentine\\": "src/Argentine/"
+        },
+        "files": [
+            "src/Core/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaburAR\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-html coverage",
+        "phpstan": "phpstan analyse",
+        "phpcs": "phpcs --standard=PSR12 app/ src/",
+        "phpcbf": "phpcbf --standard=PSR12 app/ src/",
+        "migrate": "php tools/scripts/migrate.php",
+        "seed": "php tools/scripts/seed.php",
+        "serve": "php -S localhost:8000 -t public/",
+        "post-install-cmd": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "support": {
+        "email": "support@laburar.com",
+        "issues": "https://github.com/laburar/platform/issues",
+        "docs": "https://docs.laburar.com"
+    }
+}

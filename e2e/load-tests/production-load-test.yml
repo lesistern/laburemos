@@ -1,0 +1,87 @@
+config:
+  target: "{{ $processEnvironment.BASE_URL }}"
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 120
+      arrivalRate: 10
+      name: "Ramp up load"
+    - duration: 300
+      arrivalRate: 20
+      name: "Sustained load"
+  plugins:
+    metrics-by-endpoint:
+      useOnlyRequestNames: true
+
+scenarios:
+  - name: "Homepage Load Test"
+    weight: 40
+    flow:
+      - get:
+          url: "/"
+          name: "Homepage"
+      - think: 3
+      - get:
+          url: "/categories"
+          name: "Categories Page"
+      - think: 2
+
+  - name: "User Registration Flow"
+    weight: 15
+    flow:
+      - get:
+          url: "/register"
+          name: "Registration Page"
+      - think: 5
+      - post:
+          url: "/api/auth/register"
+          name: "Submit Registration"
+          json:
+            email: "loadtest-{{ $randomString() }}@example.com"
+            password: "LoadTest123!"
+            name: "Load Test User"
+            userType: "freelancer"
+      - think: 2
+
+  - name: "User Login Flow"
+    weight: 20
+    flow:
+      - get:
+          url: "/login"
+          name: "Login Page"
+      - think: 3
+      - post:
+          url: "/api/auth/login"
+          name: "Submit Login"
+          json:
+            email: "contacto.laburemos@gmail.com"
+            password: "admin123"
+      - think: 2
+      - get:
+          url: "/dashboard"
+          name: "Dashboard"
+
+  - name: "Search and Browse"
+    weight: 25
+    flow:
+      - get:
+          url: "/categories"
+          name: "Categories"
+      - think: 2
+      - get:
+          url: "/categories/desarrollo-web"
+          name: "Category Services"
+      - think: 3
+      - get:
+          url: "/search?q=desarrollo"
+          name: "Search Results"
+      - think: 2
+
+before:
+  flow:
+    - log: "Starting load test for LABUREMOS production environment"
+
+after:
+  flow:
+    - log: "Load test completed"

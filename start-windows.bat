@@ -12,17 +12,7 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM Verificar XAMPP
-if not exist "C:\xampp\xampp-control.exe" (
-    echo [ERROR] XAMPP no encontrado en C:\xampp\
-    echo Por favor instala XAMPP desde: https://www.apachefriends.org/
-    pause
-    exit /b 1
-)
 
-echo [INFO] Iniciando servicios XAMPP...
-start "" "C:\xampp\xampp-control.exe"
-timeout /t 3 /nobreak >nul
 
 REM Frontend Next.js
 echo [INFO] Configurando Frontend (Next.js)...
@@ -50,7 +40,7 @@ echo.
 echo Urls disponibles:
 echo - Frontend: http://localhost:3000
 echo - Backend:  http://localhost:3001
-echo - MySQL:    http://localhost/phpmyadmin
+
 echo.
 echo [INFO] Verificando dependencias del frontend...
 cd frontend

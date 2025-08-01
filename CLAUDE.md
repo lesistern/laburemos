@@ -89,7 +89,7 @@ node test-backend-connection.js    # Test all services
 |-----------|--------|---------|-----|
 | **Next.js Frontend** | 🟢 Ready | 47 files, 9 pages complete | http://localhost:3000 |
 | **NestJS Backend** | 🟢 Ready | 5 microservices, JWT auth | http://localhost:3001/docs |
-| **MySQL Database** | 🟢 Ready | 26 tables, Enterprise ER model | XAMPP integrated |
+
 | **PostgreSQL DB** | 🟢 Ready | Prisma ORM, full schema | Backend integrated |
 | **Real-time Features** | 🟢 Ready | WebSocket, notifications | Functional |
 | **Authentication** | 🟢 Ready | JWT + refresh tokens | Secure |
@@ -598,10 +598,7 @@ Domain: https://laburemos.com.ar
 
 ### Database Operations
 ```bash
-# MySQL Production Database (XAMPP)
-# → http://localhost/phpmyadmin (laburemos_db)
-# → 26 tables, Enterprise ER model implemented
-# → Skills, conversations, reputation systems functional
+
 
 # PostgreSQL (Modern Stack - Backend integration)
 cd backend

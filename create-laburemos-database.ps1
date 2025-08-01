@@ -4,7 +4,7 @@ Write-Host ""
 
 $RDS_ENDPOINT = "laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com"
 $DB_USERNAME = "postgres"
-$DB_PASSWORD = "Laburemos2025!"
+$DB_PASSWORD = $env:AWS_RDS_PASSWORD
 $DB_PORT = "5432"
 
 Write-Host "Conectando a RDS para crear la base de datos..." -ForegroundColor Yellow
@@ -41,7 +41,7 @@ Write-Host "   - Host: $RDS_ENDPOINT"
 Write-Host "   - Port: $DB_PORT"
 Write-Host "   - Maintenance database: postgres" -ForegroundColor Green
 Write-Host "   - Username: $DB_USERNAME"
-Write-Host "   - Password: $DB_PASSWORD"
+Write-Host "   - Password: [from environment variable AWS_RDS_PASSWORD]"
 Write-Host ""
 Write-Host "2. Una vez conectado, ejecuta:" -ForegroundColor Cyan
 Write-Host "   CREATE DATABASE laburemos;" -ForegroundColor Green

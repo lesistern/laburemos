@@ -239,6 +239,13 @@ ssl/
 *.private
 jwt-secrets.json
 database-credentials.json
+DATABASE-CREDENTIALS.md
+laburemos-key.pem
+*.pem
+config-files-with-passwords/
+pgadmin-aws-config.txt
+*-credentials.txt
+*-passwords.txt
 
 # ================================
 # Runtime & Optional Files

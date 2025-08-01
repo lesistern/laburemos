@@ -6,7 +6,7 @@ echo "🔧 Creando API simple sin Redis..."
 echo ""
 
 SSH_KEY="$HOME/laburemos-key.pem"
-EC2_IP="3.81.56.168"
+EC2_IP="${AWS_EC2_IP:-localhost}"
 EC2_USER="ec2-user"
 
 COMMANDS="

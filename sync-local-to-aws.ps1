@@ -14,7 +14,7 @@ $AWS_HOST = "laburemos-db.c6dyqyyq01zt.us-east-1.rds.amazonaws.com"
 $AWS_USER = "postgres"
 $AWS_DB = "laburemos"
 $AWS_PORT = "5432"
-$AWS_PASSWORD = "Laburemos2025!"
+$AWS_PASSWORD = $env:AWS_RDS_PASSWORD
 
 # Opciones de sincronización
 Write-Host "Selecciona qué quieres hacer:" -ForegroundColor Yellow

@@ -23,10 +23,10 @@
   "homepage": "https://laburemos.com.ar",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/laburemos.git"
+    "url": "https://github.com/lesistern/laburemos.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/laburemos/issues",
+    "url": "https://github.com/lesistern/laburemos/issues",
     "email": "contacto.laburemos@gmail.com"
   },
   "engines": {

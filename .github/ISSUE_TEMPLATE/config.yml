@@ -4,10 +4,10 @@ contact_links:
     url: mailto:security@laburemos.com.ar
     about: Report critical security vulnerabilities privately via email
   - name: 💬 General Questions & Discussions  
-    url: https://github.com/yourusername/laburemos/discussions
+    url: https://github.com/lesistern/laburemos/discussions
     about: Ask questions and discuss ideas with the community
   - name: 📚 Documentation
-    url: https://github.com/yourusername/laburemos/wiki
+    url: https://github.com/lesistern/laburemos/wiki
     about: Check our comprehensive documentation and guides
   - name: 🌐 Live Platform
     url: https://laburemos.com.ar

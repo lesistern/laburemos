@@ -164,7 +164,7 @@ laburemos/
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/laburemos.git
+git clone https://github.com/lesistern/laburemos.git
 cd laburemos
 
 # Install dependencies

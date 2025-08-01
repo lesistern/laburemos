@@ -302,4 +302,4 @@ lib-cov/
 .dynamodb/
 .tern-port
 .vscode-test/
-jspm_packages/
+jspm_packages/awscliv2.zip
